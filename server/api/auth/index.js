@@ -79,6 +79,10 @@ router.get('/activate/:secret_token', (req, res, next) => {
               });
             })
             .catch(error => { next(error); })
+          } else {
+            res.status(404).json({
+              message: 'Token no trovat'
+            })
           }
         })
         .catch(err => { next(err); })
