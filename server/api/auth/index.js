@@ -54,7 +54,7 @@ router.post('/signup', (req, res, next) => {
 // Activació del copmte
 router.get('/activate/:secret_token', (req, res, next) => {
 
-
+  console.log(req.params.secret_token);
   if(req.params.secret_token) {
     const token = req.params.secret_token;
     const now = Date.now().valueOf() / 1000;
