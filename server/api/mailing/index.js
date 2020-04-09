@@ -23,7 +23,7 @@ const mailOptions = {
 const enviarCorreuConfirmacio = (recipient, token) => {
 
   const opt  = emailsTemplates.confirmacio;
-
+  console.log(httpServer.address().address);
   const direccio =  `${process.env.SERVER_URL}/auth/activate/${token}`;
 
   console.log(recipient);
