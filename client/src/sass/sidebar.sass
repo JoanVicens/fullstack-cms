@@ -1,0 +1,44 @@
+#sidebar
+  width: 250px
+  position: fixed
+  top: 0
+  right: -250px
+  height: 100vh
+  z-index: 999
+  background: $fons-sidebar
+  color: #fff
+  transition: all 0.3s
+  overflow-y: auto
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2)
+  &.active
+    right: 0
+  .sidebar-header
+    .idioma
+      padding-top: 16px
+      padding-left: 10px
+      max-height: 45px
+      float: left
+    #dismiss
+      height: 45px
+      line-height: 35px
+      text-align: right
+      padding: 10px
+      padding-right: 16px
+      margin-bottom: 10px
+      cursor: pointer
+      -webkit-transition: all 0.3s
+      -o-transition: all 0.3s
+      transition: all 0.3s
+.overlay
+  display: none
+  position: fixed
+  top: 0
+  width: 100vw
+  height: 100vh
+  background: rgba(0, 0, 0, 0.7)
+  z-index: 998
+  opacity: 0
+  transition: all 0.5s ease-in-out
+  &.active
+    display: block
+    opacity: 1

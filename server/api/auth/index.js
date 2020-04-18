@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const middlewares = require('../middlewares')
+const jwt = require('jsonwebtoken');
 
 const Music = require('../models/music');
 const musicController = require('../controlers/musicControler');
@@ -54,7 +55,6 @@ router.post('/signup', (req, res, next) => {
 // Activació del copmte
 router.get('/activate/:secret_token', (req, res, next) => {
 
-  console.log(req.params.secret_token);
   if(req.params.secret_token) {
     const token = req.params.secret_token;
     const now = Date.now().valueOf() / 1000;
@@ -115,8 +115,8 @@ router.post('/login', async (req, res, next) => {
       .then(music => {
         if(music) {
           // Credencials CORRECTES
-          req.session._id = music._id
-
+          // console.log('LOGING', music._id);
+          req.session.musicId = music._id
           res.status(200).json({
             message: 'autenticat'
           })
@@ -135,10 +135,13 @@ router.post('/login', async (req, res, next) => {
 });
 
 router.get('/info', (req, res, next) => {
-  if(req.id) {
-    Music.findOne({_id: req.id})
+  // console.log('INFO', req.session.musicId);
+  if(req.session.musicId) {
+    Music.findOne({_id: req.session.musicId})
       .then(music => {
-        res.status(201).json(music);
+        res.status(201).json({
+          music
+        });
       })
       .catch(err => {
         next(err)
@@ -151,7 +154,6 @@ router.get('/info', (req, res, next) => {
 })
 
 router.get('/logout', (req, res, next) => {
-  console.log('algo');
   req.session.destroy(err => {
     if(err) {
       res.status(500);

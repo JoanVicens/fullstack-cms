@@ -4,7 +4,8 @@ const url = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWOR
 
 const mongoose_opt = {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useFindAndModify: false
 }
 
 exports.connectar = () => {

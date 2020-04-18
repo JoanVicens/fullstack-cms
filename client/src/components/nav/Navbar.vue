@@ -1,0 +1,155 @@
+<template lang="html">
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <div class="idioma">
+        <div class="btn-group btn-group-sm" role="group">
+          <button type="button" class="btn btn-primary">VAL</button>
+          <button type="button" class="btn btn-secondary">CAS</button>
+          <button type="button" class="btn btn-secondary">ENG</button>
+        </div>
+      </div>
+
+      <div id="dismiss" v-on:click="tancarMenu">
+        <x-icon size="2x"></x-icon>
+      </div>
+    </div>
+
+    <section class="sidebar-content">
+
+      <ul class="components">
+        <div v-if="!store.getters.isLogged">
+          <li v-on:click="tancarMenu" >
+            <router-link :to="{ path: '/login', name:'login', params: {} }">Log in</router-link>
+          </li>
+          <li v-on:click="tancarMenu">
+            <router-link :to="{ path: '/signin', name:'signin', params: {} }">Sign in</router-link>
+          </li>
+        </div>
+        <div v-else>
+          <Perfil />
+          <li v-on:click="tancarMenu">
+            <router-link :to="{ path: '/principal', params: {} }">Principal</router-link>
+          </li>
+          <!-- MENUS GESTIO -->
+          <!-- ====================================== -->
+          <div v-if="store.getters.esJunta || store.getters.esAdmin">
+            <li v-on:click="tancarMenu" class="bg-blue">
+              <router-link :to="{ path: '/control_assitencia', params: {} }">Controlar assitència</router-link>
+            </li>
+            <li v-on:click="tancarMenu" class="bg-blue">
+              <router-link :to="{ path: '/gestio_assajos', params: {} }">Gestionar assajos</router-link>
+            </li>
+            <li v-on:click="tancarMenu" class="bg-blue">
+              <router-link :to="{ path: '/gestio_cursos', params: {} }">Gestionar cursos</router-link>
+            </li>
+            <li v-on:click="tancarMenu" class="bg-blue">
+              <router-link :to="{ path: '/gestio_concerts', params: {} }">Gestionar concerts</router-link>
+            </li>
+
+          </div>
+          <!-- ====================================== -->
+          <li v-on:click="tancarMenu">
+            <router-link :to="{ path: '/assistencia', name: 'assistencia', params: {} }">Assistència</router-link>
+          </li>
+          <li v-on:click="tancarMenu">
+            <router-link to="">Concerts</router-link>
+          </li>
+          <li v-on:click="tancarMenu">
+            <router-link to="">Enquestes</router-link>
+          </li>
+          <li v-on:click="tancarMenu">
+            <router-link to="">Demanar crèdits</router-link>
+          </li>
+          <li v-on:click="tancarMenu">
+            <router-link to="">Pagament cota</router-link>
+          </li>
+          <li v-on:click="tancarMenu">
+            <router-link to="">Preferències</router-link>
+          </li>
+          <li v-on:click="tancarMenu">
+            <router-link to="">Notificacions</router-link>
+          </li>
+          <li v-on:click="tancarMenu">
+            <router-link :to="{ path: '/logout', name: 'logout', params: {} }">Tancar sessió</router-link>
+          </li>
+        </div>
+      </ul>
+
+      <ul class="social">
+        <li>
+          <a href="https://www.facebook.com/AssociacioCulturalBandaUJI/" target="_blank">
+            <FacebookIcon />
+          </a>
+        </li>
+        <li>
+          <a href="https://www.instagram.com/bandauji/" target="_blank">
+            <InstagramIcon  />
+          </a>
+        </li>
+      </ul>
+    </section>
+  </nav>
+</template>
+
+<script>
+import Perfil from './Perfil.vue'
+import { accionsMenuMixin } from '../../mixins/accionsMenuMixin'
+import { store } from "../../store.js";
+import { XIcon } from 'vue-feather-icons'
+import { FacebookIcon } from 'vue-feather-icons'
+import { InstagramIcon  } from 'vue-feather-icons'
+
+export default {
+  name: 'Navbar',
+  components: {
+    XIcon,
+    Perfil,
+    FacebookIcon,
+    InstagramIcon
+  },
+  mixins: [accionsMenuMixin],
+  data() {
+    return {
+      store
+    }
+  }
+}
+</script>
+
+<style lang="sass" scoped>
+  .bg-blue
+    background-color: lightblue
+    color: #fff !important
+  .sidebar-content
+    ul.components
+      padding: 20px 0
+      border-top: 1px solid #444
+      list-style: none
+      overflow: hidden
+      margin-bottom: 0
+      li a
+        padding: 10px
+        padding-left: 20px
+        font-size: 1.1em
+        display: block
+        color: #444
+        &:hover
+          background: #fff
+      li.active>a,
+      a[aria-expanded="true"]
+        color: #444
+        background: #6d7fcc
+      a[data-toggle="collapse"]
+        position: relative
+    ul.social
+      margin-top: 5px
+      padding: 0 0 0 20px
+      li
+        display: inline-block !important
+        list-style: none
+        margin-right: 15px
+        &:last-child
+          margin-right: 0
+      svg
+        stroke: #444
+</style>

@@ -23,22 +23,21 @@ app.use(cors({
 // });
 
 app.use(session({
-  secret: 'cms api',
+  secret: process.env.SESSION_SECRET,
   cookie: {
     maxAge: 60000,
   },
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: true
 }))
 
 app.get('/', (req, res, next) => {
-  console.log(req.session);
+  console.log(req.session._id);
   next();
 })
 
 
 require("./api/config/database").connectar();
-
 
 if(process.env.NODE_ENV === 'production') {
   // PRODUCCIÓ
@@ -54,6 +53,7 @@ const middlewares = require('./api/middlewares.js');
 // app.use(middlewares.musicAutoritzat)
 
 const auth = require('./api/auth/');
+const info = require('./api/info/');
 
 app.use(express.json());
 
@@ -64,6 +64,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', auth);
+app.use('/info', info);
 
 function notFound(req, res, next) {
   res.status(404);
