@@ -203,16 +203,7 @@ router.delete('/curs/:assaigId', (req, res) => {
 
 // ACTUACIONS
 
-router.put('/actuacio', async (req, res) => {
-  // NOU CONCERT
-  if(!req.body.actuacio) {
-    res.status(400)
-  }
-
-  console.log(req.body);
-  // const semestreId = mongoose.Types.ObjectId(req.body.semestreId);
-
-  const actuacio = req.body.actuacio
+function guardarNovaActuacio(actuacio, semestreId) {
 
   const novaActuacio = new Actuacio({
     _id: new mongoose.Types.ObjectId(),
@@ -226,20 +217,20 @@ router.put('/actuacio', async (req, res) => {
     descripcio: actuacio.descripcio,
   })
 
-  novaActuacio.save()
-  .then(async result => {
+  return novaActuacio.save()
+  .then(result => {
     accionsCalendari.guardarEvent(actuacio)
 
     Curs.findOneAndUpdate(
-      {'semestres.semestreId': req.body.semestreId},
+      {'semestres.semestreId': semestreId},
       {
         $push: {
           "semestres.$.actuacions": result._id
         }
       }
     )
-    .then(() => {
-      res.status(200).json(result)
+    .then(result => {
+      return result
     })
     .catch(err => {
       console.log(err);
@@ -248,39 +239,111 @@ router.put('/actuacio', async (req, res) => {
   })
   .catch(err => {
     console.log(err);
-    res.status(500).json(err)
   });
+}
 
+function actualitzarActuacio(actuacio) {
+  return Actuacio.findOneAndUpdate(
+    {'_id': actuacio._id},
+    {
+      titol: actuacio.titol,
+      data: actuacio.data,
+      hora_inici: actuacio.hora_inici,
+      hora_fi: actuacio.hora_fi,
+      assistents: actuacio.assistents,
+      lloc: actuacio.lloc,
+      repertori: actuacio.repertori,
+      descripcio: actuacio.descripcio,
+    },
+    {new: true}
+  )
+  .then(result => {
+    return result
+  })
+  .catch(err => {
+    return err
+  })
+}
 
+router.put('/actuacio', async (req, res) => {
+  // NOU CONCERT
+  if(!req.body.actuacio) {
+    res.status(400)
+  }
+
+  console.log(req.body);
+
+  const actuacio = req.body.actuacio
+  const semestreId = req.body.semestreId
+
+  if(!actuacio._id) {
+    let promise = guardarNovaActuacio(actuacio, semestreId)
+
+    promise.then(result => {
+      res.status(200).json(result)
+    })
+    .catch(err => {
+      res.status(500).json(err)
+    })
+  } else {
+    let promise = actualitzarActuacio(actuacio)
+
+    promise.then(result => {
+      res.status(200).json(result)
+    })
+    .catch(err => {
+      res.status(500).json(err)
+    })
+  }
 })
 
-router.delete('/concert/:id', (req, res) => {
-  const concertId = mongoose.Types.ObjectId(req.params.id);
+router.delete('/actuacio/:id', (req, res) => {
+  const actuacioId = mongoose.Types.ObjectId(req.params.id);
 
-  Curs.findOne(
-    {"semestres.concerts.concertId": concertId}
+  Actuacio.deleteOne(
+    {"_id": actuacioId}
   ).then(curs => {
-    let idGoogle = curs.semestres.filter(semes)
-    accionsCalendari.eliminarEvent(id)
+    // let idGoogle = curs.semestres.filter(semes)
+    // accionsCalendari.eliminarEvent(id)
+
+    Curs.findOne(
+      {'semestres.actuacions': actuacioId}
+    )
+    .then(curs => {
+      curs.semestres.forEach(semestre => {
+        semestre.actuacions.pop(req.params.id)
+      });
+
+      curs.save()
+      .then(result => console.log('curs: %s actualizat', curs.curs))
+      .catch(err => console.log(err))
+    })
+    .catch(err => {
+      console.log(err);
+    })
+
+
+    res.status(200).json(curs)
   })
   .catch(err => {
-    console.log(err);
+    res.status(500).json(err)
   })
 
-  Curs.updateOne(
-    {"semestres.concerts.concertId": concertId},
-    {
-      $pull: {
-        "semestres.$.concerts": { concertId: concertId }
-      }
-    }
-  )
-  .then(response => {
-    res.status(200).json({response})
-  })
-  .catch(err => {
-    res.status(500).json({err})
-  })
+
+  // Curs.updateOne(
+  //   {"semestres.concerts.concertId": concertId},
+  //   {
+  //     $pull: {
+  //       "semestres.$.concerts": { concertId: concertId }
+  //     }
+  //   }
+  // )
+  // .then(response => {
+  //   res.status(200).json({response})
+  // })
+  // .catch(err => {
+  //   res.status(500).json({err})
+  // })
 
 })
 
@@ -291,7 +354,7 @@ router.put('/actuacio/assistents', (req, res) => {
   Actuacio.findOneAndUpdate(
     {'_id': actuacioId},
     {
-      $push: {
+      $set: {
         "assistents": body.assistents
       }
     }

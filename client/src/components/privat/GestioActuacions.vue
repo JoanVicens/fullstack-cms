@@ -60,14 +60,19 @@
 
               <!-- ASSISTENTS -->
               <strong>Assistents:</strong>
-              <LlistaMusics :llistat="actuacio.assistents" :nom="actuacio.titol" v-if="actuacio.assistents.length > 0"/>
+              <LlistaMusics
+                :llistat="actuacio.assistents"
+                :nom="actuacio.titol"
+                v-if="actuacio.assistents.length > 0"
+                v-on:actualitzar="mostrarFormulari(actuacio, 'Modificar assistents', 'formulari-assistencia-musics')"
+              />
               <div v-else>
                 No hi ha assistents
                 <span class="ml-2">
                   <user-plus-icon
                     size="1.5x"
                     class="boto"
-                    @click="mostrarFormulari(actuacio, 'Afegir assistents')"
+                    @click="mostrarFormulari(actuacio, 'Modificar assistents', 'formulari-assistencia-musics')"
                     v-b-modal.formulari-assistencia-musics
                     >
                     </user-plus-icon>
@@ -83,7 +88,7 @@
                   <edit-3-icon size="1.5x"></edit-3-icon>
                 </div>
                 <!-- ELIMINAR -->
-                <div class="col-sm-6 borrar" @click="borrar(actuacio.actuacioId)">
+                <div class="col-sm-6 borrar" @click="borrar(actuacio._id)">
                   <trash-2-icon size="1.5x"></trash-2-icon>
                 </div>
               </div>
@@ -96,7 +101,7 @@
 
     <!-- MODAL -->
     <ActuacioForm :info="formulari" :accio="enviarFormulari"/>
-    <AssistenciaMusics :info="formulari" :accio="modificarAssistents" />
+    <AssistenciaMusics :formulari="formulari" :accio="modificarAssistents" />
   </main>
 </template>
 
@@ -135,41 +140,30 @@
         formulari: {}
       }
     },
+    watch: {
+      actuacions: {
+        handler() {
+          console.log('actuacions watcher');
+        }
+      }
+    },
     methods: {
-      mostrarFormulari(actuacio, titol) {
+      mostrarFormulari(actuacio, titol, modal) {
         this.formulari = {
           actuacio: { ...actuacio },
           titol: titol
         }
+        this.$bvModal.show(modal)
       },
       modificarAssistents(assistents) {
         const actuacioId = this.formulari.actuacio._id;
 
         axios.put('/info/actuacio/assistents', { actuacioId, assistents })
         .then(response => {
+          // this.$forceUpdate();
           this.$refs.info.carregarInfo()
         })
         .catch(err => console.log(err))
-      },
-      infoConcert() {
-        // Obté la informació del actuacio modificat o creat
-        let repertori;
-
-        if(this.formulari.actuacio.repertori_str) {
-          repertori = this.formulari.actuacio.repertori_str.split(/,|, /);
-        }
-
-        return {
-          cursId: this.cursId,
-          semestreId: this.semestreId,
-          titol: this.formulari.actuacio.titol,
-          data: this.formulari.actuacio.data,
-          hora_inici: this.formulari.actuacio.hora_inici,
-          hora_fi: this.formulari.actuacio.hora_fi,
-          repertori: repertori,
-          descripcio: this.formulari.actuacio.descripcio,
-          lloc: this.formulari.actuacio.lloc
-        }
       },
       // ACCIONS CONTRA EL BACKEND
       enviarFormulari(actuacio) {
@@ -183,41 +177,10 @@
         })
         .catch(err => console.log(err))
       },
-      modificar() {
-        let repertori
-
-        if(this.actuacio.repertori_str) {
-          repertori = this.actuacio.repertori_str.split(/,|, /);
-        }
-
-        const actuacio = {
-          actuacioId: this.actuacio.actuacioId,
-          titol: this.actuacio.titol,
-          data: this.actuacio.data,
-          hora_inici: this.actuacio.hora_fim,
-          hora_fi: this.actuacio.hora_fi,
-          assistents: this.actuacio.assistents,
-          lloc: this.actuacio.lloc,
-          repertori: repertori,
-          descripcio: this.actuacio.descripcio
-        }
-
-        const body = {
-          semestreId: this.semestreId,
-          actuacio
-        }
-
-        axios.post('/info/actuacio', body)
-        .then(response => {
-          this.$refs.info.carregarInfo()
-        })
-        .catch(err => console.log(err))
-      },
       borrar(id) {
-        axios.delete(`info/actuacio/${id}`)
+        axios.delete(`/info/actuacio/${id}`)
         .then(response => {
           this.$refs.info.carregarInfo()
-          console.log(response);
         })
         .catch(err => {
           console.log(err);

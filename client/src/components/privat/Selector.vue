@@ -70,15 +70,31 @@
       }
     },
     methods: {
+      forcarUpdate() {
+        this.carregarInfo();
+
+        let curs = this.cursos.find(curs => curs._id == this.cursId)
+        let semestre = curs.semestres.find(semestre => semestre.semestreId === this.semestreId)
+        let actuacions = this.semestre.actuacions
+      },
       carregarInfo() {
         axios.get('/info/cursos')
         .then(response => {
-          console.log(response);
-          this.cursos = response.data.cursos
+          response.data.cursos.forEach((curs, index) => {
+            this.$set(this.cursos, index, curs)
+          })
 
-          //activa el watcher de cursId
-          this.cursId = this.cursos.find(curs => curs.curs_actiu == true)._id;
-          this.$emit('update:semestreId', this.semestreId);
+          let cursActiu = this.cursos.find(curs => curs.curs_actiu == true) || this.cursos[this.cursos.length - 1]
+          let idCursActiu = cursActiu._id
+
+          if(this.cursId != idCursActiu) {
+            //activa el watcher de cursId
+            this.cursId = idCursActiu;
+            this.$emit('update:semestreId', this.semestreId);
+          } else {
+            this.curs = this.cursos.find(curs => curs._id == this.cursId)
+            this.actualizar(this.curs)
+          }
 
           this.actualizar(this.curs)
         })
@@ -87,7 +103,10 @@
         })
       },
       actualizar(curs) {
-        this.semestres = curs.semestres
+        curs.semestres.forEach((semestre, index) => {
+          this.$set(this.semestres, index, semestre)
+        });
+
         this.seleccionarSemestreAdient()
 
         this.options = this.semestres.map((semestre, index) => {
@@ -96,7 +115,6 @@
             value: semestre.semestreId
           }
         })
-
 
         this.actuacions = this.semestre.actuacions
         this.assajos = this.semestre.assajos
@@ -113,8 +131,18 @@
         // Selecciona per defecte el semestre actiu
         let semestre = this.semestres.find(semestre => semestre.numero == numeroSemetre);
 
-        // activa el watcher de semestreId
-        this.semestreId = semestre.semestreId;
+        if(this.semestreId != semestre.semestreId) {
+          // activa el watcher de semestreId
+          this.semestreId = semestre.semestreId;
+        } else {
+          this.semestre = this.semestres.find(semestre => semestre.semestreId == this.semestreId)
+
+          this.actuacions = this.semestre.actuacions
+          this.assajos = this.semestre.assajos
+
+          this.$emit('update:actuacions', this.actuacions);
+          this.$emit('update:assajos', this.assajos);
+        }
         this.$emit('update:semestreId', this.semestreId);
 
       },

@@ -15,12 +15,26 @@
   margin-top: -16px
   margin-bottom: 10px
   // height: 35px
-  padding: 6px 20px
+  padding: 6px 10px
   border: 1px solid #dee2e6
-  border-top: none
+  span
+    float: left
+    line-height: 30px
 .boto
   padding: 4px
   border-radius: 5px
-  min-height: 24px
+  height: 30px
+  width: 30px
+  margin-right: 15px
+  border: 1px double rgba(0, 0, 0, 0.075)
+  &:last-child
+    margin-right: 10px
   &:hover
     background-color: rgba(0, 0, 0, 0.075)
+.label-margin
+  label
+    margin-top: .7rem
+    &:first-child
+      margin-top: 0
+    &+small
+      margin-top: -.5rem !important

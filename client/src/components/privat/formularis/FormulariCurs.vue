@@ -1,5 +1,5 @@
 <template lang="html">
-  <b-modal id="formulari" :title="info.titol" ref="formulari" @ok="validarFormulari" >
+  <b-modal id="formulari" :title="info.titol" ref="formulari" @ok="validarFormulari" size="lg" >
     <form ref="form" @submit.stop.prevent="handleSubmit" novalidate>
       <div class="form-group">
 

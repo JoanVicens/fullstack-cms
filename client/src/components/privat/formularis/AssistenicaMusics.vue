@@ -3,21 +3,25 @@
     id="formulari-assistencia-musics"
     title="Assistència"
     ref="assistencia"
+    size="lg"
+    centered
+
     @ok="validar"
   >
-    <b-table
-      striped
-      hover
-      borderless
-      outlined
-      small
-      responsive
-      selectable="'multi'"
-      sticky-header="500px"
-      :items="llistatMusics"
-      :fields="fields"
-      ref="taula"
-      ></b-table>
+    <div class="padding-modal-body">
+      <b-table
+        striped
+        hover        
+        responsive
+        selectable
+        b-table-select-multi
+        sticky-header="500px"
+        :items="carregarInfo"
+        :fields="fields"
+        :busy.sync="isBusy"
+        ref="taula"
+        ></b-table>
+    </div>
 
   </b-modal>
 </template>
@@ -25,34 +29,46 @@
 <script>
   import axios from 'axios'
 
-  // import CheckSquareIcon from 'vue-feather-icons'
-
   export default {
     name: 'AssistenciaMusics',
-    components: {
-      // CheckSquareIcon
-    },
     data() {
       return {
+        isBusy: false,
         fields: [
           {
             key: 'nom',
-            sortable: true
+            sortable: false
           },
           {
             key: 'cognoms',
-            sortable: true
+            sortable: false
           },
           {
             key: 'instrument',
-            sortable: true
+            sortable: false
           }
         ],
         llistatMusics: []
       }
     },
     props: {
-      accio: Function
+      accio: Function,
+      formulari: Object
+    },
+    watch: {
+      isBusy: {
+        handler() {
+          if(!this.isBusy) {
+            let llistatAssistents = this.formulari.actuacio.assistents
+            let llistaId = llistatAssistents.map(assistent => assistent._id)
+
+            this.llistatMusics.forEach((music, index) => {
+              if(llistaId.includes(music._id))
+                this.$refs.taula.selectRow(index)
+            });
+          }
+        }
+      }
     },
     methods: {
       validar() {
@@ -60,28 +76,42 @@
 
         this.llistatMusics.forEach((music, index) => {
           if(this.$refs.taula.isRowSelected(index)) {
-            assistents.push(music._id)
+            if(!this.llistatMusics.includes(music._id)) {
+              assistents.push(music._id)
+            }
           }
         });
 
+        console.log('validar', assistents);
         this.accio(assistents);
       },
       carregarInfo() {
-        axios.get('/info/musics')
-        .then(response => {
+        const promise = axios.get('/info/musics')
+
+        return promise.then(response => {
           this.llistatMusics = Array.from(response.data.musics)
+
+          return this.llistatMusics || [];
         })
         .catch(err => {
           console.log(err);
         })
-      }
-    },
-    mounted() {
 
-      this.carregarInfo();
+      }
     }
   }
 </script>
 
 <style lang="css" scoped>
+  /deep/ .table > tbody > tr.b-table-row-selected,
+  /deep/ .table > tbody > tr.b-table-row-selected > td,
+  /deep/ .table > tbody > tr.b-table-row-selected > th {
+    background-color: pink;
+  }
+  /deep/ .table > tbody > tr:hover{
+    background-color: green;
+  }
+  .padding-modal-body {
+    margin: -16px
+  }
 </style>

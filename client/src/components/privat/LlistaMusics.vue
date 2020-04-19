@@ -1,30 +1,23 @@
 <template lang="html">
   <section class="mt-2">
-    <b-table striped hover borderless outlined small responsive sticky-header="500px" :items="llistat" :fields="fields"></b-table>
+    <b-table striped hover borderless responsive sticky-header="500px" :items="llistat" :fields="fields"></b-table>
     <div class="accions">
-      <download-icon size="1.5x" class="boto" @click="descargar">
+      <span>{{accio}}</span>
+      <user-plus-icon
+      size="1.5x"
+      class="boto"
+      @click="demanarActualitzacio"
+      @mouseover="accio='Modificar assistents'"
+      @mouseleave="accio=''">
+      </user-plus-icon>
+      <download-icon
+      size="1.5x"
+      class="boto"
+      @click="descargar"
+      @mouseover="accio='Descarar llista'"
+      @mouseleave="accio=''">
       </download-icon>
     </div>
-    <!-- <div class="table-warpper">
-      <table class="table table-borderless">
-        <tbody>
-          <tr>
-            <th>Nom</th>
-            <th>Cognoms</th>
-            <th>Instrument</th>
-            <th class="assistit">Assistència</th>
-          </tr>
-          <tr v-for="music in infoMusics" v-bind:key="music._id">
-            <td>{{music.nom}}</td>
-            <td>{{music.cognoms}}</td>
-            <td>{{music.instrument}}</td>
-            <td class="assistit">
-              <b-form-checkbox :value="music._id" v-model="assistents"> </b-form-checkbox>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div> -->
   </section>
 </template>
 
@@ -33,6 +26,7 @@
   import axios from 'axios'
 
   import  {DownloadIcon} from 'vue-feather-icons'
+  import  {UserPlusIcon} from 'vue-feather-icons'
 
   export default {
     name: 'LlistaMusics',
@@ -41,7 +35,8 @@
       nom: String
     },
     components: {
-      DownloadIcon
+      DownloadIcon,
+      UserPlusIcon
     },
     data() {
       return {
@@ -58,7 +53,8 @@
             key: 'instrument',
             sortable: true
           }
-        ]
+        ],
+        accio: ''
       }
     },
     methods: {
@@ -77,6 +73,9 @@
         document.body.appendChild(link); // Required for FF
 
         link.click(); // This will download the data file
+      },
+      demanarActualitzacio() {
+        this.$emit('actualitzar')
       }
     }
   }

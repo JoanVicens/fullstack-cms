@@ -3,13 +3,18 @@
     id="formulari"
     :title="info.titol"
     ref="formulari"
+    size="lg"
     @ok="validarFormulari"
   >
-    <form ref="form" @submit.stop.prevent="handleSubmit" class="separacio-interna" v-if="info.actuacio" novalidate>
+    <form ref="form" @submit.stop.prevent="validarFormulari" class="label-margin" v-if="info.actuacio" novalidate>
       <label for="titol">Titol:</label>
-      <input type="text" name="titol" id="titol" v-model="info.actuacio.titol" class="form-control" required>
-
-      <label for="">Dia</label>
+      <b-form-input id="titol" v-model="info.actuacio.titol" class="form-control" :state="estat" required>
+      </b-form-input>
+      <label for="">Dia:
+        <span id="tooltip-target-1">
+          <info-icon size="1x" ></info-icon>
+        </span>
+      </label>
       <b-form-datepicker
         :date-format-options="{ day: 'numeric', month: 'numeric', year: 'numeric' }"
         :start-weekday="1"
@@ -18,10 +23,14 @@
 
       </b-form-datepicker>
 
-      <label for="">Hora inci</label>
+      <b-tooltip target="tooltip-target-1" triggers="hover">
+        Fins que la actuació no tingui data <strong>NO ES CREARÀ</strong> el event a Google Calendar
+      </b-tooltip>
+
+      <label for="">Hora inci:</label>
       <b-form-timepicker v-model="info.actuacio.hora_inici" locale="en"></b-form-timepicker>
 
-      <label for="">Hora fi</label>
+      <label for="">Hora fi:</label>
       <b-form-timepicker v-model="info.actuacio.hora_fi" locale="en"></b-form-timepicker>
 
       <label for="">Repertori:</label>
@@ -39,11 +48,21 @@
 </template>
 
 <script>
-export default {
+  import { InfoIcon } from 'vue-feather-icons'
+
+  export default {
   name: 'ActuacioForm',
+  components: {
+    InfoIcon
+  },
   props: { info: Object , accio: Function},
+  data() {
+    return {
+      estat: null
+    }
+  },
   watch: {
-    actuacio: {
+    info: {
       handler() {
         if(this.info.actuacio.repertori && this.info.actuacio.repertori.length > 0) {
           this.info.actuacio.repertori_str = this.info.actuacio.repertori.join(', ')
@@ -56,18 +75,22 @@ export default {
     }
   },
   methods: {
-    validarFormulari(form) {
+    validarFormulari(bvModalEvt) {
+      bvModalEvt.preventDefault()
+
+      this.estat = this.$refs.form.checkValidity()
+
       if(this.info.actuacio.titol && this.info.actuacio.titol != '') {
         if(this.info.actuacio.repertori_str) {
           this.info.actuacio.repertori = this.info.actuacio.repertori_str.split(/,|, /);
         }
         this.accio(this.info.actuacio)
-        this.$refs['formulari'].hide()
+        this.$nextTick(() => {
+          this.estat = null
+          this.$bvModal.hide('formulari')
+        })
       }
     }
   }
 }
 </script>
-
-<style lang="css" scoped>
-</style>
