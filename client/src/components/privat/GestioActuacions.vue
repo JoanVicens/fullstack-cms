@@ -140,13 +140,6 @@
         formulari: {}
       }
     },
-    watch: {
-      actuacions: {
-        handler() {
-          console.log('actuacions watcher');
-        }
-      }
-    },
     methods: {
       mostrarFormulari(actuacio, titol, modal) {
         this.formulari = {

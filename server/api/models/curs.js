@@ -33,7 +33,7 @@ const cursSchema = new Schema({
 })
 
 
-cursSchema.pre("save", async function (next) {
+cursSchema.pre("save", async function () {
   const curs = this;
 
   if(curs.curs_actiu) {

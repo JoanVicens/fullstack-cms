@@ -6,7 +6,8 @@ const {google} = require('googleapis');
 const SCOPES = [
   'https://www.googleapis.com/auth/calendar',
   'https://www.googleapis.com/auth/calendar.readonly',
-  'https://www.googleapis.com/auth/calendar.events'
+  'https://www.googleapis.com/auth/calendar.events',
+  'https://www.googleapis.com/auth/calendar.events.readonly'
 ];
 const TOKEN_PATH = 'autCalendar.json';
 

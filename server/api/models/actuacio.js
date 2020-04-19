@@ -21,28 +21,8 @@ const actuacioSchema = new Schema({
     type: mongoose.Types.ObjectId,
     ref: 'musics'
   }],
-  event_id: {type: 'string'}
+  calendar_event: {type: 'boolean'}
 })
-
-actuacioSchema.post('deleteOne', (actuacio) => {
-  const actuacioId = mongoose.Types.ObjectId(actuacio._id);
-  // console.log('actuacioId: ', actuacioId);
-
-
-  // Curs.find({'semestres.actuacions': actuacioId})
-  // .then(result => console.log('find: ', result))
-  // .catch(err => console.log(err))
-
-  // Curs.findOneAndUpdate(
-  //   {'semestres.actuacions': actuacioId},
-  //   {
-  //     $pull: {
-  //       'semetres.$.actuacions': actuacioId
-  //     }
-  //   }
-  // )
-})
-
 
 const Actucio = mongoose.model('actuacions', actuacioSchema);
 

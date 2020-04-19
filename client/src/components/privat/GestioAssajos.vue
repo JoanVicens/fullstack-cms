@@ -1,33 +1,21 @@
 <template lang="html">
   <main>
     <div class="container">
-      Curs
-      <select name="curs" @change="canviCurs($event)" class="form-control" v-model="cursId">
-        <option v-for="curs in cursos" :key="curs._id" :value="curs._id">{{curs.curs}}</option>
-      </select>
-      Semestre
-      <select name="semestres" @change="canviSemestre($event)" class="form-control" v-model="semestreId">
-        <option v-for="(semestre, index) in curs.semestres" v-bind:key="semestre.data" :value="semestre.semestreId">{{index + 1}}</option>
-      </select>
-      Assajos
-      <ul>
-        <li v-for="(assaig, index) in semestre.assajos" v-bind:key="index" :value="assaig.assaigId">
-          Dia: {{assaig.data | moment("DD, MMMM, YYYY")}}
-          <div class="float-right">
-            <button type="button" name="button" class="btn btn-edicio btn-link">
-              <router-link :to="{ path: '/control_assitencia/', name:'control_assitència', query: {cursId: cursId, semestreId: semestreId, assaigId: assaig.assaigId} }">
-                <edit-3-icon size="1x" class="custom-class"></edit-3-icon>
-              </router-link>
-            </button>
-            <button type="button" name="button" class="btn btn-edicio btn-danger" @click="eliminar(assaig.assaigId)">
-              <trash-2-icon size="1x" class="custom-class"></trash-2-icon>
-            </button>
-          </div>
-          <hr>
-          Assistencia: {{assaig.assistencia}}
+      <Selector
+        v-bind:cursId.sync="cursId"
+        v-bind:semestreId.sync="semestreId"
+        v-bind:assaigId.sync="assaigId"
+        v-bind:assajos.sync="assajos"
+        ref="info"
 
-        </li>
-      </ul>
+      />
+
+      <div class="card mb-4" v-for="(assaig, index) in assajos" :key="index">
+        <h5 class="card-header" v-b-toggle="'collapse-' + index">
+          {{assaig}}
+        </h5>
+
+      </div>
 
       <b-button v-b-modal.crearAssaig class="btn btn-danger btn-lg float-right mt-3">CREAR ASSAIG</b-button>
 
@@ -61,53 +49,26 @@
 </template>
 
 <script>
-  import { Trash2Icon } from 'vue-feather-icons'
-  import { Edit3Icon  } from 'vue-feather-icons'
-
-
-
   import axios from 'axios';
   export default {
+    name: 'GestioAssajos',
     components: {
-      Trash2Icon,
-      Edit3Icon
     },
     data() {
       return {
-        hora_inici: "",
-        hora_fi: "",
-        dia: "",
-        anotacio: "",
-        cursos: [],
-        curs: {},
-        semestre: {},
-        assaig: {},
-        cursId: -1,
-        semestreId: -1,
-        datepicker_state: null
+        cursId: 0,
+        semestreId: 0,
+        assajos: [],
+        formulari: {}
       }
     },
     methods: {
-      canviCurs(event) {
-        let data = new Date();
-
-        this.curs = this.cursos.find(curs => curs._id == this.cursId);
-
-        if(data.getMonth() < 7) {
-          this.semestreId = this.curs.semestres[1].semestreId;
-        } else {
-          this.semestreId = this.curs.semestres[0].semestreId;
+      mostrarFormulari(assaig, titol, modal) {
+        this.formulari = {
+          assaig: { ...assaig},
+          titol: titol
         }
-
-        this.semestre = this.curs.semestres.find(semestre => semestre.semestreId == this.semestreId);
-
-      },
-      canviSemestre(event) {
-        this.semestre = this.curs.semestres.find(semestre => semestre.semestreId == this.semestreId);
-      },
-      checkFormValidity() {
-        const valid = this.$refs.form.checkValidity()
-        return valid
+        this.$bvModal.show(modal)
       },
       handleSubmit() {
 
@@ -168,21 +129,7 @@
           .catch(err => {
             console.log(err);
           })
-      },
-      reCarregarInfo() {
-        axios.get('/info/cursos')
-          .then(response => {
-            this.cursos = response.data.cursos
-            this.curs = this.cursos.find(curs => curs._id == this.cursId)
-            this.semestre = this.curs.semestres.find(semestre => semestre.semestreId == this.semestreId)
-          })
-          .catch(err => {
-            console.log(err);
-          })
-      },
-    },
-    created() {
-      this.carregarInfo();
+      }
     }
   }
 </script>

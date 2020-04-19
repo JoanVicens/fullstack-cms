@@ -205,6 +205,8 @@ router.delete('/curs/:assaigId', (req, res) => {
 
 function guardarNovaActuacio(actuacio, semestreId) {
 
+  actuacio.calendar_event = actuacio.data !== undefined
+
   const novaActuacio = new Actuacio({
     _id: new mongoose.Types.ObjectId(),
     titol: actuacio.titol,
@@ -215,11 +217,16 @@ function guardarNovaActuacio(actuacio, semestreId) {
     lloc: actuacio.lloc,
     repertori: actuacio.repertori,
     descripcio: actuacio.descripcio,
+    calendar_event: actuacio.calendar_event
   })
 
   return novaActuacio.save()
   .then(result => {
-    accionsCalendari.guardarEvent(actuacio)
+    console.log('Id actuació', result._id);
+    if(novaActuacio.data) {
+      accionsCalendari.guardarEvent(actuacio, result._id)
+    }
+
 
     Curs.findOneAndUpdate(
       {'semestres.semestreId': semestreId},
@@ -243,6 +250,7 @@ function guardarNovaActuacio(actuacio, semestreId) {
 }
 
 function actualitzarActuacio(actuacio) {
+
   return Actuacio.findOneAndUpdate(
     {'_id': actuacio._id},
     {
@@ -258,6 +266,12 @@ function actualitzarActuacio(actuacio) {
     {new: true}
   )
   .then(result => {
+    if(!actuacio.calendar_event) {
+      accionsCalendari.guardarEvent(actuacio, result._id)
+    } else {
+      accionsCalendari.modificarEvent(actuacio)
+    }
+
     return result
   })
   .catch(err => {
@@ -270,8 +284,6 @@ router.put('/actuacio', async (req, res) => {
   if(!req.body.actuacio) {
     res.status(400)
   }
-
-  console.log(req.body);
 
   const actuacio = req.body.actuacio
   const semestreId = req.body.semestreId
@@ -302,11 +314,11 @@ router.delete('/actuacio/:id', (req, res) => {
 
   Actuacio.deleteOne(
     {"_id": actuacioId}
-  ).then(curs => {
-    // let idGoogle = curs.semestres.filter(semes)
-    // accionsCalendari.eliminarEvent(id)
+  ).then(async curs => {
+    accionsCalendari.eliminarEvent(req.params.id)
 
-    Curs.findOne(
+    // Actualitza Curs
+    await Curs.findOne(
       {'semestres.actuacions': actuacioId}
     )
     .then(curs => {
@@ -315,35 +327,20 @@ router.delete('/actuacio/:id', (req, res) => {
       });
 
       curs.save()
-      .then(result => console.log('curs: %s actualizat', curs.curs))
+      .then(result => {
+        console.log('curs: %s actualizat', curs.curs);
+      })
       .catch(err => console.log(err))
     })
     .catch(err => {
       console.log(err);
     })
 
-
     res.status(200).json(curs)
   })
   .catch(err => {
     res.status(500).json(err)
   })
-
-
-  // Curs.updateOne(
-  //   {"semestres.concerts.concertId": concertId},
-  //   {
-  //     $pull: {
-  //       "semestres.$.concerts": { concertId: concertId }
-  //     }
-  //   }
-  // )
-  // .then(response => {
-  //   res.status(200).json({response})
-  // })
-  // .catch(err => {
-  //   res.status(500).json({err})
-  // })
 
 })
 
