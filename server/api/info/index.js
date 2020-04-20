@@ -7,9 +7,8 @@ const accionsCalendari = require("./accions_calendari");
 
 const router = express.Router();
 
-// const Semestre = require('../models/curs');
 const Curs = require('../models/curs');
-const Assaig = require('../models/curs');
+const Assaig = require('../models/assaig');
 const Music = require('../models/music');
 const Actuacio = require('../models/actuacio');
 
@@ -25,8 +24,14 @@ router.get('/cursos', (req, res) => {
       select: 'nom cognoms instrument'
     }
   })
+  .populate({
+    path: 'semestres.assajos'
+  })
   .then(cursos => {
     res.status(200).json({cursos})
+  })
+  .catch(err => {
+    console.log(err);
   })
 })
 
@@ -124,79 +129,169 @@ router.delete('/curs/:id', (req, res) => {
 
 // ASSAJOS
 
-router.post('/assaig', (req, res) => {
-  const body = req.body
-  const cursId = mongoose.Types.ObjectId(body.cursId);
-  const assaigId = mongoose.Types.ObjectId(body.assaigId);
+function guardarNouAssaig(assaig, semestreId) {
+  assaig.calendar_event = assaig.data !== undefined
 
-  Curs.updateOne(
-    { "_id": cursId, "semestres.semestreId": body.semestreId, "semestres.assajos.assaigId": assaigId },
-    {
-      $set: {
-        "semestres.$[i].assajos.$[j].assistents" :  body.assistents,
-        "semestres.$[i].assajos.$[j].assistencia" :  body.assistents.length
-      }
-    },
-    {
-      arrayFilters: [
-        {"i.semestreId": body.semestreId}, {"j.assaigId": assaigId}
-      ]
+  const nouAssaig = new Assaig({
+    _id: new mongoose.Types.ObjectId(),
+    data: assaig.data,
+    hora_inici: assaig.hora_inici,
+    hora_fi: assaig.hora_fi,
+    assistents: assaig.assistents,
+    lloc: assaig.lloc,
+    anotacio: assaig.anotacio,
+    calendar_event: assaig.calendar_event
+  })
+
+  return nouAssaig.save()
+  .then(result => {
+    if(nouAssaig.data) {
+      assaig.titol = 'Assaig Banda UJI'
+      accionsCalendari.guardarEvent(assaig, result._id)
     }
-  ).then(response => {
-    res.status(200).json(response)
+
+    Curs.findOneAndUpdate(
+      {'semestres.semestreId': semestreId},
+      {
+        $push: {
+          "semestres.$.assajos": result._id
+        }
+      }
+    )
+    .then(result => {
+      return result
+    })
+    .catch(err => {
+      console.log(err);
+    })
+
   })
   .catch(err => {
     console.log(err);
+  });
+
+}
+
+function actualitzarAssaig(assaig) {
+  return Assaig.findOneAndUpdate(
+    {'_id': assaig._id},
+    {
+      data: assaig.data,
+      hora_inici: assaig.hora_inici,
+      hora_fi: assaig.hora_fi,
+      assistents: assaig.assistents,
+      lloc: assaig.lloc,
+      anotacio: assaig.anotacio,
+      descripcio: assaig.descripcio,
+    },
+    {new: true}
+  )
+  .then(result => {
+    if(!assaig.calendar_event) {
+      assaig.titol = 'Assaig Banda UJI'
+      accionsCalendari.guardarEvent(assaig, result._id)
+    } else {
+      assaig.titol = 'Assaig Banda UJI'
+      accionsCalendari.modificarEvent(assaig)
+    }
+
+    return result
   })
-})
+  .catch(err => {
+    return err
+  })
+}
 
 router.put('/assaig', (req, res) => {
-  const body = req.body;
-  const cursId = mongoose.Types.ObjectId(body.cursId);
-  let nouAssaig = {
-    assaigId: new mongoose.Types.ObjectId(),
-    data: body.dia,
-    hora_inici: body.hora_inici,
-    hora_fi: body.hora_fi,
-    anotacio: body.anotacio,
-    assistents: []
-  };
 
-  Curs.updateOne(
-    { "_id": cursId, "semestres.semestreId": body.semestreId },
-    {
-      $push: {
-        "semestres.$.assajos": nouAssaig,
-        $sort: {data: 1}
-      }
-    }
-  ).then(response => {
-    res.status(200).json(response)
-  })
-  .catch(err => {
-    console.log(err);
-  })
+  if(!req.body.assaig || !req.body.semestreId) {
+    res.status(400)
+  }
+
+  const assaig = req.body.assaig
+  const semestreId = req.body.semestreId
+
+  console.log(assaig);
+
+  if(!assaig._id) {
+    let promise = guardarNouAssaig(assaig, semestreId)
+
+    promise.then(result => {
+      res.status(200).json(result)
+    })
+    .catch(err => {
+      res.status(500).json(err)
+    })
+  } else {
+    let promise = actualitzarAssaig(assaig)
+
+    promise.then(result => {
+      res.status(200).json(result)
+    })
+    .catch(err => {
+      res.status(500).json(err)
+    })
+  }
 
 })
 
-router.delete('/curs/:assaigId', (req, res) => {
+router.put('/assajos', (req, res) => {
 
-  const assaigId = mongoose.Types.ObjectId(req.params.assaigId);
+  if(!req.body.assajos || !req.body.semestreId) {
+    res.status(400)
+  }
 
+  const assajos = req.body.assajos
+  const semestreId = req.body.semestreId
 
-  Curs.updateOne(
-    {"semestres.assajos.assaigId": assaigId},
-    {
-      $pull: {
-        "semestres.$.assajos": { assaigId: assaigId }
-      }
-    }
-  )
-  .then(cursos => {
-    res.status(200).json({cursos})
+  const promeses = []
+
+  assajos.forEach(assaig => {
+    promeses.push(guardarNouAssaig(assaig, semestreId))
+  });
+
+  Promise.all(promeses).then(result => {
+    res.status(200).json(result)
   })
   .catch(err => {
-    res.status(500).json({err})
+    res.status(500).json(err)
+  })
+
+
+})
+
+router.delete('/assaig/:id', (req, res) => {
+
+  const assaigId = mongoose.Types.ObjectId(req.params.id);
+
+  Assaig.deleteOne(
+    {"_id": assaigId}
+  ).then(async curs => {
+    accionsCalendari.eliminarEvent(req.params.id)
+
+    // Actualitza Curs
+    await Curs.findOne(
+      {'semestres.assajos': assaigId}
+    )
+    .then(curs => {
+      curs.semestres.forEach(semestre => {
+        semestre.assajos.pop(req.params.id)
+      });
+
+      curs.save()
+      .then(result => {
+        console.log('curs: %s actualizat', curs.curs);
+      })
+      .catch(err => console.log(err))
+    })
+    .catch(err => {
+      console.log(err);
+    })
+
+    res.status(200).json(curs)
+  })
+  .catch(err => {
+    res.status(500).json(err)
   })
 })
 

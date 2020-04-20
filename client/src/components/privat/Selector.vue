@@ -3,20 +3,24 @@
 
     <div class="col-sm-10">
       <span class="titol-selector">Curs</span>
-      <select v-model="cursId"  class="custom-select">
-        <option v-for="curs in cursos" :key="curs._id" :value="curs._id">{{curs.curs}}</option>
-      </select>
+      <div>
+        <select v-model="cursId"  class="custom-select">
+          <option v-for="curs in cursos" :key="curs._id" :value="curs._id">{{curs.curs}}</option>
+        </select>
+      </div>
     </div>
 
     <div class="col-sm-2">
       <span class="titol-selector">Semestre</span>
-      <b-form-group label="">
-        <b-form-radio-group
-          v-model="semestreId"
-          :options="options"
-          buttons
-        ></b-form-radio-group>
-      </b-form-group>
+      <div>
+        <b-form-group label="">
+          <b-form-radio-group
+            v-model="semestreId"
+            :options="options"
+            buttons
+          ></b-form-radio-group>
+        </b-form-group>
+      </div>
     </div>
 
   </div>
@@ -159,7 +163,14 @@
     margin-bottom: 10px
     .titol-selector
       font-size: 1.5rem
-      margin-bottom: 5px
+    .titol-selector + div
+      margin-top: 3px
     .element-selector
       margin-top: 5px
+
+  .btn-group
+    display: flex
+
+  .btn-group .btn
+    flex: 1
 </style>

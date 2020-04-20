@@ -17,7 +17,7 @@ Vue.use(BootstrapVue )
 Vue.use(Vuex)
 
 const moment = require('moment')
-require('moment/locale/es')
+require('moment/locale/ca')
 
 Vue.use(require('vue-moment'), {
     moment

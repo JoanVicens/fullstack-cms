@@ -50,6 +50,7 @@
   @import ./sass/master
   @import ./sass/helper
   @import ./sass/sidebar
+  @import ./sass/animacions
 
   @import '../node_modules/bootstrap/scss/bootstrap'
 

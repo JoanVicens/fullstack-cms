@@ -13,8 +13,10 @@ const assaigSchema = new Schema({
   hora_fi: {type: 'string'},
   assistents: [mongoose.Schema.Types.ObjectId],
   assistencia: {type: 'number', default: 0},
-  anotacio: {type: 'string'}
-}
+  lloc: {type: 'string'},
+  anotacio: {type: 'string'},
+  calendar_event: {type: 'boolean'}
+})
 
 
 const Assaig = mongoose.model('assajos', assaigSchema);

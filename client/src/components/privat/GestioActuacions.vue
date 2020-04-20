@@ -166,6 +166,7 @@
           semestreId: this.semestreId
         })
         .then(response => {
+          // El selector torna a caragar la info
           this.$refs.info.carregarInfo()
         })
         .catch(err => console.log(err))

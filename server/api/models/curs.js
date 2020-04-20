@@ -11,7 +11,7 @@ const semestreSchema = new Schema({
   numero: {type: 'number', required: true},
   assajos: [{
     type: mongoose.Types.ObjectId,
-    ref: 'Assaig'
+    ref: 'assajos'
   }],
   actuacions: [{
     type: mongoose.Types.ObjectId,
