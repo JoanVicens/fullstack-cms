@@ -203,6 +203,7 @@ function actualitzarAssaig(assaig) {
 }
 
 router.put('/assaig', (req, res) => {
+  // Crear i modificar assajos
 
   if(!req.body.assaig || !req.body.semestreId) {
     res.status(400)
@@ -236,6 +237,7 @@ router.put('/assaig', (req, res) => {
 })
 
 router.put('/assajos', (req, res) => {
+  // Crear varios assajos
 
   if(!req.body.assajos || !req.body.semestreId) {
     res.status(400)
@@ -261,6 +263,7 @@ router.put('/assajos', (req, res) => {
 })
 
 router.delete('/assaig/:id', (req, res) => {
+  // Borrar un assaig
 
   const assaigId = mongoose.Types.ObjectId(req.params.id);
 
@@ -291,6 +294,33 @@ router.delete('/assaig/:id', (req, res) => {
     res.status(200).json(curs)
   })
   .catch(err => {
+    res.status(500).json(err)
+  })
+})
+
+router.put('/assaig/assistencia', (req, res) => {
+  // Actualizar la assistencia d'un assaig
+
+  const assaig = req.body.assaig;
+
+  assaig.assistencia = assaig.assistents.length
+
+  Assaig.updateOne(
+    {'_id': assaig._id},
+    {
+      $set: {
+        "assistents": assaig.assistents
+      },
+      assistencia : assaig.assistencia,
+      ultima_modificacio: new Date()
+    },
+    {returnOriginal: false}
+  )
+  .then(response => {
+    res.status(200).json(response)
+  })
+  .catch(err => {
+    console.log(err);
     res.status(500).json(err)
   })
 })

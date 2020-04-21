@@ -25,7 +25,6 @@
               <strong>Anotacions: </strong> {{curs.anotacio}}
             </p>
 
-
           </div>
           <div class="card-body botons">
             <b-button variant="outline-danger" @click="eliminarCurs(curs._id)">Eliminar</b-button>

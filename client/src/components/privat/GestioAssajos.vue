@@ -2,9 +2,7 @@
   <main>
     <div class="container">
       <Selector
-        v-bind:cursId.sync="cursId"
         v-bind:semestreId.sync="semestreId"
-        v-bind:assaigId.sync="assaigId"
         v-bind:assajos.sync="assajos"
         ref="info"
 
@@ -79,9 +77,7 @@
     },
     data() {
       return {
-        cursId: 0,
         semestreId: 0,
-        assaigId: 0,
         assajos: [],
         formulari: {}
       }

@@ -15,7 +15,8 @@ const assaigSchema = new Schema({
   assistencia: {type: 'number', default: 0},
   lloc: {type: 'string'},
   anotacio: {type: 'string'},
-  calendar_event: {type: 'boolean'}
+  calendar_event: {type: 'boolean'},
+  ultima_modificacio: {type: 'date'}
 })
 
 
