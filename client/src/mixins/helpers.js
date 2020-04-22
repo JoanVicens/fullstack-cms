@@ -9,6 +9,14 @@ export const helpers = {
       if(date1 < date2) return -1
       else if (date1 > date2) return 1
       else return 0
-    }
+    },
+    calcularPercentatge(semestre) {
+      let numeroAssajos = semestre.assajos.length
+      let assajosAssistits = this.contarAssistencia(this.segonSemestre.assajos)
+
+      let percentatge = (assajosAssistits * 100) / numeroAssajos
+
+      return isFinite(percentatge) ? percentatge + '%' : '~'
+    },
   }
 }

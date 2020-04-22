@@ -137,7 +137,8 @@ router.post('/login', async (req, res, next) => {
 router.get('/info', (req, res, next) => {
   // console.log('INFO', req.session.musicId);
   if(req.session.musicId) {
-    Music.findOne({_id: req.session.musicId})
+    const id = mongoose.Types.ObjectId(req.session.musicId);
+    Music.findOne({_id: id})
       .then(music => {
         res.status(201).json({
           music

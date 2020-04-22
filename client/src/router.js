@@ -9,14 +9,20 @@ Vue.use(Router);
 import LandingPage from './components/LandingPage.vue'
 import Principal from './components/Principal.vue'
 import Signin from './components/Signin.vue'
-import Assistencia from './components/Assistencia.vue'
 import Login from './components/Login.vue'
 import Logout from './components/Logout.vue'
 
+// Musics
+import Actuacions from './components/Actuacions.vue'
+import Assistencia from './components/Assistencia.vue'
+
+// Junta
 import ControlAssitencia from './components/privat/ControlAssitencia.vue'
 import GestioAssajos from './components/privat/GestioAssajos.vue'
 import GestioActuacions from './components/privat/GestioActuacions.vue'
 import GestioCursos from './components/privat/GestioCursos.vue'
+
+import Error from './components/Error.vue'
 
 const routes = [
   {
@@ -31,12 +37,22 @@ const routes = [
 
   {
     path: '/principal',
-    name:'principal',
+    name: 'principal',
     component: Principal,
     meta: {
       titol: '',
       requiresAuth: true
     },
+  },
+
+  {
+    path: '/actuacions',
+    name: 'Actuacions',
+    component: Actuacions,
+    meta: {
+      titol: 'Properes actuacions',
+      requiresAuth: true
+    }
   },
 
   {
@@ -49,7 +65,7 @@ const routes = [
     }
   },
   {
-    path: '/control_assitencia/',
+    path: '/gestio/assitencia/',
     name: 'control assitència',
     component: ControlAssitencia,
     meta: {
@@ -63,7 +79,7 @@ const routes = [
   },
 
   {
-    path: '/gestio_assajos',
+    path: '/gestio/assajos',
     name: 'gestió assajos',
     component: GestioAssajos,
     meta: {
@@ -73,8 +89,8 @@ const routes = [
   },
 
   {
-    path: '/gestio_concerts',
-    name: 'gestió concerts',
+    path: '/gestio/actuacions',
+    name: 'gestió actuacions',
     component: GestioActuacions,
     meta: {
       titol: 'Gestió dels concerts',
@@ -83,7 +99,7 @@ const routes = [
   },
 
   {
-    path: '/gestio_cursos',
+    path: '/gestio/cursos',
     name: '',
     component: GestioCursos,
     meta: {
@@ -111,7 +127,7 @@ const routes = [
   },
 
   {
-    path: '/Logout',
+    path: '/logout',
     name: 'logout',
     component: Logout,
     meta: {
@@ -127,6 +143,16 @@ const routes = [
     meta: {
       titol: 'Assistència',
       requiresAuth: true
+    },
+  },
+
+  {
+    path: '/r',
+    name: 'error',
+    component: Error,
+    meta: {
+      titol: '',
+      requiresAuth: false
     },
   }
 ]

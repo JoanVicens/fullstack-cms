@@ -1,11 +1,15 @@
 <template>
   <main>
     <div class="container">
-      <div class="card-columns">
-        <infomarcio-personal class="card" :music="this.music"/>
-        <assistenciaChart class="card"/>
-        <semestres class="card" :semestres="this.curs.semestres" :id="this.music._id"/>
-        <concerts class="card"/>
+      <b-alert v-model="errors.noCursActiu" dismissible variant="warning">
+        <strong>No hi ha cap curs actiu.</strong>
+      </b-alert>
+
+      <div class="card-columns" v-if="infoCargada">
+        <infomarcio-personal class="card" :music="music"/>
+        <assistenciaChart class="card" :info="infomarcio"/>
+        <DetallAssistenciaSemestres class="card" :info="infomarcio" />
+        <concerts class="card" :info="curs.semestres" :id="music._id" />
         <peticioCredits class="card"/>
         <estatCompte class="card border-0"/>
       </div>
@@ -18,21 +22,19 @@
   import axios from 'axios'
 
   // COMPONENTS
-  import assistenciaChart from './targetes_music/AssistenciaChart.vue'
-  import semestres from './targetes_music/Semestres.vue'
-  import infomarcioPersonal from './targetes_music/InformacioPersonal.vue'
-  import concerts from './targetes_music/Concerts.vue'
-  import peticioCredits from './targetes_music/PeticioCredits.vue'
-  import estatCompte from './targetes_music/EstatCompte.vue'
-
-
+  import infomarcioPersonal from './targetes/InformacioPersonal.vue'
+  import assistenciaChart from './targetes/AssistenciaChart.vue'
+  import DetallAssistenciaSemestres from './targetes/Semestres.vue'
+  import concerts from './targetes/Concerts.vue'
+  import peticioCredits from './targetes/PeticioCredits.vue'
+  import estatCompte from './targetes/EstatCompte.vue'
 
   export default {
     name: 'Principal',
     components: {
-      assistenciaChart,
-      semestres,
       infomarcioPersonal,
+      assistenciaChart,
+      DetallAssistenciaSemestres,
       concerts,
       peticioCredits,
       estatCompte
@@ -42,62 +44,80 @@
         store,
         music: {},
         curs: {},
-        events: [],
-        value: '',
-        context: null,
-        labels: {
-          val: {
-            labelPrevYear: 'Any anterior',
-            labelPrevMonth: 'Mes anterior',
-            labelCurrentMonth: 'Mes actual',
-            labelNextMonth: 'Mes següent',
-            labelNextYear: 'Any següent',
-            labelToday: 'Hui',
-            labelSelected: 'Seleccionat',
-            labelNoDateSelected: 'No seleccionat',
-            labelCalendar: 'calendari',
-            labelNav: 'Navegació calendari',
-            labelHelp: ''
-          }
-        }
+        errors: {
+          noCursActiu: false
+        },
+        infomarcio: {},
+        infoCargada: false
       }
     },
     methods: {
-      carregarInfo() {
-        axios.get('/auth/info')
-          .then(response => {
-            this.music = response.data.music
-
-            // Guarda en local el tipus de compte
-            if(this.music.tipo_compte == 2) {
-              this.store.commit('esJunta');
-            } else if (this.music.tipo_compte == 3) {
-              console.log('es admin');
-              this.store.commit('esAdmin');
-            }
-          })
-          .catch(err => console.log(err));
-
-        axios.get('/info/curs_actiu')
-          .then(response => {
+      carregarInfoMusic() {
+        return axios.get('/auth/info').then(response => {
+          this.music = response.data.music
+        })
+      },
+      carregarInfoCursActiu() {
+        return axios.get('/info/curs/actiu').then(response => {
+          if(response.data.curs === null) {
+            this.errors.noCursActiu = true
+          } else {
             this.curs = response.data.curs
-          })
-          .catch(err => console.log(err))
+          }
+        })
+      },
+      calcularAssistencia() {
+        this.infomarcio.semestres = []
+
+        this.curs.semestres.forEach((semestre, index) => {
+            let assajosAssistits = 0;
+
+            semestre.assajos.forEach(assaig => {
+              if(assaig.assistents.includes(this.music._id))
+                assajosAssistits++
+            });
+
+            let assajosSemestre = semestre.assajos.length
+
+            let percentatge = (assajosAssistits * 100) / assajosSemestre
+
+            this.infomarcio.semestres.push({
+              assajosAssistits,
+              assajosSemestre,
+              percentatge
+            })
+        });
       }
     },
     mounted() {
-      let me = this;
-      setTimeout(function () {
-        me.events = [ // you can make ajax call here
-          {
-            id:1,
-            title:'Event 1',
-            color: 'panel-danger',
-            date: new Date()
-          }
-        ];
-      }, 1000);
-      this.carregarInfo();
+      Promise.all([this.carregarInfoMusic(), this.carregarInfoCursActiu()])
+      .then(() => {
+
+        localStorage.id = this.music._id
+
+        // Guarda en local el tipus de compte
+        if(this.music.tipo_compte == 2) {
+          this.store.commit('esJunta');
+        } else if (this.music.tipo_compte == 3) {
+          this.store.commit('esAdmin');
+        }
+
+        this.infomarcio.curs = this.curs.curs
+        this.calcularAssistencia();
+
+        this.infoCargada = true
+      })
+      .catch(err => {
+        const status = err.response.status
+        switch (status) {
+          case 404:
+            this.$router.push({name: 'error'});
+            break;
+          default:
+
+        }
+        console.error(err);
+      })
     }
   }
 </script>
@@ -111,8 +131,6 @@
 
 <style lang="scss" scoped>
   @import '../../node_modules/bootstrap/scss/bootstrap';
-
-
 
   .card-columns {
     @include media-breakpoint-only(sm) {

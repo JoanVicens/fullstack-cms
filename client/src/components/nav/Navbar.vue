@@ -1,13 +1,13 @@
 <template lang="html">
   <nav id="sidebar">
     <div class="sidebar-header">
-      <div class="idioma">
+      <!-- <div class="idioma">
         <div class="btn-group btn-group-sm" role="group">
           <button type="button" class="btn btn-primary">VAL</button>
           <button type="button" class="btn btn-secondary">CAS</button>
           <button type="button" class="btn btn-secondary">ENG</button>
         </div>
-      </div>
+      </div> -->
 
       <div id="dismiss" v-on:click="tancarMenu">
         <x-icon size="2x"></x-icon>
@@ -25,51 +25,51 @@
             <router-link :to="{ path: '/signin', name:'signin', params: {} }">Sign in</router-link>
           </li>
         </div>
-        <div v-else>
+        <div v-else v-on:click="tancarMenu">
           <Perfil />
-          <li v-on:click="tancarMenu">
+          <li>
             <router-link :to="{ path: '/principal', params: {} }">Principal</router-link>
           </li>
           <!-- MENUS GESTIO -->
           <!-- ====================================== -->
           <div v-if="store.getters.esJunta || store.getters.esAdmin">
-            <li v-on:click="tancarMenu" class="bg-blue">
-              <router-link :to="{ path: '/control_assitencia', params: {} }">Controlar assitència</router-link>
+            <li class="bg-blue">
+              <router-link :to="{ path: '/gestio/assitencia', params: {} }">Controlar assitència</router-link>
             </li>
-            <li v-on:click="tancarMenu" class="bg-blue">
-              <router-link :to="{ path: '/gestio_assajos', params: {} }">Gestionar assajos</router-link>
+            <li class="bg-blue">
+              <router-link :to="{ path: '/gestio/assajos', params: {} }">Gestionar assajos</router-link>
             </li>
-            <li v-on:click="tancarMenu" class="bg-blue">
-              <router-link :to="{ path: '/gestio_cursos', params: {} }">Gestionar cursos</router-link>
+            <li class="bg-blue">
+              <router-link :to="{ path: '/gestio/cursos', params: {} }">Gestionar cursos</router-link>
             </li>
-            <li v-on:click="tancarMenu" class="bg-blue">
-              <router-link :to="{ path: '/gestio_concerts', params: {} }">Gestionar concerts</router-link>
+            <li class="bg-blue">
+              <router-link :to="{ path: '/gestio/actuacions', params: {} }">Gestionar concerts</router-link>
             </li>
 
           </div>
           <!-- ====================================== -->
-          <li v-on:click="tancarMenu">
+          <li>
             <router-link :to="{ path: '/assistencia', name: 'assistencia', params: {} }">Assistència</router-link>
           </li>
-          <li v-on:click="tancarMenu">
-            <router-link to="">Concerts</router-link>
+          <li>
+            <router-link :to="{ path: '/actuacions', name: 'Actuacions', params: {} }">Actuacions</router-link>
           </li>
-          <li v-on:click="tancarMenu">
+          <li>
             <router-link to="">Enquestes</router-link>
           </li>
-          <li v-on:click="tancarMenu">
+          <li>
             <router-link to="">Demanar crèdits</router-link>
           </li>
-          <li v-on:click="tancarMenu">
+          <li>
             <router-link to="">Pagament cota</router-link>
           </li>
-          <li v-on:click="tancarMenu">
+          <li>
             <router-link to="">Preferències</router-link>
           </li>
-          <li v-on:click="tancarMenu">
+          <li>
             <router-link to="">Notificacions</router-link>
           </li>
-          <li v-on:click="tancarMenu">
+          <li>
             <router-link :to="{ path: '/logout', name: 'logout', params: {} }">Tancar sessió</router-link>
           </li>
         </div>

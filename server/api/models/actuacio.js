@@ -10,6 +10,7 @@ const Schema = mongoose.Schema;
 // MODEL CONCERT
 //==============================================================================
 const actuacioSchema = new Schema({
+  _id: mongoose.Types.ObjectId,
   titol: {type: 'string', required: true},
   data: {type: 'date', required: false},
   hora_inici: {type: 'string'},

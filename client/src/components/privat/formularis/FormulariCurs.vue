@@ -10,7 +10,7 @@
         <label for="director">Director titular</label>
         <input type="text" name="director" id="director" v-model="info.curs.director" class="form-control">
 
-        <b-form-checkbox id="cursActiu" v-model="info.curs.curs_actiu" name="cursActiu" class="mt-2" switch>Crear com al curs actiu</b-form-checkbox>
+        <b-form-checkbox id="cursActiu" v-model="info.curs.curs_actiu" name="cursActiu" class="mt-2" switch>Curs actiu</b-form-checkbox>
 
         <label for="anotacio">Anotació</label>
         <textarea name="anotacio" class="form-control" v-model="info.curs.anotacio"></textarea>

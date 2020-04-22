@@ -51,6 +51,7 @@
   @import ./sass/helper
   @import ./sass/sidebar
   @import ./sass/animacions
+  @import ./sass/botons
 
   @import '../node_modules/bootstrap/scss/bootstrap'
 

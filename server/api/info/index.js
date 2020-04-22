@@ -35,6 +35,35 @@ router.get('/cursos', (req, res) => {
   })
 })
 
+router.get('/curs/actiu', (req, res) => {
+
+  Curs.findOne({'curs_actiu': true})
+  .populate({
+    path:'semestres.actuacions',
+    populate: {
+      path: 'assistents',
+      select: 'nom cognoms instrument'
+    }
+  })
+  .populate({
+    path: 'semestres.assajos'
+  })
+  .then(curs => {
+    res.status(200).json({curs})
+  })
+  .catch(err => console.log(err))
+})
+
+router.get('/actuacions/actiu', (req, res) => {
+
+  Curs.findOne({'curs_actiu': true})
+  .populate({path:'semestres.actuacions'})
+  .then(curs => {
+    res.status(200).json({curs})
+  })
+  .catch(err => console.log(err))
+})
+
 router.get('/curs/:id', (req, res) => {
 
   const id = req.params.id
@@ -43,15 +72,6 @@ router.get('/curs/:id', (req, res) => {
     .then(cursos => {
       res.status(200).json({cursos})
     })
-})
-
-router.get('/curs_actiu', (req, res) => {
-
-  Curs.findOne({curs_actiu: true})
-    .then(curs => {
-      res.status(200).json({curs})
-    })
-    .catch(err => console.log(err))
 })
 
 router.put('/curs', async (req, res) => {
@@ -278,7 +298,8 @@ router.delete('/assaig/:id', (req, res) => {
     )
     .then(curs => {
       curs.semestres.forEach(semestre => {
-        semestre.assajos.pop(req.params.id)
+        let index = semestre.assajos.indexOf(req.params.id)
+        semestre.assajos.splice(index, 1)
       });
 
       curs.save()
@@ -483,6 +504,62 @@ router.put('/actuacio/assistents', (req, res) => {
   )
   .then(result => {
     res.status(200).json(result)
+  })
+  .catch(err => {
+    console.log(err);
+  })
+})
+
+router.put('/actuacio/afegir/assistent', (req, res) => {
+  const body = req.body;
+  const idActuacio = mongoose.Types.ObjectId(body.idActuacio);
+  //
+  // console.log(actuacioId);
+
+  console.log(body.idActuacio);
+
+  Actuacio.findById(idActuacio)
+  .then(response => {
+    console.log(response);
+  })
+  .catch(err => {
+    console.log(err);
+  })
+
+  Actuacio.findOneAndUpdate(
+    {'_id': idActuacio},
+    {
+      $push: {
+        "assistents": body.idAssistent
+      }
+    }
+  )
+  .then(result => {
+    res.status(200).json(result)
+  })
+  .catch(err => {
+    console.log(err);
+  })
+})
+
+router.put('/actuacio/llevar/assistent', (req, res) => {
+  const body = req.body;
+  const idActuacio = mongoose.Types.ObjectId(body.idActuacio);
+  const idAssistent = mongoose.Types.ObjectId(body.idAssistent);
+
+  Actuacio.findOne(
+    { 'semestres.actuacions': idActuacio }
+  )
+  .then(actuacio => {
+
+    let index = actuacio.assistents.indexOf(body.idActuacio)
+    actuacio.assistents.splice(index, 1)
+
+    actuacio.save()
+    .then(result => {
+      console.log("S'ha actualitzat la assistencia de %s", actuacio.titol);
+    })
+    .catch(err => console.log(err))
   })
   .catch(err => {
     console.log(err);
