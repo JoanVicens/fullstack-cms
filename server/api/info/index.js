@@ -13,6 +13,23 @@ const Music = require('../models/music');
 const Actuacio = require('../models/actuacio');
 
 
+router.use((req, res, next) => {
+  if(req.session.session_id) {
+    console.log('dins if');
+    Music.findOne({'session_id': req.session.session_id})
+    .then(() => {
+      next();
+    })
+    .catch(err => {
+      res.status(500)
+    });
+  } else {
+    res.status(400)
+  }
+})
+
+
+
 // CURS
 
 router.get('/cursos', (req, res) => {

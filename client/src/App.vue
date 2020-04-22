@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <header class="navbar navbar-dark bg-transparent">
+    <header class="navbar navbar-dark bg-transparent" v-if="$route.name!== 'landingPage'">
       <img src="./assets/logo.png" id="logo" alt="logo banda uji">
       <h1>{{this.$route.meta.titol}}</h1>
       <MenuIcon size="2x" v-on:click="obrirMenu" />
     </header>
     <Navbar />
-    <div id="" class="wrapper">
+    <div class="wrapper">
       <div class="" id="content">
         <router-view></router-view>
       </div>
@@ -24,23 +24,13 @@
   import { store } from './store.js'
 
 
-
   export default {
     name: 'App',
     components: {
       Navbar,
       MenuIcon
     },
-    mixins: [accionsMenuMixin],
-    created() {
-      this.API_URL = `http://${store.getters.express_ip}:5000/auth/info`;
-    },
-    data() {
-      return {
-        store,
-        API_URL: ''
-      }
-    }
+    mixins: [accionsMenuMixin]
   }
 </script>
 

@@ -3,6 +3,9 @@ import Vuex from 'vuex'
 import App from './App.vue'
 import VueRouter from 'vue-router'
 import BootstrapVue from 'bootstrap-vue'
+import VueSession from 'vue-session'
+
+import VueResource from 'vue-resource';
 
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -15,6 +18,8 @@ window.$ = window.jQuery = require('jquery');
 
 Vue.use(BootstrapVue )
 Vue.use(Vuex)
+Vue.use(VueResource);
+Vue.use(VueSession)
 
 const moment = require('moment')
 require('moment/locale/ca')

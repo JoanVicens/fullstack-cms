@@ -18,10 +18,10 @@
 </template>
 
 <script>
-  import { store } from "../store.js";
-  import axios from 'axios'
+  import axios  from 'axios'
 
-  // COMPONENTS
+  import { store } from '../store.js'
+
   import infomarcioPersonal from './targetes/InformacioPersonal.vue'
   import assistenciaChart from './targetes/AssistenciaChart.vue'
   import DetallAssistenciaSemestres from './targetes/Semestres.vue'
@@ -41,14 +41,14 @@
     },
     data() {
       return {
-        store,
         music: {},
         curs: {},
         errors: {
           noCursActiu: false
         },
         infomarcio: {},
-        infoCargada: false
+        infoCargada: false,
+        store
       }
     },
     methods: {
@@ -108,15 +108,8 @@
         this.infoCargada = true
       })
       .catch(err => {
-        const status = err.response.status
-        switch (status) {
-          case 404:
-            this.$router.push({name: 'error'});
-            break;
-          default:
-
-        }
-        console.error(err);
+        console.log(err);
+        this.$router.push('/')
       })
     }
   }

@@ -53,7 +53,7 @@ const musicSchema = new Schema({
     type: 'string'
   },
   password: { type: 'string' },
-  cookie: {type: 'object', default: {}}
+  session_id: {type: 'object', default: ''}
 });
 
 //Comprova que el AL no estigui registrat

@@ -21,6 +21,7 @@ import ControlAssitencia from './components/privat/ControlAssitencia.vue'
 import GestioAssajos from './components/privat/GestioAssajos.vue'
 import GestioActuacions from './components/privat/GestioActuacions.vue'
 import GestioCursos from './components/privat/GestioCursos.vue'
+import GestioCredits from './components/privat/GestioCredits.vue'
 
 import Error from './components/Error.vue'
 
@@ -41,7 +42,7 @@ const routes = [
     component: Principal,
     meta: {
       titol: '',
-      requiresAuth: true
+      requiresAuth: false
     },
   },
 
@@ -104,6 +105,16 @@ const routes = [
     component: GestioCursos,
     meta: {
       titol: 'Gestió dels cursos',
+      requiresAuth: true
+    }
+  },
+
+  {
+    path: '/gestio/credits',
+    name: '',
+    component: GestioCredits,
+    meta: {
+      titol: 'Gestió dels credits',
       requiresAuth: true
     }
   },

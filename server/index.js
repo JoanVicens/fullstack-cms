@@ -31,12 +31,6 @@ app.use(session({
   saveUninitialized: true
 }))
 
-app.get('/', (req, res, next) => {
-  console.log(req.session._id);
-  next();
-})
-
-
 require("./api/config/database").connectar();
 
 if(process.env.NODE_ENV === 'production') {

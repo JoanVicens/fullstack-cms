@@ -1,5 +1,9 @@
 <template lang="html">
-  <div class="">
+  <div class="container">
+    <div class="mt-3">
+      <router-link :to="{ path: '/signin', name:'signin', params: {} }" class="btn btn-outline-light float-right">Sign in</router-link>
+      <router-link :to="{ path: '/login', name:'login', params: {} }" class="btn btn-outline-light float-right mr-3">Log in</router-link>
+    </div>
     <div class="display-1">
       LANDIGN PAGE
     </div>
@@ -10,8 +14,9 @@
 </template>
 
 <script>
-export default {
-}
+  export default {
+    name: 'landingPage'
+  }
 </script>
 
 <style lang="css" scoped>

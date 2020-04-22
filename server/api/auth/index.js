@@ -4,6 +4,8 @@ const session = require('express-session');
 const middlewares = require('../middlewares')
 const jwt = require('jsonwebtoken');
 
+const UUID = require("uuid");
+
 const Music = require('../models/music');
 const musicController = require('../controlers/musicControler');
 const mailer = require('../mailing/index.js');
@@ -112,13 +114,22 @@ router.post('/login', async (req, res, next) => {
     const autenticar = musicController.autenticar(credencials)
 
     autenticar
-      .then(music => {
-        if(music) {
+      .then(musicId => {
+        if(musicId) {
           // Credencials CORRECTES
-          // console.log('LOGING', music._id);
-          req.session.musicId = music._id
-          res.status(200).json({
-            message: 'autenticat'
+
+          let session_id = UUID.v4();
+
+          Music.findOneAndUpdate(
+            {'_id': musicId},
+            {'session_id': session_id}
+          ).then(response => {
+            req.session.session_id = session_id
+            res.status(200).send({ token: session_id })
+          }).catch(err => {
+            res.status(500).json({
+              message: "No s'ha pogut guardar la sessió"
+            })
           })
         } else {
           // Credencials ERRÒNEES
@@ -135,10 +146,9 @@ router.post('/login', async (req, res, next) => {
 });
 
 router.get('/info', (req, res, next) => {
-  // console.log('INFO', req.session.musicId);
-  if(req.session.musicId) {
-    const id = mongoose.Types.ObjectId(req.session.musicId);
-    Music.findOne({_id: id})
+
+  if(req.session.session_id) {
+    Music.findOne({'session_id': req.session.session_id})
       .then(music => {
         res.status(201).json({
           music

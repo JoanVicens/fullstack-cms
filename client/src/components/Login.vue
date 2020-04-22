@@ -32,6 +32,8 @@
   import { store } from "../store.js";
   import axios from 'axios'
 
+  import Vue from 'vue';
+
   const lletra_numero_caracter = new RegExp('^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$');
   //https://gist.github.com/ravibharathii/3975295
 
@@ -57,7 +59,8 @@
           password: ''
         },
         store,
-        API_URL: ''
+        API_URL: '',
+        paginaPrincipal: '/principal',
       }
     },
     watch: {
@@ -67,7 +70,7 @@
           document.querySelectorAll('input[type=password]').forEach(input => input.classList.remove('is-invalid'))
         },
         deep: true,
-      }
+      },
     },
     created() {
       this.API_URL = `/auth/login`
@@ -96,19 +99,17 @@
         axios
           .post(this.API_URL, credencials)
           .then(response => { // Responsa del servidor
-            console.log(response);
+            console.log(response.data);
 
-            if(response.statusText === 'OK') { // Autenticació CORRECTA
+            if (response.status === 200 && 'token' in response.data) {
+              this.$session.start()
+              this.$session.set('token', response.data.token)
+              Vue.http.headers.common['Authorization'] = 'Bearer ' + response.data.token
 
-              this.store.commit('loggedMusic');
-              
-              setTimeout(() => {
-                this.loggingIn = false;
-                this.$router.push('/principal');
-              }, 1000);
-            } else {
-              console.log(response);
-              // new Error(error.message);
+              store.commit('loggedMusic')
+
+              this.$router.push('/principal');
+
             }
           })
           .catch(err => {
