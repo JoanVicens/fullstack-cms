@@ -48,17 +48,15 @@ const middlewares = require('./api/middlewares.js');
 
 const auth = require('./api/auth/');
 const info = require('./api/info/');
+const docs = require('./api/docs/')
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.json({
-    message: '🦄 Hola món!!'
-  });
-});
-
 app.use('/auth', auth);
 app.use('/info', info);
+app.use('/docs', docs);
+
+
 
 function notFound(req, res, next) {
   res.status(404);

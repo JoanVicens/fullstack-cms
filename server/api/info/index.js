@@ -28,8 +28,6 @@ router.use((req, res, next) => {
   }
 })
 
-
-
 // CURS
 
 router.get('/cursos', (req, res) => {
@@ -249,7 +247,7 @@ router.put('/assaig', (req, res) => {
   const assaig = req.body.assaig
   const semestreId = req.body.semestreId
 
-  console.log(assaig);
+  assaig.semestre = semestreId
 
   if(!assaig._id) {
     let promise = guardarNouAssaig(assaig, semestreId)
@@ -361,6 +359,21 @@ router.put('/assaig/assistencia', (req, res) => {
     console.log(err);
     res.status(500).json(err)
   })
+})
+
+router.get('assajos/:semestreId', (req, res) => {
+
+  const semestreId = req.params.semestreId
+
+  Assaig.find({'semestre': semestreId})
+  .populate('assistents')
+  .then(assajos => {
+    res.status(200).json({ assajos })
+  })
+  .catch(err => {
+    res.status(500).json(err)
+  })
+
 })
 
 

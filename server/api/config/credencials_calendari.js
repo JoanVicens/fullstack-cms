@@ -21,7 +21,6 @@ const credentials = {
 }
 
 function autenticar(oAuth2Client) {
-  console.log('');
   const authUrl = oAuth2Client.generateAuthUrl({
     access_type: 'offline',
     scope: SCOPES,
@@ -31,6 +30,7 @@ function autenticar(oAuth2Client) {
     input: process.stdin,
     output: process.stdout,
   });
+
   rl.question('Enter the code from that page here: ', (code) => {
     rl.close();
     oAuth2Client.getToken(code, (err, token) => {

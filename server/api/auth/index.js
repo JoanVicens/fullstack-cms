@@ -12,11 +12,6 @@ const mailer = require('../mailing/index.js');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.json({
-    message: '👑🧫'
-  });
-});
 
 // Registre dels músics
 router.post('/signup', (req, res, next) => {

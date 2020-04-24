@@ -74,13 +74,6 @@
       }
     },
     methods: {
-      forcarUpdate() {
-        this.carregarInfo();
-
-        let curs = this.cursos.find(curs => curs._id == this.cursId)
-        let semestre = curs.semestres.find(semestre => semestre.semestreId === this.semestreId)
-        let actuacions = this.semestre.actuacions
-      },
       carregarInfo() {
         axios.get('/info/cursos')
         .then(response => {

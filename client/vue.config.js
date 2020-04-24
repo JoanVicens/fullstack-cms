@@ -11,6 +11,9 @@ module.exports = {
       '/cursos/*': {
         target: 'http://localhost:5000'
       },
+      '/docs/*': {
+        target: 'http://localhost:5000'
+      },
       '/info/*': {
         target: 'http://localhost:5000'
       }
