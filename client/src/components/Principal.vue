@@ -67,6 +67,9 @@
         })
       },
       calcularAssistencia() {
+
+        if(this.errors.noCursActiu) return
+
         this.infomarcio.semestres = []
 
         this.curs.semestres.forEach((semestre, index) => {

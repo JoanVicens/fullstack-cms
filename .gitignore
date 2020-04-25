@@ -3,6 +3,7 @@ node_modules
 .env
 mail.js
 autCalendar.json
+autGmail.json
 autenticacioDrive.json
 firmes/
 certificats.js

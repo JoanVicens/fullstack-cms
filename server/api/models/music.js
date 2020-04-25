@@ -16,7 +16,6 @@ const musicSchema = new Schema({
   al: {
     type: 'Number',
     index: true,
-    unique: true,
     required: true,
     validate: {
       validator: function(al) {
@@ -60,7 +59,11 @@ const musicSchema = new Schema({
 musicSchema.pre("save", async function (next) {
   const music = this;
 
-  const musicRegistrat = await Music.findOne({$or: [{al: music.al}, {email: music.email}]});
+  let musicRegistrat = false;
+
+  if(music.al !== '000000') {
+    musicRegistrat = await Music.findOne({$or: [{al: music.al}, {email: music.email}]});
+  }
 
   if(musicRegistrat) {
     // El AL ja està regsitrat

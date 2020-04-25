@@ -21,7 +21,7 @@
       <div class="form-group">
         <label for="dni">DNI</label>
         <div class="input-group">
-          <input class="form-control" type="text " name="dni" v-model="music.dni" required>
+          <input class="form-control" type="text " name="dni" v-model="music.dni">
         </div>
       </div>
 
