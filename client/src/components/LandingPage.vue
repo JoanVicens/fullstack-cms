@@ -25,7 +25,7 @@
       }
     },
     mounted() {
-      if(thi.msg !== undefined)
+      if(this.msg !== undefined)
         this.mostratAlert = true
     }
   }

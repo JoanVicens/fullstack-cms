@@ -4,7 +4,7 @@
       <h2>Actuacions</h2>
     </div>
     <div class="contingut">
-      <table class="table table-borderless">
+      <table class="table table-borderless" v-if="actuacions.length > 0">
         <tbody>
           <tr v-for="(actuacio, index) in actuacions" v-bind:key="index">
             <th class="check" scope="row">{{actuacio.titol}}</th>
@@ -24,6 +24,10 @@
 
         </tbody>
       </table>
+
+      <div v-else>
+        <h5>Encara no hi han actuacions programades &#128531;</h5>
+      </div>
     </div>
   </div>
 

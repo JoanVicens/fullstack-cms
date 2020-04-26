@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <header class="navbar navbar-dark bg-transparent" v-if="$route.name!== 'landingPage'">
+    <header class="navbar navbar-dark bg-transparent" v-if="$route.name!== 'landingPage' && $route.name!== 'login' && $route.name!== 'crearCompte'" >
       <img src="./assets/logo.png" id="logo" alt="logo banda uji">
       <h1>{{this.$route.meta.titol}}</h1>
       <MenuIcon size="2x" v-on:click="obrirMenu" />

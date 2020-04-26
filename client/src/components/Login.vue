@@ -18,17 +18,11 @@
       <div class="form-group">
         <label for="password">Contrasenya</label>
         <input class="form-control" type="password" name="password" v-model="music.password" v-on:focusout="validarContrasenya" required>
-        <small id="passwordHelpBlock" class="form-text text-muted">
-          <ul>
-            <li>Entre 8 i 16 caràcters</li>
-            <li>Com a mínim una lletra minúscula, una majuscula, un número i un caracter espcial</li>
-          </ul>
-        </small>
       </div>
 
       <div class="row mt-5">
         <div class="col-sm-3 d-none d-sm-block">
-          <b-button variant="info" class="btn-lg btn-block mb-2">Atras</b-button>
+          <b-button variant="info" class="btn-lg btn-block mb-2" @click="$router.push('/')">Atras</b-button>
         </div>
         <div class="col-sm-9">
           <button type="submit" class="btn btn-primary btn-lg btn-block" name="button">Entrar</button>

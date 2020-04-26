@@ -1,13 +1,16 @@
 <template lang="html">
   <section class="container mt-4">
-    <b-breadcrumb :items="breadcrumb"></b-breadcrumb>
+
+    <div style="height: 48px">
+      <b-button variant="info" class="btn-lg mb-2 float-right" @click="$router.push('/')">Atras</b-button>
+    </div>
 
     <div v-if="error" class="alert alert-danger" role="alert">
       {{error}}
     </div>
     <form class="mt-4" @submit.prevent="validator">
 
-      <small class="text-muted float-right">Els camps amb * son obligatoris</small>
+      <small class="text-muted float-right">Els camps amb * són obligatoris</small>
 
       <h4 class="mb-3">Informació personal</h4>
 
@@ -112,7 +115,7 @@
       </div>
 
       <div class="form-group">
-        <label for="confirm_password">Repeteix Contrasenya</label>
+        <label for="confirm_password">Repeteix la contrasenya</label>
         <input class="form-control" type="password" name="confirm_password" v-model="music.confirm_password" v-on:focusout="validarContrasenya" required>
       </div>
 
@@ -128,6 +131,7 @@
       </b-form-group>
 
       <button type="submit" class="btn btn-light btn-lg mt-3 mb-5 float-right" name="button">Crear compte</button>
+      <b-button variant="info" class="btn-lg mb-2 float-right mt-3 mb-5 mr-3" @click="$router.push('/')">Atras</b-button>
     </form>
   </section>
 </template>

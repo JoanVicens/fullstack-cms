@@ -1,18 +1,12 @@
 <template lang="html">
   <div class="targeta targeta-btn descativar">
-    <div class="collapse" id="accioCompte">
-      <div class="btn btn-lg btn-block m-1">
-        ACTIVAR
-      </div>
+    <div class="btn btn-lg btn-block actiu" v-if="compteActiu">
+      COMPTE ACTIU
     </div>
 
-    <a class="btn btn-lg btn-block actiu" v-if="compteActiu">
-      COMPTE ACTIU
-    </a>
-
-    <a class="btn btn-lg btn-block descativat" data-toggle="accioCompte" v-else>
+    <div class="btn btn-lg btn-block descativat" v-else>
       COMPTE NO ACTIU
-    </a>
+    </div>
 
 
   </div>
