@@ -2,19 +2,28 @@
   <div class="targeta targeta-btn descativar">
     <div class="collapse" id="accioCompte">
       <div class="btn btn-lg btn-block m-1">
-        DESACTIVAR
+        ACTIVAR
       </div>
     </div>
 
-    <a class="btn btn-lg btn-block actiu" data-toggle="collapse" href="#accioCompte" role="button" aria-expanded="false">
+    <a class="btn btn-lg btn-block actiu" v-if="compteActiu">
       COMPTE ACTIU
     </a>
+
+    <a class="btn btn-lg btn-block descativat" data-toggle="accioCompte" v-else>
+      COMPTE NO ACTIU
+    </a>
+
+
   </div>
 </template>
 
 <script>
   export default {
-    name: 'estatCompte'
+    name: 'estatCompte',
+    props: {
+      compteActiu: Boolean
+    }
   }
 </script>
 

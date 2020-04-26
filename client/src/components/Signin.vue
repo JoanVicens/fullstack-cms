@@ -1,18 +1,25 @@
 <template lang="html">
-  <section class="container">
+  <section class="container mt-4">
+    <b-breadcrumb :items="breadcrumb"></b-breadcrumb>
+
     <div v-if="error" class="alert alert-danger" role="alert">
       {{error}}
     </div>
-    <form class="" @submit.prevent="validator">
+    <form class="mt-4" @submit.prevent="validator">
+
+      <small class="text-muted float-right">Els camps amb * son obligatoris</small>
+
+      <h4 class="mb-3">Informació personal</h4>
+
       <div class="form-group">
-        <label for="nom">Nom</label>
+        <label for="nom">Nom *</label>
         <div class="input-group">
           <input class="form-control" type="text " name="nom" v-model="music.nom" required>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="cognoms">Cognoms</label>
+        <label for="cognoms">Cognoms *</label>
         <div class="input-group">
           <input class="form-control" type="text " name="cognoms" v-model="music.cognoms" required>
         </div>
@@ -27,7 +34,7 @@
 
 
       <div class="form-group">
-        <label for="instrument">Intrument</label>
+        <label for="instrument">Intrument *</label>
         <div class="input-group">
           <input class="form-control" type="text " name="instrument" v-model="music.instrument" required>
         </div>
@@ -42,8 +49,21 @@
           ></b-form-datepicker>
       </div>
 
-      <div class="form-group">
-        <label for="al">al</label>
+      <b-form-group label="Sexe">
+        <b-form-radio-group
+          v-model="music.sexe"
+          :options="opcions_sexe"
+        ></b-form-radio-group>
+      </b-form-group>
+
+      <hr class="mt-4">
+      <h4 class="mt-2">Informació de contacte</h4>
+      <small class="text-muted mb-3">
+        Com a mínim has d'introduir un correu ja sigui el al o el teu personal
+      </small>
+
+      <div class="form-group mt-3">
+        <label for="al">AL</label>
         <div class="input-group">
           <input class="form-control" type="text" name="al" v-model="music.al">
           <div class="input-group-append">
@@ -53,9 +73,12 @@
       </div>
 
       <div class="form-group">
-        <label for="email">Email alternatiu</label>
+        <label for="email">Email</label>
         <div class="input-group">
           <input class="form-control" type="text " name="email" v-model="music.email">
+          <small id="passwordHelpBlock" class="form-text text-muted">
+
+          </small>
         </div>
       </div>
 
@@ -65,6 +88,17 @@
           <input class="form-control" type="text " name="telefon" v-model="music.telefon">
         </div>
       </div>
+
+      <b-form-group>
+        <b-form-checkbox
+          v-model="music.grup_whatsapp"
+          :disabled="music.telefon === ''"
+        >
+          Vull que se m'afegeixi al grup de whatsapp
+        </b-form-checkbox>
+      </b-form-group>
+
+      <hr class="mt-4">
 
       <div class="form-group">
         <label for="password">Contrasenya</label>
@@ -82,7 +116,18 @@
         <input class="form-control" type="password" name="confirm_password" v-model="music.confirm_password" v-on:focusout="validarContrasenya" required>
       </div>
 
-      <button type="submit" class="btn btn-primary" name="button">Crear compte</button>
+      <hr class="mt-4">
+      <h4 class="mt-2">Altres</h4>
+
+      <b-form-group>
+        <b-form-checkbox
+          v-model="music.llista_correu"
+        >
+          Vull rebre correus informatius
+        </b-form-checkbox>
+      </b-form-group>
+
+      <button type="submit" class="btn btn-light btn-lg mt-3 mb-5 float-right" name="button">Crear compte</button>
     </form>
   </section>
 </template>
@@ -116,13 +161,30 @@
           compte_verificat: false,
           password: '',
           confirm_password: '',
+          llista_correu: true,
+          grup_whatsapp: false
         },
+        opcions_sexe: [
+          { text: 'Dona', value: 'Dona' },
+          { text: 'Home', value: 'Home' },
+          { text: 'Altre', value: 'Altre' },
+        ],
+        breadcrumb: [
+          {
+            text: 'Principal',
+            to: { path: '/' },
+          },
+          {
+            text: 'Crear compte',
+            to: { path: '/' },
+          },
+        ],
         store,
         API_URL: ''
       }
     },
     created() {
-      this.API_URL = `/auth/signup`
+      this.API_URL = `/auth/registrar`
     },
     watch: {
       music: {

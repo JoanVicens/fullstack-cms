@@ -4,8 +4,8 @@
       <h2>Assistència</h2>
     </div>
     <div class="grafic-wrapper">
-      <div class="c100 orange grafic" :class="'p'+info.semestres[numeroSemetre].percentatge">
-          <span class="tantpercent">{{info.semestres[numeroSemetre].percentatge}}</span>
+      <div class="c100 orange grafic" :class="'p'+info.semestres[numeroSemetre].percentatge.toFixed(0)">
+          <span class="tantpercent">{{info.semestres[numeroSemetre].percentatge.toFixed(0)}}%</span>
           <div class="slice">
               <div class="bar"></div>
               <div class="fill"></div>
@@ -13,14 +13,14 @@
       </div>
     </div>
     <div class="contingut">
-      <div class="info">
+      <div class="info text-center" style="margin: 0 auto">
         <span>Número d'assaijos</span>
         {{info.semestres[numeroSemetre].assajosAssistits}} de {{info.semestres[numeroSemetre].assajosSemestre}}
       </div>
-      <div class="info">
+      <!-- <div class="info">
         <span>Tant per cent</span>
-        {{info.semestres[numeroSemetre].percentatge}}%
-      </div>
+        {{info.semestres[numeroSemetre].percentatge.toFixed(0)}}%
+      </div> -->
 
       <div class="alerta">
         Per a poder demanar els 1.5 crèdits del semestre has de tindre com a mínim un 80% d’assistència

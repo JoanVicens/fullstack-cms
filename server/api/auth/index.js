@@ -14,7 +14,7 @@ const router = express.Router();
 
 
 // Registre dels músics
-router.post('/signup', (req, res, next) => {
+router.post('/registrar', (req, res, next) => {
 
   let music = new Music({
     _id: new mongoose.Types.ObjectId(),
@@ -31,6 +31,7 @@ router.post('/signup', (req, res, next) => {
     pais: req.body.pais,
     tipo_compte: req.body.tipo_compte,
     password: req.body.password,
+    llista_correu: req.body.llista_correu,
   });
 
 
@@ -39,6 +40,10 @@ router.post('/signup', (req, res, next) => {
     .then(result => { // music guardat
 
       mailer.enviarCorreuConfirmacio(result.email, result.secret_token);
+
+      if(req.body.llista_correu) {
+        // afegir-lo a llista de correus
+      }
 
       res.status(201).json({
         message: "Usuari creat correctament"
@@ -98,7 +103,7 @@ router.get('/activate/:secret_token', (req, res, next) => {
 
 });
 
-router.post('/login', async (req, res, next) => {
+router.post('/autenticacio', async (req, res, next) => {
 
 
   const credencials = {

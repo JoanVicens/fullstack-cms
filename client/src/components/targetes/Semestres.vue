@@ -16,12 +16,12 @@
           <tr>
             <th scope="row">1r trimestre</th>
             <td class="assistits-total">{{info.semestres[0].assajosAssistits}} de {{info.semestres[0].assajosSemestre}}</td>
-            <td class="percentatge">{{isFinite(info.semestres[0].percentatge) ? info.semestres[0].percentatge + '%' : '~'}}</td>
+            <td class="percentatge">{{isFinite(info.semestres[0].percentatge) ? info.semestres[0].percentatge.toFixed(0) + '%' : '~'}}</td>
           </tr>
           <tr>
             <th scope="row">2n trimestre</th>
             <td class="assistits-total">{{info.semestres[1].assajosAssistits}} de {{info.semestres[1].assajosSemestre}}</td>
-            <td class="percentatge">{{isFinite(info.semestres[1].percentatge) ? info.semestres[1].percentatge + '%' : '~'}}</td>
+            <td class="percentatge">{{isFinite(info.semestres[1].percentatge) ? info.semestres[1].percentatge.toFixed(0) + '%' : '~'}}</td>
           </tr>
         </tbody>
       </table>

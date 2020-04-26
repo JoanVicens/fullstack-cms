@@ -15,6 +15,7 @@ import Logout from './components/Logout.vue'
 // Musics
 import Actuacions from './components/Actuacions.vue'
 import Assistencia from './components/Assistencia.vue'
+import Configuracio from './components/Configuracio.vue'
 
 // Junta
 import ControlAssitencia from './components/privat/ControlAssitencia.vue'
@@ -52,6 +53,16 @@ const routes = [
     component: Actuacions,
     meta: {
       titol: 'Properes actuacions',
+      requiresAuth: true
+    }
+  },
+
+  {
+    path: '/configuracio',
+    name: 'Configuracio',
+    component: Configuracio,
+    meta: {
+      titol: 'Configuració del compte',
       requiresAuth: true
     }
   },
@@ -120,20 +131,20 @@ const routes = [
   },
 
   {
-    path: '/signin',
-    name: 'signin',
+    path: '/comptes/crear',
+    name: 'crearCompte',
     component: Signin,
     meta: {
-      titol: 'Crear compte'
+      titol: 'Associació Cultural Banda UJI'
     },
   },
 
   {
-    path: '/login',
+    path: '/comptes/entrar',
     name: 'login',
     component: Login,
     meta: {
-      titol: 'Accedir al compte'
+      titol: 'Associació Cultural Banda UJI'
     },
   },
 

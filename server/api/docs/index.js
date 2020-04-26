@@ -13,7 +13,6 @@ function informacioNecessaria(music) {
     if(!info.includes(attr)) return false
   });
 
-
   return true
 }
 

@@ -11,7 +11,7 @@
         <DetallAssistenciaSemestres class="card" :info="infomarcio" />
         <concerts class="card" :info="curs.semestres" :id="music._id" />
         <peticioCredits class="card"/>
-        <estatCompte class="card border-0"/>
+        <estatCompte class="card border-0" :compteActiu="music.compte_actiu"/>
       </div>
     </div>
   </main>

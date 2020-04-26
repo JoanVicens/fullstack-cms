@@ -1,12 +1,15 @@
 <template lang="html">
-  <section class="container">
+
+  <section class="container mt-4">
+    <!-- <b-breadcrumb :items="breadcrumb" class="mb-4"></b-breadcrumb> -->
+
     <div v-if="error" class="alert alert-danger" role="alert">
       {{error}}
     </div>
     <form class="" @submit.prevent="validator">
 
       <div class="form-group">
-        <label for="email">Email alternatiu</label>
+        <label for="email">Email</label>
         <div class="input-group">
           <input class="form-control" type="text " name="email" v-model="music.email">
         </div>
@@ -23,7 +26,14 @@
         </small>
       </div>
 
-      <button type="submit" class="btn btn-primary" name="button">Entrar</button>
+      <div class="row mt-5">
+        <div class="col-sm-3 d-none d-sm-block">
+          <b-button variant="info" class="btn-lg btn-block mb-2">Atras</b-button>
+        </div>
+        <div class="col-sm-9">
+          <button type="submit" class="btn btn-primary btn-lg btn-block" name="button">Entrar</button>
+        </div>
+      </div>
     </form>
   </section>
 </template>
@@ -58,6 +68,16 @@
           email: '',
           password: ''
         },
+        breadcrumb: [
+          {
+            text: 'Principal',
+            to: { path: '/' },
+          },
+          {
+            text: 'Entrar',
+            to: { path: '/' },
+          },
+        ],
         store,
         API_URL: '',
         paginaPrincipal: '/principal',
@@ -73,7 +93,7 @@
       },
     },
     created() {
-      this.API_URL = `/auth/login`
+      this.API_URL = `/auth/autenticacio`
     },
     methods: {
       validarContrasenya(e) {
@@ -138,5 +158,5 @@
   }
 </script>
 
-<style lang="css" scoped>
+<style lang="sass" scoped>
 </style>

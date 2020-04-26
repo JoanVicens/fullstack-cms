@@ -23,7 +23,8 @@ router.use((req, res, next) => {
       res.status(500)
     });
   } else {
-    res.status(400)
+    console.log('no id')
+    res.status(400).json({message: 'notAuthorized'})
   }
 })
 
@@ -601,6 +602,73 @@ router.put('/actuacio/llevar/assistent', (req, res) => {
 
 // MUSICS
 
+router.put('/music/desactivar/:id', (req, res) => {
+  const id = req.params.id
+
+  if(!id) res.status(400).json({message: 'falta el id'})
+
+  Music.findOneAndUpdate(
+    {'_id': id},
+    {compte_actiu: false},
+    {new: true}
+  )
+  .then(result => {
+    res.status(200).json(result)
+  })
+  .catch(err => {
+    res.status(500).json(err)
+  })
+
+
+})
+
+router.put('/music/activar/:id', (req, res) => {
+  const id = req.params.id
+
+  if(!id) res.status(400).json({message: 'falta el id'})
+
+  Music.findOneAndUpdate(
+    {'_id': id},
+    {compte_actiu: true},
+    {new: true}
+  )
+  .then(result => {
+    res.status(200).json(result)
+  })
+  .catch(err => {
+    res.status(500).json(err)
+  })
+
+
+})
+
+router.put('/music', (req, res) => {
+  const music = req.body
+
+  Music.findOneAndUpdate(
+    {'_id': music._id},
+    {
+      nom: music.nom,
+      cognoms: music.cognoms,
+      dni: music.dni,
+      al: music.al,
+      email: music.email,
+      telefon: music.telefon,
+      instrument: music.instrument,
+      data_naixement: music.data_naixement,
+      sexe: music.sexe,
+      pais: music.pais
+    }
+  )
+  .then(music => {
+    console.log(music);
+    res.status(201).json(music)
+  })
+  .catch(err => {
+    res.status(500).json(err)
+  })
+})
+
 router.get('/musics', (req, res) => {
   Music.find({})
     .then(musics => {
@@ -622,6 +690,20 @@ router.get('/musics/:ids', (req, res) => {
   })
   .catch(err => {
     console.log(err);
+  })
+})
+
+router.delete('/music/:id', (req, res) => {
+  const id = req.params.id
+
+  if(!id) res.status(400).json({message: 'falta el id'})
+
+  Music.deleteOne({'_id': id})
+  .then(result => {
+    res.status(200).json(result)
+  })
+  .catch(err => {
+    res.status(500).json(err)
   })
 })
 

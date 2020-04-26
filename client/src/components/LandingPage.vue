@@ -1,8 +1,10 @@
 <template lang="html">
   <div class="container">
+    <b-alert variant="success" :show="mostratAlert">{{msg}}</b-alert>
+
     <div class="mt-3">
-      <router-link :to="{ path: '/signin', name:'signin', params: {} }" class="btn btn-outline-light float-right">Sign in</router-link>
-      <router-link :to="{ path: '/login', name:'login', params: {} }" class="btn btn-outline-light float-right mr-3">Log in</router-link>
+      <router-link :to="{ path: '/comptes/crear', name:'crearCompte', params: {} }" class="btn btn-outline-light float-right">Crear comopte</router-link>
+      <router-link :to="{ path: '/comptes/entrar', name:'login', params: {} }" class="btn btn-outline-light float-right mr-3">Entrar</router-link>
     </div>
     <div class="display-1">
       LANDIGN PAGE
@@ -15,7 +17,17 @@
 
 <script>
   export default {
-    name: 'landingPage'
+    name: 'landingPage',
+    props: ['msg'],
+    data() {
+      return {
+        mostratAlert: false
+      }
+    },
+    mounted() {
+      if(thi.msg !== undefined)
+        this.mostratAlert = true
+    }
   }
 </script>
 

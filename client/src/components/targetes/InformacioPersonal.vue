@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="informacio-personal targeta">
     <div class="header-targeta">
-      <info-icon size="1x"></info-icon>
+      <!-- <info-icon size="1x"></info-icon> -->
       <h2>Informació personal</h2>
     </div>
     <div class="contingut">
@@ -65,12 +65,12 @@
 </template>
 
 <script>
-  import { InfoIcon } from 'vue-feather-icons'
+  // import { InfoIcon } from 'vue-feather-icons'
   export default {
     name: 'informacioPersonal',
     props: ['music'],
     components: {
-      InfoIcon
+      // InfoIcon
     },
     mounted() {
       console.log('music', this.music)

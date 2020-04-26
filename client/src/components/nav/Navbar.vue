@@ -12,10 +12,10 @@
 
         <div v-if="!store.getters.isLogged">
           <li v-on:click="tancarMenu" >
-            <router-link :to="{ path: '/login', name:'login', params: {} }">Log in</router-link>
+            <router-link :to="{ path: '/comptes/entrar', name:'login', params: {} }">Entrar</router-link>
           </li>
           <li v-on:click="tancarMenu">
-            <router-link :to="{ path: '/signin', name:'signin', params: {} }">Sign in</router-link>
+            <router-link :to="{ path: '/comptes/crear', name:'crearCompte', params: {} }">Crear compte</router-link>
           </li>
         </div>
 
@@ -60,7 +60,7 @@
             <router-link to="">Pagament cota</router-link>
           </li>
           <li>
-            <router-link to="">Preferències</router-link>
+            <router-link :to="{ path: '/configuracio', name: 'Configuracio', params: {} }">Preferències</router-link>
           </li>
           <li>
             <router-link to="">Notificacions</router-link>
