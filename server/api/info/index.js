@@ -2,8 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
 
-const accionsCalendari = require("./accions_calendari");
-
+const calendari = require("./calendari");
 
 const router = express.Router();
 
@@ -15,7 +14,7 @@ const Actuacio = require('../models/actuacio');
 
 router.use((req, res, next) => {
   if(req.session.session_id) {
-    console.log('dins if');
+    console.log(req.session.session_id);
     Music.findOne({'session_id': req.session.session_id})
     .then(() => {
       next();
@@ -92,8 +91,6 @@ router.get('/curs/:id', (req, res) => {
 router.put('/curs', async (req, res) => {
   const body = req.body;
 
-  // console.log('BODY', body);
-
   if(!body._id) {
     // Crea un nou curs
     let baseSemestre = body.curs.replace('/', '-') + '-';
@@ -120,7 +117,10 @@ router.put('/curs', async (req, res) => {
       ]
     })
 
-    console.log('nouCurs', nouCurs);
+    // Si el nou curs es crea com el curs actiu, es modifica el que avans ho era
+    if(nouCurs.curs_actiu) {
+      await Curs.updateMany({curs_actiu: true}, {curs_actiu: false})
+    }
 
     nouCurs.save()
     .then(result => res.status(200).json(result))
@@ -182,7 +182,7 @@ function guardarNouAssaig(assaig, semestreId) {
   .then(result => {
     if(nouAssaig.data) {
       assaig.titol = 'Assaig Banda UJI'
-      accionsCalendari.guardarEvent(assaig, result._id)
+      calendari.guardarEvent(assaig, result._id)
     }
 
     Curs.findOneAndUpdate(
@@ -224,10 +224,10 @@ function actualitzarAssaig(assaig) {
   .then(result => {
     if(!assaig.calendar_event) {
       assaig.titol = 'Assaig Banda UJI'
-      accionsCalendari.guardarEvent(assaig, result._id)
+      calendari.guardarEvent(assaig, result._id)
     } else {
       assaig.titol = 'Assaig Banda UJI'
-      accionsCalendari.modificarEvent(assaig)
+      calendari.modificarEvent(assaig)
     }
 
     return result
@@ -305,7 +305,7 @@ router.delete('/assaig/:id', (req, res) => {
   Assaig.deleteOne(
     {"_id": assaigId}
   ).then(async curs => {
-    accionsCalendari.eliminarEvent(req.params.id)
+    calendari.eliminarEvent(req.params.id)
 
     // Actualitza Curs
     await Curs.findOne(
@@ -317,9 +317,12 @@ router.delete('/assaig/:id', (req, res) => {
         semestre.assajos.splice(index, 1)
       });
 
+      if(curs.curs_actiu)
+        curs.curs_actiu = true
+
       curs.save()
       .then(result => {
-        console.log('curs: %s actualizat', curs.curs);
+        console.log('curs: %s actualizat', curs.curs_actiu);
       })
       .catch(err => console.log(err))
     })
@@ -400,7 +403,7 @@ function guardarNovaActuacio(actuacio, semestreId) {
   .then(result => {
     console.log('Id actuació', result._id);
     if(novaActuacio.data) {
-      accionsCalendari.guardarEvent(actuacio, result._id)
+      calendari.guardarEvent(actuacio, result._id)
     }
 
 
@@ -443,9 +446,9 @@ function actualitzarActuacio(actuacio) {
   )
   .then(result => {
     if(!actuacio.calendar_event) {
-      accionsCalendari.guardarEvent(actuacio, result._id)
+      calendari.guardarEvent(actuacio, result._id)
     } else {
-      accionsCalendari.modificarEvent(actuacio)
+      calendari.modificarEvent(actuacio)
     }
 
     return result
@@ -491,7 +494,7 @@ router.delete('/actuacio/:id', (req, res) => {
   Actuacio.deleteOne(
     {"_id": actuacioId}
   ).then(async curs => {
-    accionsCalendari.eliminarEvent(req.params.id)
+    calendari.eliminarEvent(req.params.id)
 
     // Actualitza Curs
     await Curs.findOne(

@@ -58,11 +58,6 @@ exports.guardarEvent = (actuacio, id) => {
 
 exports.modificarEvent = (actuacio) => {
 
-  console.log('id a modificar:' ,  actuacio._id);
-
-  console.log('modificar G event');
-  console.log('actuacio', actuacio);
-
   const event = {
     'summary': actuacio.titol,
     'location': actuacio.lloc,

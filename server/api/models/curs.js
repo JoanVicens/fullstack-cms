@@ -29,17 +29,9 @@ const cursSchema = new Schema({
   director: { type: 'string', required: false},
   semestres: [semestreSchema],
   anotacio: {type: 'string', required: false},
-  curs_actiu: {type: 'boolean', required: true, default: false}
+  curs_actiu: {type: 'boolean', required: true}
 })
 
-
-cursSchema.pre("save", async function () {
-  const curs = this;
-
-  if(curs.curs_actiu) {
-    const actualitzat = await Curs.updateMany({curs_actiu: true}, {curs_actiu: false})
-  }
-})
 
 
 const Curs = mongoose.model('cursos', cursSchema);
