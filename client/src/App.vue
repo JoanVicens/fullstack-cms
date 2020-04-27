@@ -21,8 +21,9 @@
 
   import { MenuIcon } from 'vue-feather-icons'
 
-  import { store } from './store.js'
+  import store from './store.js'
 
+  import Vue from 'vue';
 
   export default {
     name: 'App',
@@ -30,7 +31,16 @@
       Navbar,
       MenuIcon
     },
-    mixins: [accionsMenuMixin]
+    mixins: [accionsMenuMixin],
+    mounted() {
+      if(this.$session.exists('token')) {
+        const token = this.$session.get('token')
+        this.$session.set('token', token)
+        Vue.http.headers.common['Authorization'] = 'Bearer ' + token
+        store.commit('loggedMusic')
+        this.$router.push('/principal');
+      }
+    }
   }
 </script>
 

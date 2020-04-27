@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import { store } from "../store.js";
+  import store from "../store.js";
   import axios from 'axios'
 
   export default {
@@ -22,7 +22,8 @@
     mounted() {
       axios.get(this.API_URL)
         .then(response => {
-          this.store.commit('logoutMusic');
+          store.commit('logoutMusic');
+          this.$session.clear('token')
           this.$router.push('/');
         })
         .catch(err => {

@@ -20,7 +20,7 @@
 <script>
   import axios  from 'axios'
 
-  import { store } from '../store.js'
+  import store from '../store.js'
 
   import infomarcioPersonal from './targetes/InformacioPersonal.vue'
   import assistenciaChart from './targetes/AssistenciaChart.vue'

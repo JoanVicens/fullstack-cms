@@ -33,7 +33,7 @@
 </template>
 
 <script>
-  import { store } from "../store.js";
+  import store from "../store.js";
   import axios from 'axios'
 
   import Vue from 'vue';
@@ -113,10 +113,8 @@
         axios
           .post(this.API_URL, credencials)
           .then(response => { // Responsa del servidor
-            console.log(response.data);
-
             if (response.status === 200 && 'token' in response.data) {
-              this.$session.start()
+              // this.$session.start()
               this.$session.set('token', response.data.token)
               Vue.http.headers.common['Authorization'] = 'Bearer ' + response.data.token
 

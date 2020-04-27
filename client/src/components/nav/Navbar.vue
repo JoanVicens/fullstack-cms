@@ -89,7 +89,7 @@
 
 <script>
 import { accionsMenuMixin } from '../../mixins/accionsMenuMixin'
-import { store } from "../../store.js";
+import store from "../../store.js";
 import { XIcon } from 'vue-feather-icons'
 import { FacebookIcon } from 'vue-feather-icons'
 import { InstagramIcon  } from 'vue-feather-icons'

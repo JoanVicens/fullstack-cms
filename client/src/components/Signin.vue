@@ -1,9 +1,9 @@
 <template lang="html">
   <section class="container mt-4">
 
-    <div style="height: 48px">
+    <!-- <div style="height: 48px">
       <b-button variant="info" class="btn-lg mb-2 float-right" @click="$router.push('/')">Atras</b-button>
-    </div>
+    </div> -->
 
     <div v-if="error" class="alert alert-danger" role="alert">
       {{error}}

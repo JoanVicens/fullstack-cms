@@ -4,6 +4,7 @@ import App from './App.vue'
 import VueRouter from 'vue-router'
 import BootstrapVue from 'bootstrap-vue'
 import VueSession from 'vue-session'
+import VueSessionStorage from 'vue-sessionstorage'
 
 import VueResource from 'vue-resource';
 
@@ -20,6 +21,8 @@ Vue.use(BootstrapVue )
 Vue.use(Vuex)
 Vue.use(VueResource);
 Vue.use(VueSession)
+Vue.use(VueSessionStorage)
+
 
 const moment = require('moment')
 require('moment/locale/ca')

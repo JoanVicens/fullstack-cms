@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export const store = new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     music: null,
     logged: false,
@@ -36,3 +36,5 @@ export const store = new Vuex.Store({
     }
   }
 });
+
+export default store

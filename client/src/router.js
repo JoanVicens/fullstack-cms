@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import { store } from "./store.js";
+import store  from "./store.js";
 
 Vue.use(Router);
 
@@ -18,6 +18,8 @@ import Assistencia from './components/Assistencia.vue'
 import Configuracio from './components/Configuracio.vue'
 
 // Junta
+import Gestio from './components/Gestio.vue'
+
 import ControlAssitencia from './components/privat/ControlAssitencia.vue'
 import GestioAssajos from './components/privat/GestioAssajos.vue'
 import GestioActuacions from './components/privat/GestioActuacions.vue'
@@ -43,7 +45,7 @@ const routes = [
     component: Principal,
     meta: {
       titol: '',
-      requiresAuth: false
+      requiresAuth: true
     },
   },
 
@@ -68,66 +70,85 @@ const routes = [
   },
 
   {
-    path: '/control_assitencia/:cursId:semestreId:assaigId',
-    name: 'control_assitència',
-    component: ControlAssitencia,
-    meta: {
-      titol: 'Control de la Assistència',
-      requiresAuth: true
-    }
-  },
-  {
-    path: '/gestio/assitencia/',
-    name: 'control assitència',
-    component: ControlAssitencia,
-    meta: {
-      titol: 'Control de la Assistència',
-      requiresAuth: true
+    path: '/gestio',
+    name: 'gestio',
+    component: Gestio,
+    beforeEnter(to, from, next) {
+      if(to.meta.requiresAuth) {
+        console.log(store);
+        if(store.state.logged && (store.state.junta || store.state.admin)) {
+          next();
+        } else {
+          next('/principal');
+        }
+      } else {
+        next();
+      }
     },
-    props: {
-      default: true,
-      sidebar: false
-    }
-  },
+    children: [
+      {
+        path: 'assitencia/:cursId:semestreId:assaigId',
+        name: 'control_assitència',
+        component: ControlAssitencia,
+        meta: {
+          titol: 'Control de la Assistència',
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'assitencia',
+        name: 'control assitència',
+        component: ControlAssitencia,
+        meta: {
+          titol: 'Control de la Assistència',
+          requiresAuth: true
+        },
+        props: {
+          default: true,
+          sidebar: false
+        }
+      },
 
-  {
-    path: '/gestio/assajos',
-    name: 'gestió assajos',
-    component: GestioAssajos,
-    meta: {
-      titol: 'Gestió dels assajos',
-      requiresAuth: true
-    }
-  },
+      {
+        path: 'assajos',
+        name: 'gestió assajos',
+        component: GestioAssajos,
+        meta: {
+          titol: 'Gestió dels assajos',
+          requiresAuth: true
+        }
+      },
 
-  {
-    path: '/gestio/actuacions',
-    name: 'gestió actuacions',
-    component: GestioActuacions,
-    meta: {
-      titol: 'Gestió dels concerts',
-      requiresAuth: true
-    }
-  },
+      {
+        path: 'actuacions',
+        name: 'gestió actuacions',
+        component: GestioActuacions,
+        meta: {
+          titol: 'Gestió dels concerts',
+          requiresAuth: true
+        }
+      },
 
-  {
-    path: '/gestio/cursos',
-    name: '',
-    component: GestioCursos,
-    meta: {
-      titol: 'Gestió dels cursos',
-      requiresAuth: true
-    }
-  },
+      {
+        path: 'cursos',
+        name: '',
+        component: GestioCursos,
+        meta: {
+          titol: 'Gestió dels cursos',
+          requiresAuth: true
+        }
+      },
 
-  {
-    path: '/gestio/credits',
-    name: '',
-    component: GestioCredits,
-    meta: {
-      titol: 'Gestió dels credits',
-      requiresAuth: true
-    }
+      {
+        path: 'credits',
+        name: '',
+        component: GestioCredits,
+        meta: {
+          titol: 'Gestió dels credits',
+          requiresAuth: true
+        }
+      },
+    ]
   },
 
   {
@@ -135,7 +156,8 @@ const routes = [
     name: 'crearCompte',
     component: Signin,
     meta: {
-      titol: 'Associació Cultural Banda UJI'
+      titol: 'Associació Cultural Banda UJI',
+      requiresAuth: false
     },
   },
 
@@ -144,7 +166,8 @@ const routes = [
     name: 'login',
     component: Login,
     meta: {
-      titol: 'Associació Cultural Banda UJI'
+      titol: 'Associació Cultural Banda UJI',
+      requiresAuth: false
     },
   },
 
