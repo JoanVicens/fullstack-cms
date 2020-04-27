@@ -79,10 +79,10 @@
         <label for="email">Email</label>
         <div class="input-group">
           <input class="form-control" type="text " name="email" v-model="music.email">
-          <small id="passwordHelpBlock" class="form-text text-muted">
-
-          </small>
         </div>
+        <small  class="form-text text-muted">
+          Si especifiques un correu s'utilitzarà aquesta per defecte
+        </small>
       </div>
 
       <div class="form-group">

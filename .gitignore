@@ -4,6 +4,7 @@ node_modules
 mail.js
 autCalendar.json
 autGmail.json
+autPeople.json
 autenticacioDrive.json
 firmes/
 certificats.js

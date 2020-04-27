@@ -56,7 +56,6 @@
                 id="input-x"
                 v-model="music.dni"
                 type="text"
-                required
               ></b-form-input>
             </b-form-group>
 

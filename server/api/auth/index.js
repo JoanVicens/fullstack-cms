@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const middlewares = require('../middlewares')
+const newsletter = require('../config/newsletter');
 const jwt = require('jsonwebtoken');
 
 const UUID = require("uuid");
@@ -16,34 +17,39 @@ const router = express.Router();
 // Registre dels músics
 router.post('/registrar', (req, res, next) => {
 
-  let music = new Music({
-    _id: new mongoose.Types.ObjectId(),
-    nom: req.body.nom,
-    cognoms: req.body.cognoms,
-    dni: req.body.dni,
-    al: req.body.al,
-    email: req.body.email,
-    telefon: req.body.telefon,
-    instrument: req.body.instrument,
-    data_naixement: req.body.data_naixement,
-    // data_registre: req.body.data_registre,
-    sexe: req.body.sexe,
-    pais: req.body.pais,
-    tipo_compte: req.body.tipo_compte,
-    password: req.body.password,
-    llista_correu: req.body.llista_correu,
-  });
+  newsletter.afegirContacte(req.body) // Nom afegeix el correu a mailjet, no el subscriu a res
+  .then(result => {
+    const mailjetID = result.body.Data[0].ID
+
+    let music = new Music({
+      _id: new mongoose.Types.ObjectId(),
+      nom: req.body.nom,
+      cognoms: req.body.cognoms,
+      dni: req.body.dni,
+      al: req.body.al,
+      email: req.body.email,
+      telefon: req.body.telefon,
+      instrument: req.body.instrument,
+      data_naixement: req.body.data_naixement,
+      // data_registre: req.body.data_registre,
+      sexe: req.body.sexe,
+      pais: req.body.pais,
+      tipo_compte: req.body.tipo_compte,
+      password: req.body.password,
+      llista_correu: req.body.llista_correu,
+      mailjet_id: mailjetID
+    });
 
 
-  music
+    music
     .save()
     .then(result => { // music guardat
 
-      mailer.enviarCorreuConfirmacio(result.email, result.secret_token);
-
       if(req.body.llista_correu) {
-        // afegir-lo a llista de correus
+        newsletter.afegirALaLlista(result.mailjet_id)
       }
+
+      mailer.enviarCorreuConfirmacio(result.email, result.secret_token);
 
       res.status(201).json({
         message: "Usuari creat correctament"
@@ -51,6 +57,10 @@ router.post('/registrar', (req, res, next) => {
 
     })
     .catch(error => { next(error); });
+
+  })
+  .catch(next)
+
 
 });
 

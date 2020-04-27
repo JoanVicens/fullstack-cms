@@ -56,8 +56,6 @@ app.use('/auth', auth);
 app.use('/info', info);
 app.use('/docs', docs);
 
-
-
 function notFound(req, res, next) {
   res.status(404);
   const error = new Error("No s'ha trobat - " + req.originalUrl);

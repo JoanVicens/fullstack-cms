@@ -3,6 +3,8 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 
 const calendari = require("./calendari");
+const newsletter = require('../config/newsletter');
+const people = require("./people");
 
 const router = express.Router();
 
@@ -642,8 +644,14 @@ router.put('/music/activar/:id', (req, res) => {
 
 })
 
-router.put('/music', (req, res) => {
+router.put('/music', async (req, res) => {
   const music = req.body
+
+  if(music.llista_correu) {
+    newsletter.afegirALaLlista(music.mailjet_id);
+  } else {
+    newsletter.llevarDeLaLlista(music.mailjet_id)
+  }
 
   Music.findOneAndUpdate(
     {'_id': music._id},
@@ -657,16 +665,18 @@ router.put('/music', (req, res) => {
       instrument: music.instrument,
       data_naixement: music.data_naixement,
       sexe: music.sexe,
-      pais: music.pais
-    }
+      pais: music.pais,
+      llista_correu: music.llista_correu
+    },
+    {new: true}
   )
   .then(music => {
-    console.log(music);
     res.status(201).json(music)
   })
   .catch(err => {
     res.status(500).json(err)
   })
+
 })
 
 router.get('/musics', (req, res) => {
@@ -698,6 +708,11 @@ router.delete('/music/:id', (req, res) => {
 
   if(!id) res.status(400).json({message: 'falta el id'})
 
+  Music.findById(id)
+  .then(music => {
+    newsletter.eliminarContacte(music.mailjet_id)
+  })
+
   Music.deleteOne({'_id': id})
   .then(result => {
     res.status(200).json(result)
@@ -705,6 +720,7 @@ router.delete('/music/:id', (req, res) => {
   .catch(err => {
     res.status(500).json(err)
   })
+
 })
 
 

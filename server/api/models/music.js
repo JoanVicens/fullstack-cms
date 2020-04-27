@@ -15,14 +15,6 @@ const musicSchema = new Schema({
   dni: { type: 'string' },
   al: {
     type: 'Number',
-    index: true,
-    required: true,
-    validate: {
-      validator: function(al) {
-        return /[0-9]{6}/.test(al);
-      },
-      message: "Introdueix un número de 6 dígits"
-    }
   },
   email: {
     type: 'string',
@@ -54,8 +46,8 @@ const musicSchema = new Schema({
   password: { type: 'string' },
   session_id: {type: 'object', default: ''},
   llista_correu: {type: 'boolean'},
-  correu_contacte: {type: 'string', required: true},
-  compte_actiu: {type: 'boolean', required: true, default: true}
+  compte_actiu: {type: 'boolean', required: true, default: true},
+  mailjet_id: {type: 'string'}
 });
 
 //Comprova que el AL no estigui registrat
