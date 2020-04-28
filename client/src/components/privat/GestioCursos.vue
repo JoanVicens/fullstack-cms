@@ -61,7 +61,7 @@
     },
     methods: {
       demanarInfo() {
-        axios.get('/info/cursos')
+        axios.get('/info/cursos', {withCredentials: true})
         .then(response => {
           this.cursos = response.data.cursos
         })
@@ -74,7 +74,7 @@
         }
       },
       enviarFormulari() {
-        axios.put('/info/curs', this.formulari.curs)
+        axios.put('/info/curs',  this.formulari.curs)
         .then(response => {
           console.log(response);
           this.demanarInfo();
@@ -82,7 +82,7 @@
         .catch(err => console.log(err));
       },
       eliminarCurs(id) {
-        axios.delete(`/info/curs/${id}`)
+        axios.delete(`/info/curs/${id}`, {withCredentials: true})
         .then(response => {
           console.log(response);
           this.demanarInfo();

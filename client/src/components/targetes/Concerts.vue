@@ -13,8 +13,8 @@
                 <span class="icono icono-rojet">
                   <x-icon size="1x" class=""></x-icon>
                 </span>
-                <span class="accio accio-rojet" @click="canviarAssistencia(index)"></span>
-                <span class="accio accio-verdet" @click="canviarAssistencia(index)"></span>
+                <span class="accio accio-rojet"></span>
+                <span class="accio accio-verdet"></span>
                 <span class="icono icono-verdet">
                   <check-icon size="1x" class="icono icono-verdet"></check-icon>
                 </span>
@@ -48,25 +48,19 @@
     },
     data() {
       return {
-        actuacions: [],
-        animacioBotons: []
+        actuacions: []
       }
     },
     methods: {
       estara(index) {
-        return this.actuacions[index].assistents.includes(this.id)
+        let assistents = this.actuacions[index].assistents
+        assistents.forEach(assistent => {
+          if(assistent._id === this.id)
+            return true
+        });
+
+        return false
       },
-      canviarAssistencia(index) {
-        if(this.actuacions[index].assistents.includes(this.id)) {
-          let posicio = this.actuacions[index].assistents.indexOf(this.id)
-          this.actuacions[index].assistents.splice(posicio, 1)
-        } else {
-          this.actuacions[index].assistents.push(this.id)
-        }
-      },
-      animacio(index) {
-        this.animacioBotons.includes(index)
-      }
     },
     mounted() {
       let avui = new Date();
@@ -74,7 +68,7 @@
       this.info.forEach(semestre => {
         semestre.actuacions.forEach(actuacio => {
           let data = Date.parse( actuacio.data)
-          if(data >= avui) {
+          if(data > avui) {
             this.actuacions.push(actuacio)
           }
         });

@@ -33,6 +33,24 @@ Vue.use(require('vue-moment'), {
 
 import router from './router.js';
 
+import axios from 'axios';
+
+axios.interceptors.response.use(function (response) {
+    // Any status code that lie within the range of 2xx cause this function to trigger
+    // Do something with response data
+    return response;
+  }, function (error) {
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
+    // Do something with response error
+    if(error.response.status == 401) {
+      console.log('sessió caducada redirigint a /');
+      router.push({path: '/r', params: {msgError: 'Sessió Caducada ;('}})
+    } else {
+      router.push({path: '/', params: {msgError: error.response.data}})
+    }
+    return Promise.reject(error);
+  });
+
 Vue.config.productionTip = false
 
 new Vue({

@@ -76,3 +76,40 @@ exports.enviarCorreuConfirmacio = (recipient, token) => {
     }
   });
 }
+
+exports.enviarCorreu = (music, correu, adjunts) => {
+
+  const opt = emailsTemplates.confirmacio
+
+  const recipient = music.email || music.al + '@uji.es'
+
+  const attachments = []
+
+  if(adjunts) {
+    adjunts.forEach(adjunt => {
+      attachments.push({
+        filename: adjunt.name,
+        path: adjunt.uri
+      })
+    });
+  }
+
+
+  var mailOptions = {
+    from: opt.from,
+    to: recipient,
+    subject: correu.assumpte,
+    html: correu.html,
+    attachments
+  };
+
+
+  return new Promise((resolve, reject) => {
+    transporter.sendMail(mailOptions, (err, res) => {
+        if (err) reject(err)
+        
+        resolve(res)
+      })
+    });
+
+}

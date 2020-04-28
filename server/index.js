@@ -1,7 +1,8 @@
 const express = require('express');
+const session = require('express-session');
+const fileUpload = require('express-fileupload');
 const morgan = require('morgan');
 const cors = require('cors');
-const session = require('express-session');
 // const redis = require('redis')
 //
 // let RedisStore = require('connect-redis')(session)
@@ -14,6 +15,7 @@ const app = express();
 require('dotenv').config()
 
 app.use(cors({
+  credentials: true,
   origin: process.env.CORS_URL
 }));
 // app.use(function(req, res, next) {
@@ -30,6 +32,10 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }))
+
+app.use(fileUpload({
+    createParentPath: true
+}));
 
 require("./api/config/database").connectar();
 

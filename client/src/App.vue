@@ -1,9 +1,13 @@
 <template>
   <div id="app">
     <header class="navbar navbar-dark bg-transparent" v-if="$route.name!== 'landingPage' && $route.name!== 'login' && $route.name!== 'crearCompte'" >
-      <img src="./assets/logo.png" id="logo" alt="logo banda uji">
-      <h1>{{this.$route.meta.titol}}</h1>
-      <MenuIcon size="2x" v-on:click="obrirMenu" />
+      <div class="container">
+        <router-link :to="{ path: '/', params: {} }">
+          <img src="./assets/logo.png" id="logo" alt="logo banda uji">
+        </router-link>
+        <h2>Associació Cultural Banda UJI</h2>
+        <MenuIcon size="2x" v-on:click="obrirMenu" class="float-right" />
+      </div>
     </header>
     <Navbar />
     <div class="wrapper">
@@ -14,6 +18,7 @@
     <div class="overlay" v-on:click="tancarMenu"></div>
   </div>
 </template>
+<!-- {{this.$route.meta.titol}} -->
 
 <script>
   import Navbar from './components/nav/Navbar.vue'
@@ -48,6 +53,7 @@
   @import ./sass/colors
   @import ./sass/fonts
   @import ./sass/master
+  @import ./sass/header
   @import ./sass/helper
   @import ./sass/sidebar
   @import ./sass/animacions

@@ -1,10 +1,39 @@
 <template>
   <main>
+
+    <div class="navegacio">
+      <ul>
+        <li>
+          <router-link :to="{ path: '/principal', params: {} }">Principal</router-link>
+        </li>
+        <li>
+          <router-link :to="{ path: '/assistencia', name: 'assistencia', params: {} }">Assistència</router-link>
+        </li>
+        <li>
+          <router-link :to="{ path: '/actuacions', name: 'Actuacions', params: {} }">Actuacions</router-link>
+        </li>
+        <li>
+          <router-link to="">Enquestes</router-link>
+        </li>
+        <li>
+          <router-link :to="{ path: '/preferencies', name: 'Preferències', params: {} }">Preferències</router-link>
+        </li>
+        <li>
+          <router-link to="">Notificacions</router-link>
+        </li>
+        <li>
+          <router-link :to="{ path: '/logout', name: 'logout', params: {} }">Tancar sessió</router-link>
+        </li>
+      </ul>
+    </div>
+
     <div class="container">
       <b-alert v-model="errors.noCursActiu" dismissible variant="warning">
         <strong>No hi ha cap curs actiu.</strong>
       </b-alert>
+    </div>
 
+    <div class="container">
       <div class="card-columns" v-if="infoCargada">
         <infomarcio-personal class="card" :music="music"/>
         <assistenciaChart class="card" :info="infomarcio"/>
@@ -53,12 +82,14 @@
     },
     methods: {
       carregarInfoMusic() {
-        return axios.get('/auth/info').then(response => {
+        return axios.get('/auth/info', {withCredentials: true})
+        .then(response => {
           this.music = response.data.music
         })
       },
       carregarInfoCursActiu() {
-        return axios.get('/info/curs/actiu').then(response => {
+        return axios.get('/info/curs/actiu', {withCredentials: true})
+        .then(response => {
           if(response.data.curs === null) {
             this.errors.noCursActiu = true
           } else {
@@ -122,6 +153,7 @@
 <style lang="sass" scoped>
   main
     color: #444
+    padding-top: 0
   td
     background-color: #fff
 </style>
@@ -143,4 +175,32 @@
       column-count: 3;
     }
   }
+
+  .navegacio {
+    margin: 0 auto;
+    margin-bottom: 15px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    background-color: #017C72;
+    ul {
+      list-style: none;
+      padding: 10px 0;
+      margin: 0;
+      display: block;
+      li {
+        display: inline;
+        margin: 0 10px;
+        padding: 6px;
+        a {
+          color: #fff;
+          // font-weight: bold;
+          text-transform: uppercase;
+        }
+      }
+    }
+  }
+
+
 </style>

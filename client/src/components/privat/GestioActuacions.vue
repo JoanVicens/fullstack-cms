@@ -151,7 +151,7 @@
       modificarAssistents(assistents) {
         const actuacioId = this.formulari.actuacio._id;
 
-        axios.put('/info/actuacio/assistents', { actuacioId, assistents })
+        axios.put('/info/actuacio/assistents',  { actuacioId, assistents })
         .then(response => {
           // this.$forceUpdate();
           this.$refs.info.carregarInfo()
@@ -161,7 +161,7 @@
       // ACCIONS CONTRA EL BACKEND
       enviarFormulari(actuacio) {
         // Envia la informació tant quan es crea com quan es modifica
-        axios.put('/info/actuacio', {
+        axios.put('/info/actuacio',  {
           actuacio,
           semestreId: this.semestreId
         })
@@ -172,7 +172,7 @@
         .catch(err => console.log(err))
       },
       borrar(id) {
-        axios.delete(`/info/actuacio/${id}`)
+        axios.delete(`/info/actuacio/${id}`, {withCredentials: true})
         .then(response => {
           this.$refs.info.carregarInfo()
         })

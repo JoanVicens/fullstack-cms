@@ -1,6 +1,7 @@
 <template lang="html">
   <div class="container">
-    <b-alert variant="success" :show="mostratAlert">{{msg}}</b-alert>
+    <b-alert variant="success" :show="alertSucces">{{msg}}</b-alert>
+    <b-alert variant="warning" :show="$route.params.msgError">{{$route.params.msgError}}</b-alert>
 
     <div class="mt-3">
       <router-link :to="{ path: '/comptes/crear', name:'crearCompte', params: {} }" class="btn btn-outline-light float-right">Crear comopte</router-link>
@@ -18,15 +19,19 @@
 <script>
   export default {
     name: 'landingPage',
-    props: ['msg'],
+    props: ['msg', 'msgError'],
     data() {
       return {
-        mostratAlert: false
+        alertSucces: false,
+        alertWarning: false
       }
     },
     mounted() {
       if(this.msg !== undefined)
-        this.mostratAlert = true
+        this.alertSucces = true
+
+      if(this.msgError !== undefined)
+        this.alertWarning = true
     }
   }
 </script>

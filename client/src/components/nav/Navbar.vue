@@ -1,9 +1,10 @@
 <template lang="html">
   <nav id="sidebar">
-    <div class="sidebar-header">
-      <div id="dismiss" v-on:click="tancarMenu">
+    <div class="sidebar-header" v-on:click="tancarMenu">
+      TANCAR
+      <!-- <div id="dismiss" v-on:click="tancarMenu">
         <x-icon size="2x"></x-icon>
-      </div>
+      </div> -->
     </div>
 
     <section class="sidebar-content">
@@ -19,67 +20,72 @@
           </li>
         </div>
 
-        <div v-else v-on:click="tancarMenu">
-          <li>
-            <router-link :to="{ path: '/principal', params: {} }">Principal</router-link>
-          </li>
-          <!-- MENUS GESTIO -->
-          <!-- ====================================== -->
+        <div v-else>
           <div v-if="store.getters.esJunta || store.getters.esAdmin" class="bg-blue">
-            <li>
-              <router-link :to="{ path: '/gestio/assitencia', params: {} }">Controlar assitència</router-link>
+            <li class="gestio">
+              <div v-b-toggle.llistaGestio class="menuDesplegable">
+                <span>Gestió</span>
+                <triangle-icon size="1x" :class="g_visible ? 'girar' : ''"></triangle-icon>
+              </div>
+              <b-collapse id="llistaGestio" v-model="g_visible">
+                <ul v-on:click="tancarMenu">
+                  <li>
+                    <router-link :to="{ path: '/gestio/assitencia', params: {} }">Assitència</router-link>
+                  </li>
+                  <li>
+                    <router-link :to="{ path: '/gestio/assajos', params: {} }">Assajos</router-link>
+                  </li>
+                  <li>
+                    <router-link :to="{ path: '/gestio/cursos', params: {} }">Cursos</router-link>
+                  </li>
+                  <li>
+                    <router-link :to="{ path: '/gestio/actuacions', params: {} }">Actuacions</router-link>
+                  </li>
+                  <li>
+                    <router-link :to="{ path: '/gestio/credits', params: {} }">Crèdits</router-link>
+                  </li>
+                  <li>
+                    <router-link :to="{ path: '/gestio/newsletter', params: {} }">Newsletter</router-link>
+                  </li>
+                </ul>
+              </b-collapse>
             </li>
-            <li>
-              <router-link :to="{ path: '/gestio/assajos', params: {} }">Gestionar assajos</router-link>
-            </li>
-            <li>
-              <router-link :to="{ path: '/gestio/cursos', params: {} }">Gestionar cursos</router-link>
-            </li>
-            <li>
-              <router-link :to="{ path: '/gestio/actuacions', params: {} }">Gestionar concerts</router-link>
-            </li>
-            <li>
-              <router-link :to="{ path: '/gestio/credits', params: {} }">Credits</router-link>
-            </li>
-
           </div>
-          <!-- ====================================== -->
-          <li>
-            <router-link :to="{ path: '/assistencia', name: 'assistencia', params: {} }">Assistència</router-link>
-          </li>
-          <li>
-            <router-link :to="{ path: '/actuacions', name: 'Actuacions', params: {} }">Actuacions</router-link>
-          </li>
-          <li>
-            <router-link to="">Enquestes</router-link>
-          </li>
-          <li>
-            <router-link to="">Demanar crèdits</router-link>
-          </li>
-          <li>
-            <router-link to="">Pagament cota</router-link>
-          </li>
-          <li>
-            <router-link :to="{ path: '/configuracio', name: 'Configuracio', params: {} }">Preferències</router-link>
-          </li>
-          <li>
-            <router-link to="">Notificacions</router-link>
-          </li>
-          <li>
-            <router-link :to="{ path: '/logout', name: 'logout', params: {} }">Tancar sessió</router-link>
-          </li>
+          <div v-on:click="tancarMenu">
+            <li>
+              <router-link :to="{ path: '/principal', params: {} }">Principal</router-link>
+            </li>
+            <li>
+              <router-link :to="{ path: '/assistencia', name: 'assistencia', params: {} }">Assistència</router-link>
+            </li>
+            <li>
+              <router-link :to="{ path: '/actuacions', name: 'Actuacions', params: {} }">Actuacions</router-link>
+            </li>
+            <li>
+              <router-link to="">Enquestes</router-link>
+            </li>
+            <li>
+              <router-link :to="{ path: '/preferencies', name: 'Preferències', params: {} }">Preferències</router-link>
+            </li>
+            <li>
+              <router-link to="">Notificacions</router-link>
+            </li>
+            <li>
+              <router-link :to="{ path: '/logout', name: 'logout', params: {} }">Tancar sessió</router-link>
+            </li>
+          </div>
         </div>
       </ul>
 
       <ul class="social">
         <li>
-          <a href="https://www.facebook.com/AssociacioCulturalBandaUJI/" target="_blank">
-            <FacebookIcon />
+          <a href="https://www.facebook.com/AssociacioCulturalBandaUJI/" target="_blank" class="facebook">
+            <FacebookIcon size="1.5x" />
           </a>
         </li>
         <li>
-          <a href="https://www.instagram.com/bandauji/" target="_blank">
-            <InstagramIcon  />
+          <a href="https://www.instagram.com/bandauji/" target="_blank" class="instagram">
+            <InstagramIcon size="1.5x" />
           </a>
         </li>
       </ul>
@@ -90,60 +96,74 @@
 <script>
 import { accionsMenuMixin } from '../../mixins/accionsMenuMixin'
 import store from "../../store.js";
-import { XIcon } from 'vue-feather-icons'
-import { FacebookIcon } from 'vue-feather-icons'
-import { InstagramIcon  } from 'vue-feather-icons'
+import { TriangleIcon } from 'vue-feather-icons'
+import { InstagramIcon, FacebookIcon  } from 'vue-feather-icons'
 
 export default {
   name: 'Navbar',
   components: {
-    XIcon,
+    TriangleIcon,
     FacebookIcon,
     InstagramIcon
   },
   mixins: [accionsMenuMixin],
   data() {
     return {
-      store
+      store,
+      g_visible: false
     }
   }
 }
 </script>
 
 <style lang="sass" scoped>
+  ul
+    padding: 0
+    li
+      list-style: none
+      a
+        padding: 13px 20px 13px 20px
+        display: block
+        color: #444
+        font-size: 1.1em
+        &:hover
+          background-color: #fff
+
+  .menuDesplegable
+    display: flex
+    justify-content: space-between
+    align-items: center
+    padding: 10px 20px 10px 20px
+    cursor: pointer
+    &:hover
+      background-color: #333
+    svg
+      fill: #eee
+      transform: rotate(0deg)
+      transition: all .4s linear
+    svg.girar
+      transform: rotate(180deg)
+
   .bg-blue li
     background-color: lightblue
     color: #fff !important
-  .sidebar-content
-    ul.components
-      padding: 20px 0
-      border-top: 1px solid #444
-      list-style: none
-      overflow: hidden
-      margin-bottom: 0
-      li a
-        padding: 10px
-        padding-left: 20px
-        font-size: 1.1em
-        display: block
-        color: #444
-        &:hover
-          background: #fff
-      li.active>a,
-      a[aria-expanded="true"]
-        color: #444
-        background: #6d7fcc
-      a[data-toggle="collapse"]
-        position: relative
-    ul.social
-      margin-top: 5px
-      padding: 0 0 0 20px
-      li
-        display: inline-block !important
-        list-style: none
-        margin-right: 15px
-        &:last-child
-          margin-right: 0
+
+  .social
+    margin-top: 5px
+    margin-left: 20px
+    display: flex
+    align-items: center
+    a:hover
+      background-color: transparent !important
+      justify-content: space-around
+    a.facebook:hover
       svg
-        stroke: #444
+        fill: #3a589e
+    a.instagram:hover
+      svg
+        fill: #f86757
+
+    svg
+      stroke: #444
+
 </style>

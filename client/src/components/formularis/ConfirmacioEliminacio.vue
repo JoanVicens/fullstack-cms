@@ -28,7 +28,7 @@
     methods: {
       validarFormulari() {
         this.credencials.email = this.email
-        axios.post('/auth/autenticacio', this.credencials)
+        axios.post('/auth/autenticacio',  this.credencials)
         .then(response => { // Responsa del
           if (response.status === 200) {
             this.$emit('autenticat')

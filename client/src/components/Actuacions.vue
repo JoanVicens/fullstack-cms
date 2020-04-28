@@ -19,16 +19,18 @@
           </b-card-body>
         </div>
 
-        <div class="assistencia" v-if="haAssistit(actuacio.assistents)">
-          <button type="button" class="btn btn-danger float-right" @click="noAssistir(actuacio._id)" >No hi podré assistir ;(</button>
-          <span class="si"></span>
-          Assistiré
-        </div>
+        <div class="border rounded m-2">
+          <div class="assistencia" v-if="haAssistit(actuacio.assistents)">
+            <button type="button" class="btn btn-danger float-right" @click="noAssistir(actuacio._id)" >No hi podré assistir ;(</button>
+            <span class="si"></span>
+            Assistiré
+          </div>
 
-        <div class="assistencia" v-else>
-          <button type="button" class="btn btn-success float-right" @click="assistir(actuacio._id)">Si que hi assistiré!!</button>
-          <span class="no"></span>
-          No hi assistiré
+          <div class="assistencia" v-else>
+            <button type="button" class="btn btn-success float-right" @click="assistir(actuacio._id)">Si que hi assistiré!!</button>
+            <span class="no"></span>
+            No hi assistiré
+          </div>
         </div>
       </b-card>
     </div>
@@ -55,7 +57,7 @@
         return assistents.includes(localStorage.id)
       },
       assistir(idActuacio) {
-        axios.put('/info/actuacio/afegir/assistent', {idAssistent: localStorage.id, idActuacio})
+        axios.put('/info/actuacio/afegir/assistent',  {idAssistent: localStorage.id, idActuacio})
         .then(response => {
           this.carregarInfo()
         })
@@ -64,7 +66,8 @@
         })
       },
       noAssistir(idActuacio) {
-        axios.put('/info/actuacio/llevar/assistent', {idAssistent: localStorage.id, idActuacio})
+        console.log("id actucaio", idActuacio);
+        axios.put('/info/actuacio/llevar/assistent',   {idAssistent: localStorage.id, idActuacio})
         .then(response => {
           this.carregarInfo()
         })
@@ -73,7 +76,7 @@
         })
       },
       carregarInfo() {
-        axios.get('/info/actuacions/actiu')
+        axios.get('/info/actuacions/actiu', {withCredentials: true})
         .then(response => {
           if(response.data.curs === null) {
             this.errors.noCursActiu = true
@@ -104,13 +107,6 @@
   @import '../../node_modules/bootstrap/scss/bootstrap'
   @import ../sass/colors
   @import ../sass/botons
-
-  .custom-card
-    display: flex
-    flex-direction: row
-    @include media-breakpoint-only(xs)
-      flex-direction: column
-      max-width: 90%
 
   .assistencia
     align-self: stretch

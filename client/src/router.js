@@ -25,6 +25,7 @@ import GestioAssajos from './components/privat/GestioAssajos.vue'
 import GestioActuacions from './components/privat/GestioActuacions.vue'
 import GestioCursos from './components/privat/GestioCursos.vue'
 import GestioCredits from './components/privat/GestioCredits.vue'
+import Newsletter from './components/privat/Newsletter.vue'
 
 import Error from './components/Error.vue'
 
@@ -44,7 +45,7 @@ const routes = [
     name: 'principal',
     component: Principal,
     meta: {
-      titol: '',
+      titol: 'Home',
       requiresAuth: true
     },
   },
@@ -60,11 +61,11 @@ const routes = [
   },
 
   {
-    path: '/configuracio',
-    name: 'Configuracio',
+    path: '/preferencies',
+    name: 'Preferències',
     component: Configuracio,
     meta: {
-      titol: 'Configuració del compte',
+      titol: 'Preferències del compte',
       requiresAuth: true
     }
   },
@@ -75,7 +76,6 @@ const routes = [
     component: Gestio,
     beforeEnter(to, from, next) {
       if(to.meta.requiresAuth) {
-        console.log(store);
         if(store.state.logged && (store.state.junta || store.state.admin)) {
           next();
         } else {
@@ -145,6 +145,16 @@ const routes = [
         component: GestioCredits,
         meta: {
           titol: 'Gestió dels credits',
+          requiresAuth: true
+        }
+      },
+
+      {
+        path: 'newsletter',
+        name: 'Newsletter',
+        component: Newsletter,
+        meta: {
+          titol: 'Newsletter',
           requiresAuth: true
         }
       },

@@ -16,7 +16,6 @@ const Actuacio = require('../models/actuacio');
 
 router.use((req, res, next) => {
   if(req.session.session_id) {
-    console.log(req.session.session_id);
     Music.findOne({'session_id': req.session.session_id})
     .then(() => {
       next();
@@ -25,8 +24,7 @@ router.use((req, res, next) => {
       res.status(500)
     });
   } else {
-    console.log('no id')
-    res.status(400).json({message: 'notAuthorized'})
+    res.status(401).json({message: 'notAuthorized'})
   }
 })
 
@@ -584,16 +582,17 @@ router.put('/actuacio/llevar/assistent', (req, res) => {
   const idAssistent = mongoose.Types.ObjectId(body.idAssistent);
 
   Actuacio.findOne(
-    { 'semestres.actuacions': idActuacio }
+    { '_id': idActuacio }
   )
   .then(actuacio => {
-
+    console.log(actuacio);
     let index = actuacio.assistents.indexOf(body.idActuacio)
     actuacio.assistents.splice(index, 1)
 
     actuacio.save()
     .then(result => {
       console.log("S'ha actualitzat la assistencia de %s", actuacio.titol);
+      res.status(200).json({message: "S'ha actualitzat correctament"})
     })
     .catch(err => console.log(err))
   })

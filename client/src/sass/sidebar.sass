@@ -1,11 +1,12 @@
 #sidebar
-  width: 250px
+  width: 220px
   position: fixed
   top: 0
   right: -250px
   height: 100vh
   z-index: 999
   background: $fons-sidebar
+  background: #9DA2ABDD
   color: #fff
   transition: all 0.3s
   overflow-y: auto
@@ -13,22 +14,13 @@
   &.active
     right: 0
   .sidebar-header
-    .idioma
-      padding-top: 16px
-      padding-left: 10px
-      max-height: 45px
-      float: left
-    #dismiss
-      height: 45px
-      line-height: 35px
-      text-align: right
-      padding: 10px
-      padding-right: 16px
-      margin-bottom: 10px
+    height: 80px
+    line-height: 80px
+    text-align: center
+    font-size: 1.4em
+    &:hover
+      background-color: maroon
       cursor: pointer
-      -webkit-transition: all 0.3s
-      -o-transition: all 0.3s
-      transition: all 0.3s
 .overlay
   display: none
   position: fixed

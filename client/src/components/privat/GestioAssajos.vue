@@ -105,7 +105,7 @@
         this.$bvModal.show(modal)
       },
       enviarFormulari(formuari) {
-        axios.put('/info/assaig', { assaig: formuari, semestreId: this.semestreId })
+        axios.put('/info/assaig',  { assaig: formuari, semestreId: this.semestreId })
         .then(response => {
           // El selector torna a caragar la info
           this.$refs.info.carregarInfo()
@@ -115,12 +115,12 @@
         })
       },
       eliminarAssaig(id) {
-        axios.delete(`/info/assaig/${id}`,)
+        axios.delete(`/info/assaig/${id}`, {withCredentials: true})
         .then(response => this.$refs.info.carregarInfo())
         .catch(err => console.log(err))
       },
       insertarAssajos(assajos) {
-        axios.put('/info/assajos', { assajos, semestreId: this.semestreId })
+        axios.put('/info/assajos',  { assajos, semestreId: this.semestreId })
         .then(response => this.$refs.info.carregarInfo())
         .catch(err => console.log(err))
       }

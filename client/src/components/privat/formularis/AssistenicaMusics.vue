@@ -11,7 +11,7 @@
     <div class="padding-modal-body">
       <b-table
         striped
-        hover        
+        hover
         responsive
         selectable
         b-table-select-multi
@@ -86,7 +86,7 @@
         this.accio(assistents);
       },
       carregarInfo() {
-        const promise = axios.get('/info/musics')
+        const promise = axios.get('/info/musics', {withCredentials: true})
 
         return promise.then(response => {
           this.llistatMusics = Array.from(response.data.musics)

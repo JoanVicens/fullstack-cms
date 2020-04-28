@@ -118,7 +118,7 @@
     },
     methods: {
       carregarInfo() {
-        const promise = axios.get('/info/musics')
+        const promise = axios.get('/info/musics', {withCredentials: true})
 
         return promise.then(response => {
           let llistat = Array.from(response.data.musics)
@@ -144,7 +144,7 @@
         }
       },
       actualizarAssistencia(assaig) {
-        axios.put('/info/assaig/assistencia', {assaig})
+        axios.put('/info/assaig/assistencia',  {assaig})
         .then(response => {
           console.log(response);
         })

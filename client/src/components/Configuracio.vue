@@ -208,7 +208,7 @@
     },
     methods: {
       activarUsuari() {
-        axios.put(`/info/music/activar/${this.music._id}`)
+        axios.put(`/info/music/activar/${this.music._id}`, {withCredentials: true})
         .then(response => {
           console.log(response);
           this.music = response.data
@@ -217,7 +217,7 @@
         .catch(console.error)
       },
       desactivarUsuari() {
-        axios.put(`/info/music/desactivar/${this.music._id}`)
+        axios.put(`/info/music/desactivar/${this.music._id}`, {withCredentials: true})
         .then(response => {
           console.log(response);
           this.music = response.data
@@ -226,7 +226,7 @@
         .catch(console.error)
       },
       borrarUsuari() {
-        axios.delete(`/info/music/${this.music._id}`)
+        axios.delete(`/info/music/${this.music._id}`, {withCredentials: true})
         .then(response => {
           this.$router.push({ path: '/', params: { msg: 'Compte borrat correctament' } })
         })
@@ -241,7 +241,7 @@
         this.music.registratFa = moment(this.music.data_registre, "YYYY-MM-DD").fromNow();
       },
       carregarInfoMusic() {
-        return axios.get('/auth/info').then(response => {
+        return axios.get('/auth/info', {withCredentials: true}).then(response => {
           this.music = response.data.music
           this.modificacionsInfo()
         })
@@ -249,7 +249,7 @@
       onSubmit(evt) {
         evt.preventDefault()
 
-        axios.put('/info/music', this.music)
+        axios.put('/info/music',  this.music)
         .then(response => {
           console.log(response);
           this.music = response.data

@@ -75,7 +75,7 @@
     },
     methods: {
       carregarInfo() {
-        axios.get('/info/cursos')
+        axios.get('/info/cursos', {withCredentials: true})
         .then(response => {
           response.data.cursos.forEach((curs, index) => {
             this.$set(this.cursos, index, curs)

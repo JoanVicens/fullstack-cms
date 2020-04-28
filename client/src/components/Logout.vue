@@ -20,7 +20,7 @@
       this.API_URL = '/auth/logout'
     },
     mounted() {
-      axios.get(this.API_URL)
+      axios.get(this.API_URL, {withCredentials: true})
         .then(response => {
           store.commit('logoutMusic');
           this.$session.clear('token')

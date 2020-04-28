@@ -150,7 +150,7 @@
           });
 
           let percentatgeNum = (numAssajosAssistits * 100) / totalAssajosSemestre
-          let percentatgeStr = isFinite(percentatgeNum) ? percentatgeNum + '%' : '~'
+          let percentatgeStr = isFinite(percentatgeNum) ? percentatgeNum.toFixed(0) + '%' : '~'
 
           this.taula.push({
             _id: music._id,
@@ -181,7 +181,7 @@
           infoMusics: musicsAmbDret,
           opcions: info
         }
-        axios.post('/docs/certificats', body)
+        axios.post('/docs/certificats',  body)
         .then(response => {
           console.log(response);
         })
@@ -191,7 +191,7 @@
       }
     },
     mounted() {
-      axios.get('/info/musics')
+      axios.get('/info/musics', {withCredentials: true})
       .then(response => {
         this.musics = response.data.musics
       })
