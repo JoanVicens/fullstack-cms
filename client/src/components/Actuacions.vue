@@ -59,6 +59,7 @@
       assistir(idActuacio) {
         axios.put('/info/actuacio/afegir/assistent',  {idAssistent: localStorage.id, idActuacio})
         .then(response => {
+          this.actuacions = []
           this.carregarInfo()
         })
         .catch(err => {
@@ -69,6 +70,7 @@
         console.log("id actucaio", idActuacio);
         axios.put('/info/actuacio/llevar/assistent',   {idAssistent: localStorage.id, idActuacio})
         .then(response => {
+          this.actuacions = []
           this.carregarInfo()
         })
         .catch(err => {

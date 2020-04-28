@@ -74,7 +74,6 @@
         ],
         store,
         API_URL: '',
-        paginaPrincipal: '/principal',
       }
     },
     watch: {
@@ -120,7 +119,7 @@
 
               store.commit('loggedMusic')
 
-              this.$router.push('/principal');
+              this.$router.push('/compte/principal');
 
             }
           })

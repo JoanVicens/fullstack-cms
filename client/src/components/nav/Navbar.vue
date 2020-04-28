@@ -53,25 +53,25 @@
           </div>
           <div v-on:click="tancarMenu">
             <li>
-              <router-link :to="{ path: '/principal', params: {} }">Principal</router-link>
+              <router-link :to="{ path: '/compte/principal', params: {} }">Principal</router-link>
             </li>
             <li>
-              <router-link :to="{ path: '/assistencia', name: 'assistencia', params: {} }">Assistència</router-link>
+              <router-link :to="{ path: '/compte/assistencia', name: 'assistencia', params: {} }">Assistència</router-link>
             </li>
             <li>
-              <router-link :to="{ path: '/actuacions', name: 'Actuacions', params: {} }">Actuacions</router-link>
+              <router-link :to="{ path: '/compte/actuacions', name: 'Actuacions', params: {} }">Actuacions</router-link>
             </li>
             <li>
               <router-link to="">Enquestes</router-link>
             </li>
             <li>
-              <router-link :to="{ path: '/preferencies', name: 'Preferències', params: {} }">Preferències</router-link>
+              <router-link :to="{ path: '/compte/preferencies', name: 'Preferències', params: {} }">Preferències</router-link>
             </li>
             <li>
               <router-link to="">Notificacions</router-link>
             </li>
             <li>
-              <router-link :to="{ path: '/logout', name: 'logout', params: {} }">Tancar sessió</router-link>
+              <router-link :to="{ path: '/compte/logout', name: 'logout', params: {} }">Tancar sessió</router-link>
             </li>
           </div>
         </div>

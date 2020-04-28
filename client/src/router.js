@@ -13,6 +13,8 @@ import Login from './components/Login.vue'
 import Logout from './components/Logout.vue'
 
 // Musics
+import Compte from './components/Compte.vue'
+
 import Actuacions from './components/Actuacions.vue'
 import Assistencia from './components/Assistencia.vue'
 import Configuracio from './components/Configuracio.vue'
@@ -41,33 +43,50 @@ const routes = [
   },
 
   {
-    path: '/principal',
-    name: 'principal',
-    component: Principal,
-    meta: {
-      titol: 'Home',
-      requiresAuth: true
-    },
-  },
+    path: '/compte',
+    name: 'compte',
+    component: Compte,
+    children: [
+      {
+        path: 'principal',
+        name: 'principal',
+        component: Principal,
+        meta: {
+          titol: 'Home',
+          requiresAuth: true
+        },
+      },
 
-  {
-    path: '/actuacions',
-    name: 'Actuacions',
-    component: Actuacions,
-    meta: {
-      titol: 'Properes actuacions',
-      requiresAuth: true
-    }
-  },
+      {
+        path: 'assistencia',
+        name: 'assistencia',
+        component: Assistencia,
+        meta: {
+          titol: 'Assistència',
+          requiresAuth: true
+        },
+      },
 
-  {
-    path: '/preferencies',
-    name: 'Preferències',
-    component: Configuracio,
-    meta: {
-      titol: 'Preferències del compte',
-      requiresAuth: true
-    }
+      {
+        path: 'actuacions',
+        name: 'Actuacions',
+        component: Actuacions,
+        meta: {
+          titol: 'Properes actuacions',
+          requiresAuth: true
+        }
+      },
+
+      {
+        path: 'preferencies',
+        name: 'Preferències',
+        component: Configuracio,
+        meta: {
+          titol: 'Preferències del compte',
+          requiresAuth: true
+        }
+      },
+    ]
   },
 
   {
@@ -162,7 +181,7 @@ const routes = [
   },
 
   {
-    path: '/comptes/crear',
+    path: '/crear',
     name: 'crearCompte',
     component: Signin,
     meta: {
@@ -172,7 +191,7 @@ const routes = [
   },
 
   {
-    path: '/comptes/entrar',
+    path: '/entrar',
     name: 'login',
     component: Login,
     meta: {
@@ -187,16 +206,6 @@ const routes = [
     component: Logout,
     meta: {
       titol: 'Tancar sessió',
-      requiresAuth: true
-    },
-  },
-
-  {
-    path: '/assistencia',
-    name: 'assistencia',
-    component: Assistencia,
-    meta: {
-      titol: 'Assistència',
       requiresAuth: true
     },
   },

@@ -3,10 +3,6 @@
     <b-alert variant="success" :show="alertSucces">{{msg}}</b-alert>
     <b-alert variant="warning" :show="$route.params.msgError">{{$route.params.msgError}}</b-alert>
 
-    <div class="mt-3">
-      <router-link :to="{ path: '/comptes/crear', name:'crearCompte', params: {} }" class="btn btn-outline-light float-right">Crear comopte</router-link>
-      <router-link :to="{ path: '/comptes/entrar', name:'login', params: {} }" class="btn btn-outline-light float-right mr-3">Entrar</router-link>
-    </div>
     <div class="display-1">
       LANDIGN PAGE
     </div>

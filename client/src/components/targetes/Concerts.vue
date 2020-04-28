@@ -22,6 +22,12 @@
             </td>
           </tr>
 
+          <tr>
+            <td colspan="2">
+              Pots anara a la secció d'actuacions per a canviar la teva assistència
+            </td>
+          </tr>
+
         </tbody>
       </table>
 
