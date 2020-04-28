@@ -45,8 +45,6 @@ axios.interceptors.response.use(function (response) {
     if(error.response.status == 401) {
       console.log('sessió caducada redirigint a /');
       router.push({path: '/r', params: {msgError: 'Sessió Caducada ;('}})
-    } else {
-      router.push({path: '/', params: {msgError: error.response.data}})
     }
     return Promise.reject(error);
   });

@@ -5,6 +5,24 @@
         <li >
           <router-link :to="{ path: '/compte/principal', params: {} }">Principal</router-link>
         </li>
+        <li >
+          <router-link :to="{ path: '/compte/assistencia', name: 'assistencia', params: {} }">Assistència</router-link>
+        </li>
+        <li >
+          <router-link :to="{ path: '/compte/actuacions', name: 'Actuacions', params: {} }">Actuacions</router-link>
+        </li>
+        <li >
+          <router-link to="">Enquestes</router-link>
+        </li>
+        <li >
+          <router-link :to="{ path: '/compte/preferencies', name: 'Preferències', params: {} }">Preferències</router-link>
+        </li>
+        <li >
+          <router-link to="">Notificacions</router-link>
+        </li>
+        <li >
+          <router-link :to="{ path: '/compte/logout', name: 'logout', params: {} }">Tancar sessió</router-link>
+        </li>
         <li v-if="store.getters.esJunta || store.getters.esAdmin" >
           <b-dropdown id="dropdown"   variant="link" toggle-class="text-decoration-none" no-caret>
             <template v-slot:button-content>
@@ -30,24 +48,6 @@
             </b-dropdown-item>
           </b-dropdown>
           <router-link>Gestio</router-link>
-        </li>
-        <li >
-          <router-link :to="{ path: '/compte/assistencia', name: 'assistencia', params: {} }">Assistència</router-link>
-        </li>
-        <li >
-          <router-link :to="{ path: '/compte/actuacions', name: 'Actuacions', params: {} }">Actuacions</router-link>
-        </li>
-        <li >
-          <router-link to="">Enquestes</router-link>
-        </li>
-        <li >
-          <router-link :to="{ path: '/compte/preferencies', name: 'Preferències', params: {} }">Preferències</router-link>
-        </li>
-        <li >
-          <router-link to="">Notificacions</router-link>
-        </li>
-        <li >
-          <router-link :to="{ path: '/compte/logout', name: 'logout', params: {} }">Tancar sessió</router-link>
         </li>
       </ul>
     </aside>

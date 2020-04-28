@@ -46,6 +46,13 @@
 
         <h4 class="mt-4">Enviar a</h4>
         <b-form-select v-model="filtroCorda" :options="cordes"></b-form-select>
+
+        <b-form-checkbox
+          v-model="marcar"
+        >
+          Marcar-lo a la pàgina principal
+        </b-form-checkbox>
+
         <b-button type="submit" variant="primary" class="float-right btn-block mt-4">Enviar</b-button>
       </b-form>
     </div>
@@ -75,6 +82,7 @@
         mostrarMarkdonw: true,
         mostrarParsed: false,
         markdown: '',
+        marcar: false,
         cordes: [
           'Tots',
           'Clarinets',
@@ -109,6 +117,7 @@
         formData.append('assumpte', this.assumpte)
         formData.append('html', this.$refs.html.$el.innerHTML)
         formData.append('filtroCorda', this.filtroCorda)
+        formData.append('marcar', this.marcar)
 
 
         axios.post('/docs/newsletter', formData,

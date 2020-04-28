@@ -12,7 +12,7 @@
         <assistenciaChart class="card" :info="infomarcio"/>
         <DetallAssistenciaSemestres class="card" :info="infomarcio" />
         <concerts class="card" :info="curs.semestres" :id="music._id" />
-        <peticioCredits class="card"/>
+        <ultimCorreu class="card"/>
         <estatCompte class="card border-0" :compteActiu="music.compte_actiu"/>
       </div>
     </div>
@@ -28,7 +28,7 @@
   import assistenciaChart from './targetes/AssistenciaChart.vue'
   import DetallAssistenciaSemestres from './targetes/Semestres.vue'
   import concerts from './targetes/Concerts.vue'
-  import peticioCredits from './targetes/PeticioCredits.vue'
+  import ultimCorreu from './targetes/UltimCorreu.vue'
   import estatCompte from './targetes/EstatCompte.vue'
 
   export default {
@@ -38,7 +38,7 @@
       assistenciaChart,
       DetallAssistenciaSemestres,
       concerts,
-      peticioCredits,
+      ultimCorreu,
       estatCompte
     },
     data() {
