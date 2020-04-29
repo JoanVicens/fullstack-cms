@@ -18,6 +18,8 @@
     "express": "^4.17.1",
     "fibers": "^4.0.2",
     "jquery": "^3.5.0",
+    "jspdf": "^1.5.3",
+    "jspdf-autotable": "^3.5.2",
     "mongoose": "^5.9.7",
     "mongoose-validator": "^2.1.0",
     "node-sass": "^4.13.1",

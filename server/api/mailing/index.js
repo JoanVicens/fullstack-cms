@@ -107,9 +107,33 @@ exports.enviarCorreu = (music, correu, adjunts) => {
   return new Promise((resolve, reject) => {
     transporter.sendMail(mailOptions, (err, res) => {
         if (err) reject(err)
-        
+
         resolve(res)
       })
     });
+
+}
+
+
+exports.enviarRecuperacio = (email, codi) => {
+  const opt  = emailsTemplates.confirmacio;
+
+  const url = `localhost:8080/actualitzar/${codi}`;
+
+  var mailOptions = {
+    from: opt.from,
+    to: email,
+    subject: 'Recuperació del compte',
+    text: opt.text + token,
+    html: `<strong>Utilitza aquest link per a recuperar el teu compte: </strong><a href="${direccio}"></a>`
+  };
+
+  transporter.sendMail(mailOptions, (err, res) => {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log(JSON.stringify(res));
+    }
+  });
 
 }

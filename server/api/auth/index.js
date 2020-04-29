@@ -4,6 +4,7 @@ const session = require('express-session');
 const middlewares = require('../middlewares')
 const newsletter = require('../config/newsletter');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 const UUID = require("uuid");
 
@@ -31,7 +32,7 @@ router.post('/registrar', (req, res, next) => {
       telefon: req.body.telefon,
       instrument: req.body.instrument,
       data_naixement: req.body.data_naixement,
-      // data_registre: req.body.data_registre,
+      data_registre: Date.now(),
       sexe: req.body.sexe,
       pais: req.body.pais,
       tipo_compte: req.body.tipo_compte,
@@ -185,6 +186,65 @@ router.get('/logout', (req, res, next) => {
       })
     }
   })
+})
+
+router.post('/token_recuperacio', (req, res) => {
+
+  const email = req.email
+
+  Music.findOne({email})
+  .then(music => {
+    if(music) {
+      const token_payload = {
+        id: music._id,
+        data_registre: music.data_registre
+      }
+
+      music.secret_token = middlewares.crearJsonWebToken(token_payload, { expiresIn: '10h' })
+
+      music.save()
+      .then(() => {
+        res.status(200).json({message: "S'ha enviat un correu amb les instruccions"})
+      })
+      .catch(console.error)
+    } else {
+      res.status(300).json({message: "No s'ha trovat el correu"})
+    }
+  })
+  .catch(err => {
+    res.status(500).json(err)
+  })
+
+})
+
+router.post('/recuperar', (req, res) => {
+  if(req.body.jwt && req.body.password) {
+    const pass = req.body.password
+
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+
+    if (typeof decoded.exp !== 'undefined' && decoded.exp < now) {
+      const err = new Error('El token ha expirat');
+      notAuthorized(err, req, res, next);
+    }
+
+
+    // const passEncriptda = await bcrypt.hash(pass.trim(), 8);
+
+    Music.findOneAndUpdate(
+      {'_id':decoded.id},
+      {password: pass}
+    )
+    .then((result) => {
+      res.status(200).json({message: 'Contrasenya canviada correctament'})
+    })
+    .catch(err => {
+      res.status(500).json(err)
+    })
+
+
+  }
+  res.status(400).sent()
 })
 
 module.exports = router;

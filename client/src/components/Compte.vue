@@ -5,29 +5,29 @@
         <li >
           <router-link :to="{ path: '/compte/principal', params: {} }">Principal</router-link>
         </li>
-        <li >
+        <!-- <li >
           <router-link :to="{ path: '/compte/assistencia', name: 'assistencia', params: {} }">Assistència</router-link>
-        </li>
+        </li> -->
         <li >
           <router-link :to="{ path: '/compte/actuacions', name: 'Actuacions', params: {} }">Actuacions</router-link>
         </li>
-        <li >
+        <!-- <li >
           <router-link to="">Enquestes</router-link>
-        </li>
+        </li> -->
         <li >
           <router-link :to="{ path: '/compte/preferencies', name: 'Preferències', params: {} }">Preferències</router-link>
         </li>
-        <li >
+        <!-- <li >
           <router-link to="">Notificacions</router-link>
-        </li>
-        <li >
-          <router-link :to="{ path: '/compte/logout', name: 'logout', params: {} }">Tancar sessió</router-link>
-        </li>
-        <li v-if="store.getters.esJunta || store.getters.esAdmin" >
+        </li> -->
+        <li v-if="store.getters.esJunta || store.getters.esAdmin" style="background-color: lightblue" >
           <b-dropdown id="dropdown"   variant="link" toggle-class="text-decoration-none" no-caret>
             <template v-slot:button-content>
-              <span style="color: #fff">GESTIÓ</span>
+              <span style="color: #444">GESTIÓ</span>
             </template>
+            <b-dropdown-item>
+              <router-link :to="{ path: '/gestio/musics', params: {} }">Músics</router-link>
+            </b-dropdown-item>
             <b-dropdown-item>
               <router-link :to="{ path: '/gestio/assitencia', params: {} }">Assitència</router-link>
             </b-dropdown-item>
@@ -47,7 +47,9 @@
               <router-link :to="{ path: '/gestio/newsletter', params: {} }">Newsletter</router-link>
             </b-dropdown-item>
           </b-dropdown>
-          <router-link>Gestio</router-link>
+        </li>
+        <li>
+          <router-link :to="{ path: '/compte/logout', name: 'logout', params: {} }">Tancar sessió</router-link>
         </li>
       </ul>
     </aside>
@@ -79,17 +81,21 @@
     background-color: #017C72
     line-height: 1.5 !important
     margin-bottom: 25px
+    min-height: 49px
     ul
       list-style: none
-      padding: 10px 0
+      padding: 0
       margin: 0
       display: block
       li
         display: inline
         margin: 0 10px
-        padding: 6px
+        padding: 16px 6px
+        padding-bottom: 14px
+        border-bottom: 3px solid transparent
         flex: auto
         &:hover
+          border-bottom: 3px solid #fff
         a
           color: #fff
           text-transform: uppercase

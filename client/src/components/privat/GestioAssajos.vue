@@ -84,7 +84,7 @@
     },
     methods: {
       mostrarFormulari(assaig, titol, modal) {
-        if(assaig = {}) {
+        if(Object.keys(assaig).length === 0) {
           var info = {
             hora_inici: '19:30:00',
             hora_fi: '21:30:00'
@@ -94,7 +94,7 @@
         }
 
         this.formulari = {
-          assaig: { ...info},
+          assaig: info,
           assajos: {
             dia: 2, // dimarts
             hora_inici: '19:30:00',

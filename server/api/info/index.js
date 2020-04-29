@@ -643,6 +643,42 @@ router.put('/music/activar/:id', (req, res) => {
 
 })
 
+router.put('/music/tipo', (req, res) => {
+
+  if(req.body.tipusAnterior === 3 && req.body.tipus === 0) {
+    Music.find({})
+    .then(musics => {
+      let numAdmins = 0
+      musics.forEach(music => {
+        if(music.tipo_compte === 3)
+          numAdmins++
+      });
+
+      if(numAdmins === 1) {
+        res.status(300).json({
+          message: 'no pots realitzar aquesta acció'
+        })
+        return
+      }
+
+    })
+    .catch(err => {
+      res.status(500).json(err)
+    })
+  }
+
+  console.log(req.body);
+
+  Music.findOneAndUpdate(
+    {'_id': req.body.id},
+    {'tipo_compte': req.body.tipus}
+  )
+  .then(res.status(200).send())
+  .catch(err => {
+    res.status(500).json(err)
+  })
+})
+
 router.put('/music', async (req, res) => {
   const music = req.body
 

@@ -18,6 +18,8 @@ import Compte from './components/Compte.vue'
 import Actuacions from './components/Actuacions.vue'
 import Assistencia from './components/Assistencia.vue'
 import Configuracio from './components/Configuracio.vue'
+import Recuperacio from './components/Recuperacio.vue'
+import CanviContrassenya from './components/CanviContrassenya.vue'
 
 // Junta
 import Gestio from './components/Gestio.vue'
@@ -28,13 +30,14 @@ import GestioActuacions from './components/privat/GestioActuacions.vue'
 import GestioCursos from './components/privat/GestioCursos.vue'
 import GestioCredits from './components/privat/GestioCredits.vue'
 import Newsletter from './components/privat/Newsletter.vue'
+import GestioMusics from './components/privat/GestioMusics.vue'
 
 import Error from './components/Error.vue'
 
 const routes = [
   {
     path: '/',
-    name:'landingPage',
+    name:'',
     component: LandingPage,
     meta: {
       titol: 'BANDA UJI',
@@ -85,7 +88,7 @@ const routes = [
           titol: 'Preferències del compte',
           requiresAuth: true
         }
-      },
+      }
     ]
   },
 
@@ -150,7 +153,7 @@ const routes = [
 
       {
         path: 'cursos',
-        name: '',
+        name: 'gestió cursos',
         component: GestioCursos,
         meta: {
           titol: 'Gestió dels cursos',
@@ -177,6 +180,16 @@ const routes = [
           requiresAuth: true
         }
       },
+
+      {
+        path: 'musics',
+        name: 'Gestió músics',
+        component: GestioMusics,
+        meta: {
+          titol: 'Musics',
+          requiresAuth: true
+        }
+      },
     ]
   },
 
@@ -198,6 +211,26 @@ const routes = [
       titol: 'Associació Cultural Banda UJI',
       requiresAuth: false
     },
+  },
+
+  {
+    path: '/recuperacio',
+    name: 'recuperacio',
+    component: Recuperacio,
+    meta: {
+      titol: 'Recuperació del compte',
+      requiresAuth: false
+    }
+  },
+
+  {
+    path: '/actualitzar',
+    name: 'actualitzar',
+    component: CanviContrassenya,
+    meta: {
+      titol: 'Recuperació del compte',
+      requiresAuth: false
+    }
   },
 
   {

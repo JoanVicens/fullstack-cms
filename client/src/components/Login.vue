@@ -20,6 +20,13 @@
         <input class="form-control" type="password" name="password" v-model="music.password" v-on:focusout="validarContrasenya" required>
       </div>
 
+      <div class="pt-3">
+        <strong>
+          Has oblidat la contrasenya?
+          <router-link :to="{ path: '/recuperacio', params: {} }">clicka aquí!</router-link>
+        </strong>
+      </div>
+
       <div class="row mt-5">
         <div class="col-sm-3 d-none d-sm-block">
           <b-button variant="info" class="btn-lg btn-block mb-2" @click="$router.push('/')">Atras</b-button>
@@ -62,16 +69,6 @@
           email: '',
           password: ''
         },
-        breadcrumb: [
-          {
-            text: 'Principal',
-            to: { path: '/' },
-          },
-          {
-            text: 'Entrar',
-            to: { path: '/' },
-          },
-        ],
         store,
         API_URL: '',
       }
@@ -150,4 +147,5 @@
 </script>
 
 <style lang="sass" scoped>
+
 </style>

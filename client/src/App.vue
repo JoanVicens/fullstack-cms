@@ -7,14 +7,22 @@
             <router-link :to="{ path: '/', params: {} }">
               <img src="./assets/logo.png" id="logo" alt="logo banda uji">
             </router-link>
-            <h2>Associació Cultural Banda UJI</h2>
+            <div class="titols">
+              <h2>Associació Cultural Banda UJI</h2>
+              <h5>{{$route.name}}</h5>
+            </div>
           </div>
 
           <MenuIcon size="2x"
             id="menuIcon"
             v-on:click="obrirMenu"
             class="float-right" />
-          <div class="pr-3" v-if="$route.name=== 'landingPage'" id="botonsCompte" style="margin-left: auto">
+
+          <div id="usuari-header">
+
+          </div>
+
+          <div v-if="$route.name=== '' || $route.path=== '/recuperacio'" id="botonsCompte" style="margin-left: auto">
             <router-link :to="{ path: '/comptes/entrar', name:'login', params: {} }" class="btn btn-outline-light float-right mr-3">Entrar</router-link>
             <router-link :to="{ path: '/comptes/crear', name:'crearCompte', params: {} }" class="btn btn-outline-light float-right">Crear comopte</router-link>
           </div>
@@ -94,6 +102,14 @@
   @media (max-width: 1000px)
     #botonsCompte
       display: none !important
+
+  .titols
+    display: block !important
+
+  @media (max-width: 765px)
+    .titols
+      display: none !important
+
 
 
 </style>

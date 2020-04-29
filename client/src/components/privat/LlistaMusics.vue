@@ -3,6 +3,7 @@
     <b-table striped hover borderless responsive sticky-header="500px" :items="llistat" :fields="fields"></b-table>
     <div class="accions">
       <span>{{accio}}</span>
+
       <user-plus-icon
       size="1.5x"
       class="boto"
@@ -10,13 +11,21 @@
       @mouseover="accio='Modificar assistents'"
       @mouseleave="accio=''">
       </user-plus-icon>
+
       <download-icon
       size="1.5x"
       class="boto"
       @click="descargar"
-      @mouseover="accio='Descarar llista'"
+      @mouseover="accio='Descarar llista com a CVS'"
       @mouseleave="accio=''">
       </download-icon>
+
+
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg"
+      style="height: 25px"
+      @mouseover="accio='Descarar llista com a PFD'"
+      @mouseleave="accio=''" >
+
     </div>
   </section>
 </template>
@@ -58,6 +67,29 @@
       }
     },
     methods: {
+      descargarPDF() {
+
+        var doc = new jsPDF('p', 'pt');
+        let marginTop = 20
+
+        let llistatPDF = []
+
+        this.llistat.forEach(element => {
+          llistatPDF.push([element.cognoms, element.nom, element.instrument, '                                             '])
+        });
+
+        doc.autoTable({
+          styles: {theme: 'plain'},
+          margin: { top:  marginTop},
+          head: [['Cognoms', 'Nom', 'instrument', ' ~ ']],
+          body: llistatPDF,
+        })
+
+
+        doc.save(`Assistència ${this.nom}.pdf`);
+
+
+      },
       descargar() {
         console.log(this.nom);
         let csvContent = 'data:text/csv;charset=utf-8,' + 'Nom, Cognoms, Intrument, Anotació \n'
@@ -83,4 +115,5 @@
 
 <style lang="sass" scoped>
  // .accio .boto a helper.sass
+
 </style>

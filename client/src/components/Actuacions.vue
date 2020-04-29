@@ -3,8 +3,6 @@
     <div class="container-sm">
       <b-card no-body class="overflow-hidden mb-3" v-for="(actuacio, index) in actuacions" :key="index">
         <div class="custom-card">
-          <b-img-lazy fluid src="https://picsum.photos/200/150/?blur" alt="Image" class="rounded-0 text-center">
-          </b-img-lazy>
           <b-card-body :title="actuacio.titol">
             <b-card-text>
             </b-card-text>

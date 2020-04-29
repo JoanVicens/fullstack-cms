@@ -47,6 +47,9 @@
                   <li>
                     <router-link :to="{ path: '/gestio/newsletter', params: {} }">Newsletter</router-link>
                   </li>
+                  <li>
+                    <router-link :to="{ path: '/gestio/musics', params: {} }">Músics</router-link>
+                  </li>
                 </ul>
               </b-collapse>
             </li>

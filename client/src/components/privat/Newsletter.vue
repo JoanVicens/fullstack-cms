@@ -45,16 +45,21 @@
         <hr>
 
         <h4 class="mt-4">Enviar a</h4>
-        <b-form-select v-model="filtroCorda" :options="cordes"></b-form-select>
+        <b-form-select v-model="filtroCorda" :options="cordes" disabled></b-form-select>
 
         <b-form-checkbox
           v-model="marcar"
+          class="mt-3"
         >
           Marcar-lo a la pàgina principal
         </b-form-checkbox>
 
         <b-button type="submit" variant="primary" class="float-right btn-block mt-4">Enviar</b-button>
       </b-form>
+
+      <div class="mb-4">
+
+      </div>
     </div>
   </main>
 </template>

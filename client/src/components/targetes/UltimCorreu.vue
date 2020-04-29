@@ -8,7 +8,7 @@
         <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">&#x1f4cc;</a>
       </li>
       <li class="nav-item" v-if="marcat._id !== ultim._id">
-        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Últim</a>
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Últim correu</a>
       </li>
     </ul>
     <div class="tab-content">
@@ -98,4 +98,7 @@
     color: #fff
     font-weight: bold
     font-size: 1.6em
+
+  a
+    color: #444
 </style>
