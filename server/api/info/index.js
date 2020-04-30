@@ -14,19 +14,19 @@ const Music = require('../models/music');
 const Actuacio = require('../models/actuacio');
 
 
-router.use((req, res, next) => {
-  if(req.session.session_id) {
-    Music.findOne({'session_id': req.session.session_id})
-    .then(() => {
-      next();
-    })
-    .catch(err => {
-      res.status(500)
-    });
-  } else {
-    res.status(401).json({message: 'notAuthorized'})
-  }
-})
+// router.use((req, res, next) => {
+//   if(req.session.session_id) {
+//     Music.findOne({'session_id': req.session.session_id})
+//     .then(() => {
+//       next();
+//     })
+//     .catch(err => {
+//       res.status(500)
+//     });
+//   } else {
+//     res.status(401).json({message: 'notAuthorized'})
+//   }
+// })
 
 // CURS
 
