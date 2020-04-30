@@ -55,14 +55,14 @@
     },
     methods: {
       carregarInfoMusic() {
-        return axios.get('/auth/info', {withCredentials: true})
+        return axios.get('/auth/info')
         .then(response => {
           console.log(response);
           this.music = response.data.music
         })
       },
       carregarInfoCursActiu() {
-        return axios.get('/info/curs/actiu', {withCredentials: true})
+        return axios.get('/info/curs/actiu')
         .then(response => {
           if(response.data.curs === null) {
             this.errors.noCursActiu = true
