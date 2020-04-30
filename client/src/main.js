@@ -5,6 +5,10 @@ import VueRouter from 'vue-router'
 import BootstrapVue from 'bootstrap-vue'
 import VueSession from 'vue-session'
 import VueSessionStorage from 'vue-sessionstorage'
+import VuePlyr from 'vue-plyr'
+
+
+
 
 import VueResource from 'vue-resource';
 
@@ -22,7 +26,6 @@ Vue.use(Vuex)
 Vue.use(VueResource);
 Vue.use(VueSession)
 Vue.use(VueSessionStorage)
-
 
 const moment = require('moment')
 require('moment/locale/ca')
@@ -50,6 +53,14 @@ axios.interceptors.response.use(function (response) {
   });
 
 Vue.config.productionTip = false
+
+// The second argument is optional and sets the default config values for every player.
+Vue.use(VuePlyr, {
+  plyr: {
+    fullscreen: { enabled: false }
+  },
+  emit: ['ended']
+})
 
 new Vue({
   $,
