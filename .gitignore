@@ -10,3 +10,5 @@ firmes/
 certificats.js
 server/docs/
 assets/
+server/public/media/
+uploads/
