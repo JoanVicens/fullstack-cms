@@ -1,5 +1,9 @@
 const express = require('express');
-const certificats = require('./certificats');
+
+// Certificat amb info personal, no està inclòs en el repositori
+// const certificats = require('./certificats');
+const certificats = require('./certificatEntrega');
+
 const gmail = require('./gmail');
 const mailer = require('../mailing/index.js');
 
