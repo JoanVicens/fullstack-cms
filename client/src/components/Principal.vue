@@ -101,8 +101,8 @@
       Promise.all([this.carregarInfoMusic(), this.carregarInfoCursActiu()])
       .then(() => {
 
-        localStorage.id = this.music._id
-        localStorage.idCursActiu = this.curs._id
+        // localStorage.id = this.music._id
+        // localStorage.idCursActiu = this.curs._id
 
         // Guarda en local el tipus de compte
         if(this.music.tipo_compte == 2) {
