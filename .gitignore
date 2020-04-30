@@ -2,7 +2,6 @@ node_modules/
 node_modules
 .env
 mail.js
-autCalendar.json
 autGmail.json
 autPeople.json
 autenticacioDrive.json
