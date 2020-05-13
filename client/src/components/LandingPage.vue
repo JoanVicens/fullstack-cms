@@ -59,7 +59,7 @@
 
         <vue-plyr>
           <video poster="../assets/banda.jpg" src="../assets/doblatge_banda_uji.mp4">
-            <source src="../assets/doblatge_banda_uji.mp4" type="video/mp4" size="1440">
+            <source src="https://www.youtube.com/watch?v=RwsnrDpfFn44" type="video/mp4" size="1440">
           </video>
         </vue-plyr>
       </div>

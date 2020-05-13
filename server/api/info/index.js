@@ -36,7 +36,7 @@ router.get('/cursos', (req, res) => {
     path:'semestres.actuacions',
     populate: {
       path: 'assistents',
-      select: 'nom cognoms instrument'
+      select: 'nom cognoms corda'
     }
   })
   .populate({
@@ -57,7 +57,7 @@ router.get('/curs/actiu', (req, res) => {
     path:'semestres.actuacions',
     populate: {
       path: 'assistents',
-      select: 'nom cognoms instrument'
+      select: 'nom cognoms corda'
     }
   })
   .populate({
@@ -697,7 +697,7 @@ router.put('/music', async (req, res) => {
       al: music.al,
       email: music.email,
       telefon: music.telefon,
-      instrument: music.instrument,
+      corda: music.instrument,
       data_naixement: music.data_naixement,
       sexe: music.sexe,
       pais: music.pais,

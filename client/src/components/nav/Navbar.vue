@@ -30,6 +30,9 @@
               <b-collapse id="llistaGestio" v-model="g_visible">
                 <ul v-on:click="tancarMenu">
                   <li>
+                    <router-link :to="{ path: '/gestio/dashboard', params: {} }">Dashboard</router-link>
+                  </li>
+                  <li>
                     <router-link :to="{ path: '/gestio/assitencia', params: {} }">Assitència</router-link>
                   </li>
                   <li>

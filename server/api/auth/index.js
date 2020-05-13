@@ -30,7 +30,7 @@ router.post('/registrar', (req, res, next) => {
       al: req.body.al,
       email: req.body.email,
       telefon: req.body.telefon,
-      instrument: req.body.instrument,
+      corda: req.body.instrument,
       data_naixement: req.body.data_naixement,
       data_registre: Date.now(),
       sexe: req.body.sexe,

@@ -31,6 +31,7 @@ import GestioCursos from './components/privat/GestioCursos.vue'
 import GestioCredits from './components/privat/GestioCredits.vue'
 import Newsletter from './components/privat/Newsletter.vue'
 import GestioMusics from './components/privat/GestioMusics.vue'
+import Dashboard from './components/privat/Dashboard.vue'
 
 import Error from './components/Error.vue'
 
@@ -108,6 +109,15 @@ const routes = [
       }
     },
     children: [
+      {
+        path: 'dashboard',
+        name: 'dashboard',
+        component: Dashboard,
+        meta: {
+          titol: 'Dashboard',
+          requiresAuth: true
+        }
+      },
       {
         path: 'assitencia/:cursId:semestreId:assaigId',
         name: 'control_assitència',

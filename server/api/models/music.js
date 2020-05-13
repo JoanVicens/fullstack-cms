@@ -27,7 +27,7 @@ const musicSchema = new Schema({
     }
   },
   telefon: { type: 'string' },
-  instrument: { type: 'string', required: true },
+  corda: { type: 'string', required: true },
   data_naixement: { type: 'date' },
   data_registre: { type: 'date', required: true, default: Date.now },
   sexe: { type: 'string' },

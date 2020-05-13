@@ -2,6 +2,7 @@
   <div id="gestio">
     <aside>
       <ul>
+        <li><router-link :to="{ path: '/gestio/dashboard', params: {} }">Dashboard</router-link></li>
         <li><router-link :to="{ path: '/gestio/musics', params: {} }">Músics</router-link></li>
         <li><router-link :to="{ path: '/gestio/assitencia', params: {} }">Assitència</router-link></li>
         <li><router-link :to="{ path: '/gestio/assajos', params: {} }">Assajos</router-link></li>

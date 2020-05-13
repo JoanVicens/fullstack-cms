@@ -26,6 +26,9 @@
               <span style="color: #444">GESTIÓ</span>
             </template>
             <b-dropdown-item>
+              <router-link :to="{ path: '/gestio/dashboard', params: {} }">Dashboard</router-link>
+            </b-dropdown-item>
+            <b-dropdown-item>
               <router-link :to="{ path: '/gestio/musics', params: {} }">Músics</router-link>
             </b-dropdown-item>
             <b-dropdown-item>

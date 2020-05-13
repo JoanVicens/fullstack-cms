@@ -38,9 +38,11 @@
 
       <div class="form-group">
         <label for="instrument">Intrument *</label>
-        <div class="input-group">
-          <input class="form-control" type="text " name="instrument" v-model="music.instrument" required>
-        </div>
+
+         <b-form-select v-model="music.instrument" :options="cordes" required></b-form-select>
+        <!-- <div class="input-group">
+          <input class="form-control" type="text " name="" v-model="music.instrument" >
+        </div> -->
       </div>
 
       <div class="form-group">
@@ -141,7 +143,7 @@
   const lletra_numero_caracter = new RegExp(/^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/);
 
   import axios from 'axios'
-  import { store } from '../store.js'
+  import store from '../store.js'
 
   export default {
     name: 'signin',
@@ -151,6 +153,19 @@
     data () {
       return {
         error: '',
+        cordes: [
+          {text: 'Clarinet', value: 'Clarinets'},
+          {text: 'Flauta', value: 'Flautes'},
+          {text: 'Oboes', value: 'Oboes'},
+          {text: 'Saxo', value: 'Saxos'},
+          {text: 'Tuba', value: 'Tubes'},
+          {text: 'Trombo', value: 'Trombons'},
+          {text: 'Trompeta', value: 'Trompetes'},
+          {text: 'Pecusió', value: 'Percusionistes'},
+          {text: 'Trompa', value: 'Trompes'},
+          {text: 'Fagot', value: 'Fagotos'},
+          {text: 'Bombardí', value: 'Bombardins'}
+        ],
         music: {
           nom: '',
           cognoms: '',
