@@ -3,20 +3,9 @@
     <h3 class="ml-3">Llistat complet dels músics</h3>
 
     <b-form inline class="m-4">
-      <b-form-group
-        label="Data"
-        label-for="input-x"
-        class="mr-3 ml-2"
-      >
-        <b-form-input
-          id="input-x"
-          v-model="data"
-          type="date"
-          class="ml-2"
-        ></b-form-input>
-      </b-form-group>
       <b-button variant="info" @click="descargarPDF" class="mr-4">Baixar llista com a PDF</b-button>
-      <b-button variant="info" @click="descargar">Baixar llista com a CVS</b-button>
+      <b-button variant="info" @click="descargar" class="mr-4">Baixar llista com a CVS</b-button>
+      <b-button variant="info" @click="demanarDia">Baixar llista assaig</b-button>
     </b-form>
 
     <div style="background-color: #fff">
@@ -57,6 +46,8 @@
 
 
     </div>
+
+    <DiaLlistatAssaig @diaSeleccionat="descargarPDF($event)"/>
   </main>
 </template>
 
@@ -66,8 +57,11 @@
   import 'jspdf-autotable'
   import moment from 'moment'
 
+  import DiaLlistatAssaig from './formularis/DiaLlistatAssaig'
+
   export default {
     name: 'GestioMusics',
+    components: { DiaLlistatAssaig },
     data() {
       return {
         fields: [
@@ -104,20 +98,22 @@
             sortable: false
           }
         ],
-        llistat: [],
-        data: '',
+        llistat: []
       }
     },
     methods: {
-      descargarPDF() {
+      demanarDia() {
+        this.$bvModal.show('formulari-dia')
+      },
+      descargarPDF(data) {
 
         var doc = new jsPDF('p', 'pt');
         let marginTop = 20
 
-        if(this.data.length > 0) {
+        if(data.length > 0) {
           doc.setFontSize(16);
 
-          let d = this.data.split('-')
+          let d = data.split('-')
           var data = `${d[2]}/${d[1]}/${d[0]}`
           doc.text(`Assaig dia: ${data}`, 40, 40);
           marginTop = 60
@@ -136,7 +132,7 @@
           body: llistatPDF,
         })
 
-        if(this.data.length > 0) {
+        if(data.length > 0) {
           doc.save(`Assistència assaig ${data}.pdf`);
         } else {
           doc.save(`lista músics.pdf`);
@@ -146,8 +142,8 @@
       },
       descargar() {
         let csvContent = 'data:text/csv;charset=utf-8,'
-        if(this.data.length > 0) {
-          let d = this.data.split('-')
+        if(data.length > 0) {
+          let d = data.split('-')
           var data = `${d[2]}/${d[1]}/${d[0]}`
           csvContent += data + '\n'
         }
@@ -176,8 +172,8 @@
         var encodedUri = encodeURI(csvContent);
         var link = document.createElement("a");
         link.setAttribute("href", encodedUri);
-        if(this.data.length > 0) {
-          link.setAttribute("download", `Assistència assaig ${this.data}.csv`);
+        if(data.length > 0) {
+          link.setAttribute("download", `Assistència assaig ${data}.csv`);
         } else {
           link.setAttribute("download", `Llista músics.csv`);
         }
