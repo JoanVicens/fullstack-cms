@@ -257,6 +257,7 @@ const routes = [
     path: '/r',
     name: 'error',
     component: Error,
+    props: true,
     meta: {
       titol: '',
       requiresAuth: false

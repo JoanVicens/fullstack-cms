@@ -8,8 +8,6 @@
           <h2>El compte no està actiu</h2>
         </template>
 
-
-
         <b-form @submit="onSubmit" class="mb-3">
           <b-card class="mb-3 transparent" border-variant="info">
             <b-form-group
@@ -37,15 +35,10 @@
             </b-form-group>
 
             <b-form-group
-              label="Instrument"
+              label="instrument"
               label-for="input-x"
             >
-              <b-form-input
-                id="input-x"
-                v-model="music.instrument"
-                type="text"
-                required
-              ></b-form-input>
+              <b-form-select v-model="music.corda" :options="cordes" required></b-form-select>
             </b-form-group>
 
             <b-form-group
@@ -203,7 +196,20 @@
     data() {
       return {
         music: {},
-        accio: 'null'
+        accio: 'null',
+        cordes: [
+          {text: 'Clarinet', value: 'Clarinets'},
+          {text: 'Flauta', value: 'Flautes'},
+          {text: 'Oboes', value: 'Oboes'},
+          {text: 'Saxo', value: 'Saxos'},
+          {text: 'Tuba', value: 'Tubes'},
+          {text: 'Trombo', value: 'Trombons'},
+          {text: 'Trompeta', value: 'Trompetes'},
+          {text: 'Pecusió', value: 'Percusionistes'},
+          {text: 'Trompa', value: 'Trompes'},
+          {text: 'Fagot', value: 'Fagotos'},
+          {text: 'Bombardí', value: 'Bombardins'}
+        ],
       }
     },
     methods: {

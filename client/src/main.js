@@ -47,7 +47,13 @@ axios.interceptors.response.use(function (response) {
     // Do something with response error
     if(error.response.status == 401) {
       console.log('sessió caducada redirigint a /');
-      router.push({path: '/r', params: {msgError: 'Sessió Caducada ;('}})
+
+      localStorage.removeItem('musics')
+      localStorage.removeItem('cursos')
+      localStorage.removeItem('cursIdSeleccionat')
+      localStorage.removeItem('idCursActiu')
+
+      router.push({name: 'error', params: {msgError: 'Sessió Caducada'}})
     }
     return Promise.reject(error);
   });

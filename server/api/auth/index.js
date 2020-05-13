@@ -169,7 +169,7 @@ router.get('/info', (req, res, next) => {
         next(err)
       })
   } else {
-    res.status(404).json({
+    res.status(401).json({
       message: "No s'ha trobata el músic"
     })
   }

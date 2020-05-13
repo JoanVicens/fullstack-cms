@@ -89,7 +89,7 @@
             sortable: false
           },
           {
-            key: 'instrument',
+            key: 'corda',
             sortable: false
           }
         ],

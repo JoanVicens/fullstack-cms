@@ -74,7 +74,7 @@
             sortable: true
           },
           {
-            key: 'instrument',
+            key: 'corda',
             sortable: true
           },
           {

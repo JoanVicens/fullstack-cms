@@ -697,7 +697,7 @@ router.put('/music', async (req, res) => {
       al: music.al,
       email: music.email,
       telefon: music.telefon,
-      corda: music.instrument,
+      corda: music.corda,
       data_naixement: music.data_naixement,
       sexe: music.sexe,
       pais: music.pais,

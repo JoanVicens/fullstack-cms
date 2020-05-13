@@ -59,7 +59,7 @@
             sortable: true
           },
           {
-            key: 'instrument',
+            key: 'corda',
             sortable: true
           }
         ],
@@ -75,13 +75,13 @@
         let llistatPDF = []
 
         this.llistat.forEach(element => {
-          llistatPDF.push([element.cognoms, element.nom, element.instrument, '                                             '])
+          llistatPDF.push([element.cognoms, element.nom, element.corda, '                                             '])
         });
 
         doc.autoTable({
           styles: {theme: 'plain'},
           margin: { top:  marginTop},
-          head: [['Cognoms', 'Nom', 'instrument', ' ~ ']],
+          head: [['Cognoms', 'Nom', 'corda', ' ~ ']],
           body: llistatPDF,
         })
 
@@ -94,7 +94,7 @@
         console.log(this.nom);
         let csvContent = 'data:text/csv;charset=utf-8,' + 'Nom, Cognoms, Intrument, Anotació \n'
         + this.llistat.map(music => {
-          return `${music.nom}, ${music.cognoms}, ${music.instrument}, `
+          return `${music.nom}, ${music.cognoms}, ${music.corda}, `
         }).join('\n');
 
         console.log(csvContent);

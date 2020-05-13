@@ -87,7 +87,7 @@
             sortable: false
           },
           {
-            key: "instrument",
+            key: "corda",
             sortable: false
           },
           {
@@ -157,7 +157,7 @@
             email: music.email,
             nom: music.nom,
             cognoms: music.cognoms,
-            instrument: music.instrument,
+            corda: music.corda,
             dni: music.dni,
             numAssajosAssistits,
             totalAssajosSemestre,

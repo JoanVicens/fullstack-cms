@@ -92,7 +92,6 @@ router.post('/newsletter', (req, res) => {
 
 
   const correu = req.body
-  console.log(correu);
   const envios = [] // Promeses dels enviament del correu
   let arxius = [] // Arxius pujats
 
@@ -111,7 +110,6 @@ router.post('/newsletter', (req, res) => {
       envios.push(enviarNewsletter(correu, uris))
     })
     .catch(err => {
-      console.log('ERROR AQUÍ', err);
       res.status(500).send(err)
       return
     })
@@ -188,7 +186,7 @@ router.get('/newsletters', (req, res) => {
     ultimCorreu = correus[0]
 
     correus.forEach(correu => {
-      console.log(correu);
+
       if(correu.marcat) {
         correuMarcat = correu
       }

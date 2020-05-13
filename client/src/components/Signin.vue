@@ -39,7 +39,7 @@
       <div class="form-group">
         <label for="instrument">Intrument *</label>
 
-         <b-form-select v-model="music.instrument" :options="cordes" required></b-form-select>
+         <b-form-select v-model="music.corda" :options="cordes" required></b-form-select>
         <!-- <div class="input-group">
           <input class="form-control" type="text " name="" v-model="music.instrument" >
         </div> -->
@@ -173,7 +173,7 @@
           al: null,
           email: '',
           telefon: '',
-          instrument: '',
+          corda: '',
           data_naixement: null,
           data_registre: null,
           tipo_compte: 0,
