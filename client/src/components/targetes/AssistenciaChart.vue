@@ -22,7 +22,7 @@
         {{info.semestres[numeroSemetre].percentatge.toFixed(0)}}%
       </div> -->
 
-      <div class="alerta">
+      <div class="alerta" v-if="percentatge < 80">
         Per a poder demanar els 1.5 crèdits del semestre has de tindre com a mínim un 80% d’assistència
       </div>
 

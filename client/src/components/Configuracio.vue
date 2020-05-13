@@ -157,7 +157,7 @@
       <b-card class="mt-5 mb-2 transparent" border-variant="warning" v-if="music.compte_actiu">
          <b-card-text class="flex-text">
            <div class="">
-             <h5 class="m-0">Desactivar de forma temporal el compte</h5>
+             <h5 class="m-0">Desactivar el compte de forma temporal</h5>
              <small class="">
                No sortiràs a llista d'assistència
              </small>
