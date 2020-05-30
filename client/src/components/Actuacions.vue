@@ -65,7 +65,7 @@
         })
       },
       noAssistir(idActuacio) {
-        console.log("id actucaio", idActuacio);
+        console.log(localStorage.id, idActuacio);
         axios.put('/info/actuacio/llevar/assistent',   {idAssistent: localStorage.id, idActuacio})
         .then(response => {
           this.actuacions = []
@@ -76,7 +76,7 @@
         })
       },
       carregarInfo() {
-        axios.get('/info/actuacions/actiu', {withCredentials: true})
+        axios.get('/info/actuacio/actiu', {withCredentials: true})
         .then(response => {
           if(response.data.curs === null) {
             this.errors.noCursActiu = true
