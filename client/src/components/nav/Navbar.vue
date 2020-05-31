@@ -67,9 +67,9 @@
             <li>
               <router-link :to="{ path: '/compte/actuacions', name: 'Actuacions', params: {} }">Actuacions</router-link>
             </li>
-            <li>
+            <!-- <li>
               <router-link to="">Enquestes</router-link>
-            </li>
+            </li> -->
             <li>
               <router-link :to="{ path: '/compte/preferencies', name: 'Preferències', params: {} }">Preferències</router-link>
             </li>
