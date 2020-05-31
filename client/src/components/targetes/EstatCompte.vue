@@ -9,7 +9,7 @@
     </div>
 
     <b-collapse id="compteActiu" class="mt-2">
-      <p style="">El teu compte està actiu, això vol dir que sortiràs a la llista dels assajos</p>
+      <p>El teu compte està actiu, això vol dir que sortiràs a la llista dels assajos</p>
     </b-collapse>
   </div>
 </template>
@@ -44,6 +44,6 @@
   p
     font-size: 1rem !important
     font-weight: normal
-    padding: 0 6px
+    padding: 0 10px
 
 </style>

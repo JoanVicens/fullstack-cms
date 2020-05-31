@@ -91,10 +91,10 @@
     min-height: 100vh
 
   #content
-    background-color: #fffc
+    background-color: #FEF8EC
 
 
-  @media (min-width: 1000px)
+  @media (min-width: 1175px)
     #sidebar,
     #menuIcon
       display: none

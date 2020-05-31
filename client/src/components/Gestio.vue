@@ -54,8 +54,9 @@
         a
           color: #444
           text-transform: uppercase
+          white-space: nowrap
 
-  @media (max-width: 1000px)
+  @media (max-width: 1175px)
     aside
       display: none
     #gestio
