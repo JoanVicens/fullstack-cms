@@ -27,6 +27,7 @@
           localStorage.removeItem('cursos')
           localStorage.removeItem('cursIdSeleccionat')
           localStorage.removeItem('idCursActiu')
+          localStorage.removeItem('id')
           this.$session.clear('token')
           this.$router.push('/');
         })

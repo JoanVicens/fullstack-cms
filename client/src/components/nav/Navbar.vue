@@ -86,12 +86,22 @@
       <ul class="social">
         <li>
           <a href="https://www.facebook.com/AssociacioCulturalBandaUJI/" target="_blank" class="facebook">
-            <FacebookIcon size="1.5x" />
+            <FacebookIcon size="1.3x" />
           </a>
         </li>
         <li>
           <a href="https://www.instagram.com/bandauji/" target="_blank" class="instagram">
-            <InstagramIcon size="1.5x" />
+            <InstagramIcon size="1.3x" />
+          </a>
+        </li>
+        <li>
+          <a href="https://www.youtube.com/channel/UCe8CsHaWOy4_eUID3A3ACew" target="_blank">
+            <YoutubeIcon size="1.3x" />
+          </a>
+        </li>
+        <li>
+          <a href="mailto:bandauji@uji.es" target="_blank">
+            <MailIcon size="1.3x" />
           </a>
         </li>
       </ul>
@@ -103,14 +113,16 @@
 import { accionsMenuMixin } from '../../mixins/accionsMenuMixin'
 import store from "../../store.js";
 import { TriangleIcon } from 'vue-feather-icons'
-import { InstagramIcon, FacebookIcon  } from 'vue-feather-icons'
+import { InstagramIcon, FacebookIcon, MailIcon, YoutubeIcon } from 'vue-feather-icons'
 
 export default {
   name: 'Navbar',
   components: {
     TriangleIcon,
     FacebookIcon,
-    InstagramIcon
+    InstagramIcon,
+    MailIcon,
+    YoutubeIcon
   },
   mixins: [accionsMenuMixin],
   data() {
@@ -159,16 +171,11 @@ export default {
     margin-left: 20px
     display: flex
     align-items: center
+    a
+      padding: 10px 10px
     a:hover
       background-color: transparent !important
       justify-content: space-around
-    a.facebook:hover
-      svg
-        fill: #3a589e
-    a.instagram:hover
-      svg
-        fill: #f86757
-
     svg
       stroke: #444
 

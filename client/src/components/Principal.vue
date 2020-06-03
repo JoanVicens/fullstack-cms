@@ -57,7 +57,6 @@
       carregarInfoMusic() {
         return axios.get('/auth/info')
         .then(response => {
-          console.log(response);
           this.music = response.data.music
         })
       },

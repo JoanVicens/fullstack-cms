@@ -99,7 +99,7 @@
     #menuIcon
       display: none
 
-  @media (max-width: 1000px)
+  @media (max-width: 1175px)
     #botonsCompte
       display: none !important
 
