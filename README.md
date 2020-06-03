@@ -334,7 +334,7 @@ En la raíz del proyecto:
 
 
 
-1. *npm run install** para instalar todos los paquetes necesarios
+1. *npm run install* para instalar todos los paquetes necesarios
 2. Crear un documento .env con las siguientes variables de entorno con las credenciales:
   1. CALENDAR_ID_CLIENT
   2. CALENDAR_SECRET
@@ -351,8 +351,8 @@ En la raíz del proyecto:
   2. PORT: (opcional) el puerto en que queremos que nodejs escuche las peticiones, por defecto escucha en el puerto 5000. Solo afecta si no estamos en producción
   3. SESSION_SECRE: seed para generar los tokens de autenticación
   4. GOOGLE_API_REDIRECT_URI: la dirección donde queramos que google auth2 nos redireccione para conseguir el codigo de verificación de los permisos
-  3. *npm run start** para iniciar el servidor nodejs, alternativamente podemos ejecutar
-  4.  *npm run dev** para iniciar el servidor en modo desarrollador
+  3. *npm run start*  para iniciar el servidor nodejs, alternativamente podemos ejecutar
+  4.  *npm run dev*  para iniciar el servidor en modo desarrollador
 
 
 
