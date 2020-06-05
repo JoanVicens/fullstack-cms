@@ -125,7 +125,7 @@ Otros objetivos que se van a intentar cumplir son mejorar la fiabilidad de la co
 
 # Estado actual del problema
 
-
+Con las restricciones de la actual ley de protección de datos, la gestión diaria de ciertos aspectos de la Asociación Cultural Banda UJI resulta bastante tediosa. Si a eso le sumamos los cambios en la política de mailing de la UJI, la asociación necesita de alguna herramienta para poder gestionar sus integrantes de forma eficiente.
 
 
 # Solución propuesta
