@@ -18,27 +18,27 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-fileupload": "^1.1.7-alpha.3",
+    "express-fileupload": "^1.2.0",
     "express-session": "^1.17.1",
-    "follow-redirects": "^1.11.0",
-    "google-auth-library": "^6.0.0",
+    "follow-redirects": "^1.13.0",
+    "google-auth-library": "^6.0.6",
     "googleapis": "^39.2.0",
     "http": "0.0.0",
     "jsonwebtoken": "^8.5.1",
-    "mailparser": "^2.7.7",
-    "moment": "^2.24.0",
-    "mongoose": "^5.9.11",
+    "mailparser": "^2.8.1",
+    "moment": "^2.27.0",
+    "mongoose": "^5.10.3",
     "morgan": "^1.9.1",
     "multer": "^1.4.2",
     "node-mailjet": "^3.3.1",
-    "nodemailer": "^6.4.5",
-    "open": "^7.0.3",
+    "nodemailer": "^6.4.11",
+    "open": "^7.2.1",
     "pdfkit": "^0.11.0",
     "redis": "^3.0.2",
     "server-destroy": "^1.0.1",
     "uuid": "^7.0.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.3"
+    "nodemon": "^2.0.4"
   }
 }
