@@ -26,7 +26,7 @@
     },
     methods: {
       recuperar() {
-        axios.post('/auth/token_recuperacio')
+        axios.post('/auth/token_recuperacio', { email: this.email })
         .then(response => {
           this.enviatCorrectament = true
         })

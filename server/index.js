@@ -46,6 +46,7 @@ if(process.env.NODE_ENV === 'production') {
   // app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'))
 } else {
   // DEV
+  console.log('* DEVELOPER MODE * ');
   app.use(morgan('dev'));
 }
 

@@ -224,7 +224,7 @@ const routes = [
   },
 
   {
-    path: '/recuperacio',
+    path: '/recuperacio/',
     name: 'recuperacio',
     component: Recuperacio,
     meta: {
@@ -234,7 +234,7 @@ const routes = [
   },
 
   {
-    path: '/actualitzar',
+    path: '/actualitzar/',
     name: 'actualitzar',
     component: CanviContrassenya,
     meta: {

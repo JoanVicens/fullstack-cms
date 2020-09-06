@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="">
+  <div class="container mt-4">
     <b-alert variant="success" :show="error != ''">{{error}}</b-alert>
     <div class="form-group">
       <label for="password">Contrasenya</label>
@@ -26,7 +26,7 @@
   import axios from 'axios'
 
   export default {
-    name: 'Canviar la contrasenya',
+    name: 'Canviar_la_contrasenya',
     data() {
       return {
         password: '',
@@ -42,21 +42,21 @@
         } else if(this.password.trim().lenght < 8) {
           this.error = 'La contrasenya ha de tindre un mínim de 8 caracters';
           return false;
-        } else if(! lletra_numero_caracter.test(this.password)) {
+        } /*else if(! lletra_numero_caracter.test(this.password)) {
           this.error = 'Comporova que la contrasenya tingui com a mínim una lletra minúscula, una majuscula i un número o caracter espcial';
           return false;
-        } else {
+        } */else {
           return true
         }
       },
+      validarContrasenya() {
+      },
       actualitzar() {
-        const jwt = this.$route.params.jwt
-        if(this.comprovarContrasenya() && jwt) {
+        if(this.comprovarContrasenya() && this.$route.query.token) {
 
-
-          axios.post('/auth/recuperar', {token: jwt, password: this.password})
+          axios.post('/auth/recuperar', {token: this.$route.query.token, password: this.password})
           .then(() => {
-            this.$router.push('/login')
+            this.$router.push('/entrar')
           })
           .catch(err => {
             console.error(err);

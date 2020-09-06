@@ -4,9 +4,9 @@ const session = require('express-session');
 const middlewares = require('../middlewares')
 const newsletter = require('../config/newsletter');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-
 const UUID = require("uuid");
+const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 
 const Music = require('../models/music');
 const musicController = require('../controlers/musicControler');
@@ -196,20 +196,19 @@ router.get('/logout', (req, res, next) => {
 
 router.post('/token_recuperacio', (req, res) => {
 
-  const email = req.email
+  const email = req.body.email
 
-  Music.findOne({email})
-  .then(music => {
+  Music.findOne({'email': email})
+    .then(async music => {
     if(music) {
-      const token_payload = {
-        id: music._id,
-        data_registre: music.data_registre
-      }
-
-      music.secret_token = middlewares.crearJsonWebToken(token_payload, { expiresIn: '10h' })
-
+      console.log('alskdjfñlask');
+      const buf = crypto.randomBytes(128);
+      const token = buf.toString('hex')
+      
+      music.secret_token = await bcrypt.hash(token, 8);
       music.save()
       .then(() => {
+        mailer.enviarRecuperacio(email, music.secret_token)
         res.status(200).json({message: "S'ha enviat un correu amb les instruccions"})
       })
       .catch(console.error)
@@ -223,23 +222,17 @@ router.post('/token_recuperacio', (req, res) => {
 
 })
 
-router.post('/recuperar', (req, res) => {
-  if(req.body.jwt && req.body.password) {
+router.post('/recuperar', async (req, res) => {
+  if(req.body.token && req.body.password) {
     const pass = req.body.password
+    const token = req.body.token
 
-    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
-
-    if (typeof decoded.exp !== 'undefined' && decoded.exp < now) {
-      const err = new Error('El token ha expirat');
-      notAuthorized(err, req, res, next);
-    }
-
-
-    // const passEncriptda = await bcrypt.hash(pass.trim(), 8);
+    console.log(pass);
+    const passEncriptda = await bcrypt.hash(pass.trim(), 8);
 
     Music.findOneAndUpdate(
-      {'_id':decoded.id},
-      {password: pass}
+      { secret_token: token },
+      { password: passEncriptda }
     )
     .then((result) => {
       res.status(200).json({message: 'Contrasenya canviada correctament'})

@@ -115,17 +115,17 @@ exports.enviarCorreu = (music, correu, adjunts) => {
 }
 
 
-exports.enviarRecuperacio = (email, codi) => {
+exports.enviarRecuperacio = (email, token) => {
   const opt  = emailsTemplates.confirmacio;
-
-  const url = `localhost:8080/actualitzar/${codi}`;
+  console.log(token)
+  const url = `${process.env.CLIENT_URL}/actualitzar?token=${token}`;
 
   var mailOptions = {
     from: opt.from,
     to: email,
     subject: 'Recuperació del compte',
     text: opt.text + token,
-    html: `<strong>Utilitza aquest link per a recuperar el teu compte: </strong><a href="${direccio}"></a>`
+    html: `<strong>Utilitza aquest link per a recuperar el teu compte: </strong><a href="${url}" target="_blank">Recuperar compte</a>`
   };
 
   transporter.sendMail(mailOptions, (err, res) => {
