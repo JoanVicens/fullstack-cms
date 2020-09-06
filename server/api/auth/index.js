@@ -30,7 +30,7 @@ router.post('/registrar', (req, res, next) => {
       al: req.body.al,
       email: req.body.email,
       telefon: req.body.telefon,
-      corda: req.body.instrument,
+      corda: req.body.corda,
       data_naixement: req.body.data_naixement,
       data_registre: Date.now(),
       sexe: req.body.sexe,
@@ -46,6 +46,9 @@ router.post('/registrar', (req, res, next) => {
     .save()
     .then(result => { // music guardat
 
+
+      console.log('creat correctament!!!')
+
       if(req.body.llista_correu) {
         newsletter.afegirALaLlista(result.mailjet_id)
       }
@@ -57,7 +60,10 @@ router.post('/registrar', (req, res, next) => {
       });
 
     })
-    .catch(error => { next(error); });
+    .catch(error => { 
+      newsletter.eliminarContacte(mailjetID)
+      next(error); 
+    });
 
   })
   .catch(next)

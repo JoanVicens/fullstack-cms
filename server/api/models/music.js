@@ -57,10 +57,10 @@ musicSchema.pre("save", async function (next) {
   let musicRegistrat = false;
 
   if(music.al !== '000000') {
-    musicRegistrat = await Music.findOne({$or: [{al: music.al}, {email: music.email}]});
+    musicRegistrat = await Music.findOne({ $or: [{ email: music.email }, {al: music.al}]});
   }
 
-  if(musicRegistrat) {
+  if ((musicRegistrat.email === music.email || musicRegistrat.al === music.al) && musicRegistrat.al !== null) {
     // El AL ja està regsitrat
     const error = new Error('El usuari ja està registrat');
     next(error);
