@@ -4,8 +4,8 @@
       <h2>Assistència</h2>
     </div>
     <div class="grafic-wrapper">
-      <div class="c100 orange grafic" :class="'p'+info.semestres[numeroSemetre].percentatge.toFixed(0)">
-          <span class="tantpercent">{{info.semestres[numeroSemetre].percentatge.toFixed(0)}}%</span>
+      <div class="c100 orange grafic" >
+          <span class="tantpercent">{{ percentatge }}%</span>
           <div class="slice">
               <div class="bar"></div>
               <div class="fill"></div>
@@ -40,8 +40,22 @@
     },
     data() {
       return {
-        numeroSemetre: -1,
-        percentatge: ''
+        numeroSemetre: 0,
+        //percentatge: ''
+      }
+    },
+    computed: {
+      percentatge_class: function () {
+        let percentatge = this.info.semestres[this.numeroSemetre].percentatge.toFixed(0)
+        return percentatge != NaN ? 'p ' : `p${percentatge}`
+      },
+      percentatge: function () {
+        let percentatge = this.info.semestres[this.numeroSemetre].percentatge.toFixed(0)
+        return (!isNaN(percentatge)) ? percentatge : ''
+      },
+      pg: function() {
+
+        return this.info.semestres[this.numeroSemetre].percentatge.toFixed(0)
       }
     },
     mounted() {

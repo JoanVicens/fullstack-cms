@@ -106,8 +106,6 @@
           password: this.music.password,
         };
 
-        console.log(credencials);
-
         axios
           .post(this.API_URL, credencials)
           .then(response => { // Responsa del servidor

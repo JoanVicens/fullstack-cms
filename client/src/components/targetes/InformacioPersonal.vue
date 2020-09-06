@@ -73,7 +73,7 @@
       // InfoIcon
     },
     mounted() {
-      console.log('music', this.music)
+      //console.log('music', this.music)
     }
   }
 </script>
