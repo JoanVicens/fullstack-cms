@@ -1,6 +1,9 @@
 <template lang="html">
   <main>
     <div class="container-sm">
+      <b-card no-body class="overflow-hidden p-4" v-if="actuacions.length === 0">
+        <h2> Encara no hi ha actuacions programades</h2>
+      </b-card>
       <b-card no-body class="overflow-hidden mb-3" v-for="(actuacio, index) in actuacions" :key="index">
         <div class="custom-card">
           <b-card-body :title="actuacio.titol">
