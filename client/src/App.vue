@@ -23,11 +23,13 @@
       <SideNavbar ref="sidebar" v-on:close-clicked="toggleSidebar" />
       <router-view></router-view>
     </div>
+    <NotificacioFlotant />
     <div class="overlay" v-on:click="toggleSidebar" ref="overlay"></div>
   </div>
 </template>
 
 <script>
+  import NotificacioFlotant from './components/notificacions/NotificacioFlotant.vue'
   import SideNavbar from './components/nav/SideNavbar.vue'
   import BotonsHeader from './components/BotonsHeader.vue'
 
@@ -38,6 +40,7 @@
   export default {
     name: 'App',
     components: {
+      NotificacioFlotant,
       SideNavbar,
       BotonsHeader
     },
@@ -92,6 +95,8 @@
   @import ./sass/sidebar
   @import ./sass/animacions
   @import ./sass/botons
+  @import ./sass/notificacions
+
 
   @import '../node_modules/bootstrap/scss/bootstrap'
 

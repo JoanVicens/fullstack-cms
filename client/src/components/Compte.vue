@@ -6,6 +6,7 @@
         <GestioNav v-if="store.getters.esJunta || store.getters.esAdmin" />
       </div>    
     </aside>
+    <NotifiacioFixa />
     <router-view class="mt-3"></router-view>
   </div>
 </template>
@@ -14,9 +15,11 @@
   import store from "../store.js";
   import CompteNav from "./nav/CompteNav";
   import GestioNav from "./nav/GestioNav";
+  import NotifiacioFixa from './notificacions/NotificacioFixa'
+
   export default {
     name: 'Compte',
-    components: {CompteNav, GestioNav},
+    components: {CompteNav, GestioNav, NotifiacioFixa },
     data() {
       return {
         store

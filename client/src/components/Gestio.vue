@@ -13,12 +13,17 @@
         <li style="color: #fff"><router-link :to="{ path: '/compte/principal', params: {} }">Tornar</router-link></li>
       </ul>
     </aside>
+    <NotifiacioFixa />
     <router-view class="mt-3"></router-view>
   </div>
 </template>
 
 <script>
+  import NotifiacioFixa from './notificacions/NotificacioFixa'
+
   export default {
+    name: 'Gestio',
+    components: { NotifiacioFixa }
   }
 </script>
 
