@@ -1,8 +1,8 @@
 <template>
-    <div class="notificacio" ref="notificacio" v-bind:class="{hide: message == null}">
-        <div class="container">
-            <XCircleIcon size="1x" class="is-button dismiss-notification" v-on:click="dismissNotification"></XCircleIcon>
+    <div class="container" v-bind:class="{hide: message == null}">
+        <div class="notificacio" ref="notificacio">
             {{ message }}
+            <XCircleIcon size="1x" class="is-button" v-on:click="dismissNotification"></XCircleIcon>
         </div>
     </div>
 </template>
@@ -53,17 +53,20 @@
 </script>
 
 <style lang="scss" scoped>
+    .container.hide {
+        display: none;
+    }
     .notificacio {
-        display: block;
-        line-height: 20px; 
-        &.hide {
-            display: none;
-        }
+        display: flex;
+        font-size: 20px;
+        border-radius: 5px;
+        margin: 10px auto;
+        padding: 5px 15px;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;   
     }
-    .dismiss-notification {
-        line-height: 20px; 
-    }
-    .container {
-        padding: 20px
+    .is-button {
+        margin-left: auto;
     }
 </style>
