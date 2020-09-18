@@ -24,7 +24,7 @@
 </script>
 
 <style lang="sass" scoped>
-  @import ../../sass/colors.sass
+  @import ../../sass/colors.scss
 
   .collapse
     padding: 5px 0

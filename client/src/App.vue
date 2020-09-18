@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" ref="root">
     <header class="navegacio">
       <div class="navbar navbar-dark bg-transparent" id="header">
         <div class="container">
@@ -12,39 +12,24 @@
               <h5>{{$route.name}}</h5>
             </div>
           </div>
-
-          <MenuIcon size="2x"
-            id="menuIcon"
-            v-on:click="obrirMenu"
-            class="float-right" />
-
-          <div id="usuari-header">
-
-          </div>
-
-          <div v-if="$route.name=== '' || $route.path=== '/recuperacio'" id="botonsCompte" style="margin-left: auto">
-            <router-link :to="{ path: '/comptes/entrar', name:'login', params: {} }" class="btn btn-outline-light float-right mr-3">Entrar</router-link>
-            <router-link :to="{ path: '/comptes/crear', name:'crearCompte', params: {} }" class="btn btn-outline-light float-right">Crear comopte</router-link>
-          </div>
+          
+          <BotonsHeader v-on:hamburger-clicked="toggleSidebar" />
         </div>
 
       </div>
 
     </header>
-    <Navbar />
-    <div class="" id="content">
+    <div class="" id="content" ref="content">
+      <SideNavbar ref="sidebar" v-on:close-clicked="toggleSidebar" />
       <router-view></router-view>
     </div>
-    <div class="overlay" v-on:click="tancarMenu"></div>
+    <div class="overlay" v-on:click="toggleSidebar" ref="overlay"></div>
   </div>
 </template>
-<!-- {{this.$route.meta.titol}} -->
 
 <script>
-  import Navbar from './components/nav/Navbar.vue'
-  import { accionsMenuMixin } from './mixins/accionsMenuMixin'
-
-  import { MenuIcon } from 'vue-feather-icons'
+  import SideNavbar from './components/nav/SideNavbar.vue'
+  import BotonsHeader from './components/BotonsHeader.vue'
 
   import store from './store.js'
 
@@ -53,18 +38,47 @@
   export default {
     name: 'App',
     components: {
-      Navbar,
-      MenuIcon
+      SideNavbar,
+      BotonsHeader
     },
-    mixins: [accionsMenuMixin],
-    mounted() {
-      if(this.$session.exists('token')) {
-        const token = this.$session.get('token')
-        this.$session.set('token', token)
-        Vue.http.headers.common['Authorization'] = 'Bearer ' + token
-        store.commit('loggedMusic')
-        this.$router.push('/compte/principal');
+    data() {
+      return {
+        showSidebar: false,
+        sidebar,
+        overlay,
+        content
       }
+    },
+    methods: {
+      checkLoggedUser() {
+          if(this.$session.exists('token')) {
+            const token = this.$session.get('token')
+            this.$session.set('token', token)
+            Vue.http.headers.common['Authorization'] = 'Bearer ' + token
+            store.commit('loggedMusic')
+            this.$router.push('/compte/principal');
+        }
+      },
+      toggleSidebar() {
+        this.showSidebar = !this.showSidebar
+
+        if(this.showSidebar) {
+          this.sidebar.classList.add('active')
+          this.overlay.classList.add('active')
+          this.content.classList.add('locked')
+        } else {
+          this.sidebar.classList.remove('active')
+          this.overlay.classList.remove('active')
+          this.content.classList.remove('locked')
+        }
+      }
+    },
+    mounted() {
+      this.checkLoggedUser()
+
+      this.sidebar = this.$refs.sidebar.$el;
+      this.overlay = this.$refs.overlay;
+      this.content = this.$refs.content;
     }
   }
 </script>
@@ -93,23 +107,24 @@
   #content
     background-color: #FEF8EC
 
-
-  @media (min-width: 1175px)
-    #sidebar,
-    #menuIcon
-      display: none
-
-  @media (max-width: 1175px)
-    #botonsCompte
-      display: none !important
-
   .titols
     display: block !important
 
-  @media (max-width: 765px)
-    .titols
-      display: none !important
+  @media (max-width: 1175px)
+    .subheader-nav
+        display: none
+    .hamburger
+      display: inline-block
+    .buttons
+        display: none
+        
 
-
+  @media (min-width: 1175px)
+    .subheader-nav
+        display: flex
+    .hamburger
+      display: none
+    .buttons
+      display: inline-block
 
 </style>

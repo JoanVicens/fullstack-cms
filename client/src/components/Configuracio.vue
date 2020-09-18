@@ -4,7 +4,7 @@
       <!--" @reset="onReset" -->
       <b-overlay :show="!music.compte_actiu" rounded="sm">
 
-        <template v-slot:overlay>
+        <template v-slot:overlay v-if="!music.compte_actiu">
           <h2>El compte no està actiu</h2>
         </template>
 
@@ -52,8 +52,8 @@
               ></b-form-input>
             </b-form-group>
 
-            <template v-slot:header>
-              <small class="float-right">Informació necessaria per a obtenir els crèdits</small>
+            <template v-slot:footer>
+              <small class="float-right text-muted">Informació necessaria per a obtenir els crèdits</small>
             </template>
 
           </b-card>

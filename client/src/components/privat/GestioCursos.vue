@@ -38,7 +38,7 @@
 </template>
 
 <script>
-  import { StarIcon  } from 'vue-feather-icons'
+  import { StarIcon } from 'vue-feather-icons'
 
   import axios from 'axios';
 
@@ -97,6 +97,8 @@
 </script>
 
 <style lang="sass" scoped>
+  @import ../../sass/colors
+
   .card-header:hover
     cursor: pointer
   .curs-actual
@@ -105,9 +107,9 @@
     margin-right: 10px
     display: inline
     svg
-      fill: gold
+      fill: $accent-yellow
   .curs-actual-badge
-    background-color: gold
+    background-color: $accent-yellow
     font-size: 1.1rem
     text-align: center
     display: block

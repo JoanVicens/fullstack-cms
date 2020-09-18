@@ -1,6 +1,6 @@
 <template lang="html">
   <div id="gestio">
-    <aside>
+    <aside class="subheader-nav">
       <ul>
         <li><router-link :to="{ path: '/gestio/dashboard', params: {} }">Dashboard</router-link></li>
         <li><router-link :to="{ path: '/gestio/musics', params: {} }">Músics</router-link></li>
@@ -11,12 +11,9 @@
         <li><router-link :to="{ path: '/gestio/credits', params: {} }">Crèdits</router-link></li>
         <li><router-link :to="{ path: '/gestio/newsletter', params: {} }">Newsletter</router-link></li>
         <li style="color: #fff"><router-link :to="{ path: '/compte/principal', params: {} }">Tornar</router-link></li>
-        <li>
-          <router-link :to="{ path: '/compte/logout', name: 'logout', params: {} }">Tancar sessió</router-link>
-        </li>
       </ul>
     </aside>
-    <router-view></router-view>
+    <router-view class="mt-3"></router-view>
   </div>
 </template>
 
@@ -26,39 +23,13 @@
 </script>
 
 <style lang="sass" scoped>
-  aside
-    margin: 0 auto
-    display: flex
-    flex-wrap: wrap
-    width: 100%
-    align-items: center
-    justify-content: center
-    background-color: lightblue
-    line-height: 1.5 !important
-    margin-bottom: 25px
-    min-height: 49px
-    ul
-      list-style: none
-      padding: 0
-      margin: 0
-      display: block
-      li
-        display: inline
-        margin: 0 10px
-        padding: 16px 6px
-        padding-bottom: 14px
-        flex: auto
-        border-bottom: 3px solid transparent
-        &:hover
-          border-bottom: 3px solid #444
-        a
-          color: #444
-          text-transform: uppercase
-          white-space: nowrap
+  @import ../sass/colors
+  @import ../sass/subheader-nav
 
-  @media (max-width: 1175px)
-    aside
-      display: none
-    #gestio
-      padding-top: 25px
+  .subheader-nav
+    background-color: $atomic-orange
+    a
+      color: white
+      &:hover
+        color: #444
 </style>

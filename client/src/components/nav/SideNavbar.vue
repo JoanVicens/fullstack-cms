@@ -1,26 +1,23 @@
 <template lang="html">
   <nav id="sidebar">
-    <div class="sidebar-header" v-on:click="tancarMenu">
+    <div class="sidebar-header" v-on:click="$emit('close-clicked')">
       TANCAR
-      <!-- <div id="dismiss" v-on:click="tancarMenu">
-        <x-icon size="2x"></x-icon>
-      </div> -->
     </div>
 
     <section class="sidebar-content">
 
       <ul class="components">
 
-        <div v-if="!store.getters.isLogged">
-          <li v-on:click="tancarMenu" >
+        <div v-if="!store.getters.isLogged" class="sessionOpts">
+          <li v-on:click="$emit('close-clicked')" >
             <router-link :to="{ path: '/comptes/entrar', name:'login', params: {} }">Entrar</router-link>
           </li>
-          <li v-on:click="tancarMenu">
+          <li v-on:click="$emit('close-clicked')">
             <router-link :to="{ path: '/comptes/crear', name:'crearCompte', params: {} }">Crear compte</router-link>
           </li>
         </div>
 
-        <div v-else>
+        <div v-else class="navOpts">
           <div v-if="store.getters.esJunta || store.getters.esAdmin" class="bg-blue">
             <li class="gestio">
               <div v-b-toggle.llistaGestio class="menuDesplegable">
@@ -28,7 +25,7 @@
                 <triangle-icon size="1x" :class="g_visible ? 'girar' : ''"></triangle-icon>
               </div>
               <b-collapse id="llistaGestio" v-model="g_visible">
-                <ul v-on:click="tancarMenu">
+                <ul v-on:click="$emit('close-clicked')">
                   <li>
                     <router-link :to="{ path: '/gestio/dashboard', params: {} }">Dashboard</router-link>
                   </li>
@@ -57,24 +54,18 @@
               </b-collapse>
             </li>
           </div>
-          <div v-on:click="tancarMenu">
+          <div v-on:click="$emit('close-clicked')">
             <li>
               <router-link :to="{ path: '/compte/principal', params: {} }">Principal</router-link>
             </li>
-            <li>
+            <!-- <li>
               <router-link :to="{ path: '/compte/assistencia', name: 'assistencia', params: {} }">Assistència</router-link>
-            </li>
+            </li> -->
             <li>
               <router-link :to="{ path: '/compte/actuacions', name: 'Actuacions', params: {} }">Actuacions</router-link>
             </li>
-            <!-- <li>
-              <router-link to="">Enquestes</router-link>
-            </li> -->
             <li>
               <router-link :to="{ path: '/compte/preferencies', name: 'Preferències', params: {} }">Preferències</router-link>
-            </li>
-            <li>
-              <router-link to="">Notificacions</router-link>
             </li>
             <li>
               <router-link :to="{ path: '/compte/logout', name: 'logout', params: {} }">Tancar sessió</router-link>
@@ -110,7 +101,6 @@
 </template>
 
 <script>
-import { accionsMenuMixin } from '../../mixins/accionsMenuMixin'
 import store from "../../store.js";
 import { TriangleIcon } from 'vue-feather-icons'
 import { InstagramIcon, FacebookIcon, MailIcon, YoutubeIcon } from 'vue-feather-icons'
@@ -124,7 +114,6 @@ export default {
     MailIcon,
     YoutubeIcon
   },
-  mixins: [accionsMenuMixin],
   data() {
     return {
       store,
@@ -135,8 +124,12 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-  ul
+  ul.components
+    width: 100%
     padding: 0
+    .sessionOpts,
+    .navOpts
+      width: 100%
     li
       list-style: none
       a

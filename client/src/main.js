@@ -17,10 +17,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-import $ from 'jquery'
-// Fa que Jquery sigui accesible per a tots el components
-window.$ = window.jQuery = require('jquery');
-
 Vue.use(BootstrapVue )
 Vue.use(Vuex)
 Vue.use(VueResource);
@@ -69,7 +65,6 @@ Vue.use(VuePlyr, {
 })
 
 new Vue({
-  $,
   router,
   render: h => h(App),
 }).$mount('#app')

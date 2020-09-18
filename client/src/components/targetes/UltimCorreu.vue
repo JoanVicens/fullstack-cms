@@ -77,7 +77,7 @@
 </script>
 
 <style lang="sass" scoped>
-  @import ../../sass/colors.sass
+  @import ../../sass/colors.scss
 
   .assajos
     font-weight: bolder
