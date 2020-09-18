@@ -7,9 +7,6 @@ import VueSession from 'vue-session'
 import VueSessionStorage from 'vue-sessionstorage'
 import VuePlyr from 'vue-plyr'
 
-
-
-
 import VueResource from 'vue-resource';
 
 import 'bootstrap'
@@ -32,27 +29,8 @@ Vue.use(require('vue-moment'), {
 
 import router from './router.js';
 
-import axios from 'axios';
+import interceptors from './interceptors';
 
-axios.interceptors.response.use(function (response) {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
-    return response;
-  }, function (error) {
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
-    if(error.response.status == 401) {
-      console.log('sessió caducada redirigint a /');
-
-      localStorage.removeItem('musics')
-      localStorage.removeItem('cursos')
-      localStorage.removeItem('cursIdSeleccionat')
-      localStorage.removeItem('idCursActiu')
-
-      router.push({name: 'error', params: {msgError: 'Sessió Caducada'}})
-    }
-    return Promise.reject(error);
-  });
 
 Vue.config.productionTip = false
 
@@ -65,6 +43,7 @@ Vue.use(VuePlyr, {
 })
 
 new Vue({
+  interceptors,
   router,
   render: h => h(App),
 }).$mount('#app')
