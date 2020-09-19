@@ -8,7 +8,7 @@ export default axios.interceptors.response.use(function (response) {
     
     store.commit('saveMessage', {
         message: response.config.url,
-        color: 'blue'
+        class: 'error'
     })
 
     return response;

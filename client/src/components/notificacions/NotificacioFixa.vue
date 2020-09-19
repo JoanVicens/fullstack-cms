@@ -24,6 +24,7 @@
         methods: {
             dismissNotification() {
                 this.store.commit('dismissMessage')
+                this.$refs.notificacio.classList.remove(this.currentClassName)
                 this.message = null
             },
             refreshMsg() {
@@ -42,9 +43,9 @@
             this.store.subscribe( (mutation, state) => {
                 if (mutation.type === 'saveMessage') {
                     this.refreshMsg()
-                    let color = this.store.getters.color
+                    this.currentClassName = this.store.getters.class;
                     if(this.$refs.notificacio) {
-                        this.$refs.notificacio.style = `background-color: ${color}`
+                        this.$refs.notificacio.classList.add(this.currentClassName)
                     }
                 }
             })
