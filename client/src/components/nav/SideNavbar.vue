@@ -18,37 +18,62 @@
         </div>
 
         <div v-else class="navOpts">
-          <div v-if="store.getters.esJunta || store.getters.esAdmin" class="bg-blue">
-            <li class="gestio">
+          <div v-if="store.getters.esJunta || store.getters.esAdmin">
+            <li class="gestio" :class="g_visible ? '' : 'collapsed'">
               <div v-b-toggle.llistaGestio class="menuDesplegable">
                 <span>Gestió</span>
-                <triangle-icon size="1x" :class="g_visible ? 'girar' : ''"></triangle-icon>
+                <ChevronDownIcon  size="1x" :class="g_visible ? 'girar' : ''"/> 
+                <!-- <triangle-icon size="1x" :class="g_visible ? 'girar' : ''"></triangle-icon> -->
               </div>
               <b-collapse id="llistaGestio" v-model="g_visible">
                 <ul v-on:click="$emit('close-clicked')">
                   <li>
-                    <router-link :to="{ path: '/gestio/dashboard', params: {} }">Dashboard</router-link>
+                    <router-link :to="{ path: '/gestio/dashboard', params: {} }">
+                      <ActivityIcon size="1x" />
+                      <span>Dashboard</span>
+                    </router-link>
                   </li>
                   <li>
-                    <router-link :to="{ path: '/gestio/assitencia', params: {} }">Assitència</router-link>
+                    <router-link :to="{ path: '/gestio/assitencia', params: {} }">
+                      <FileTextIcon size="1x" />
+                      <span>Assitència</span>
+                    </router-link>
                   </li>
                   <li>
-                    <router-link :to="{ path: '/gestio/assajos', params: {} }">Assajos</router-link>
+                    <router-link :to="{ path: '/gestio/assajos', params: {} }">
+                      <WindIcon size="1x" />
+                      <span>Assajos</span>
+                    </router-link>
                   </li>
                   <li>
-                    <router-link :to="{ path: '/gestio/cursos', params: {} }">Cursos</router-link>
+                    <router-link :to="{ path: '/gestio/cursos', params: {} }">
+                      <BoxIcon size="1x" />
+                      <span>Cursos</span>
+                    </router-link>
                   </li>
                   <li>
-                    <router-link :to="{ path: '/gestio/actuacions', params: {} }">Actuacions</router-link>
+                    <router-link :to="{ path: '/gestio/actuacions', params: {} }">
+                      <MusicIcon size="1x" />
+                      <span>Actuacions</span>
+                    </router-link>
                   </li>
                   <li>
-                    <router-link :to="{ path: '/gestio/credits', params: {} }">Crèdits</router-link>
+                    <router-link :to="{ path: '/gestio/credits', params: {} }">
+                      <TrelloIcon  size="1x" />
+                      <span>Crèdits</span>
+                    </router-link>
                   </li>
                   <li>
-                    <router-link :to="{ path: '/gestio/newsletter', params: {} }">Newsletter</router-link>
+                    <router-link :to="{ path: '/gestio/newsletter', params: {} }">
+                      <MailIcon size="1x" />
+                      <span>Newsletter</span>
+                    </router-link>
                   </li>
                   <li>
-                    <router-link :to="{ path: '/gestio/musics', params: {} }">Músics</router-link>
+                    <router-link :to="{ path: '/gestio/musics', params: {} }">
+                      <UsersIcon size="1x" />
+                      <span>Músics</span>
+                    </router-link>
                   </li>
                 </ul>
               </b-collapse>
@@ -56,19 +81,25 @@
           </div>
           <div v-on:click="$emit('close-clicked')">
             <li>
-              <router-link :to="{ path: '/compte/principal', params: {} }">Principal</router-link>
+              <router-link :to="{ path: '/compte/principal', params: {} }">
+                <HomeIcon size="1x" />
+                <span>Principal</span>
+              </router-link>
             </li>
             <!-- <li>
               <router-link :to="{ path: '/compte/assistencia', name: 'assistencia', params: {} }">Assistència</router-link>
             </li> -->
             <li>
-              <router-link :to="{ path: '/compte/actuacions', name: 'Actuacions', params: {} }">Actuacions</router-link>
+              <router-link :to="{ path: '/compte/actuacions', name: 'Actuacions', params: {} }">
+                <CompassIcon size="1x" />
+                <span>Actuacions</span>
+              </router-link>
             </li>
             <li>
-              <router-link :to="{ path: '/compte/preferencies', name: 'Preferències', params: {} }">Preferències</router-link>
-            </li>
-            <li>
-              <router-link :to="{ path: '/compte/logout', name: 'logout', params: {} }">Tancar sessió</router-link>
+              <router-link :to="{ path: '/compte/preferencies', name: 'Preferències', params: {} }">
+                <SlidersIcon size="1x" />
+                <span>Preferències</span>
+              </router-link>
             </li>
           </div>
         </div>
@@ -97,50 +128,115 @@
         </li>
       </ul>
     </section>
+
+    <router-link :to="{ path: '/compte/logout', name: 'logout', params: {} }" class="logout" v-if="store.getters.isLogged">
+      <LogOutIcon size="1x" />
+      <span>Tancar sessió</span>
+    </router-link>
   </nav>
 </template>
 
 <script>
-import store from "../../store.js";
-import { TriangleIcon } from 'vue-feather-icons'
-import { InstagramIcon, FacebookIcon, MailIcon, YoutubeIcon } from 'vue-feather-icons'
+  import store from "../../store.js";
+  // Main optionss
+  import { HomeIcon, CompassIcon, SlidersIcon, LogOutIcon } from 'vue-feather-icons'
+  
+  // Social icons
+  import { InstagramIcon, FacebookIcon, MailIcon, YoutubeIcon } from 'vue-feather-icons'
 
-export default {
-  name: 'Navbar',
-  components: {
-    TriangleIcon,
-    FacebookIcon,
-    InstagramIcon,
-    MailIcon,
-    YoutubeIcon
-  },
-  data() {
-    return {
-      store,
-      g_visible: false
+  // Collapse icon + 'gestio' icons
+  import { ChevronDownIcon, ActivityIcon, FileTextIcon, WindIcon, BoxIcon, 
+           MusicIcon, TrelloIcon, UsersIcon} from 'vue-feather-icons'
+
+  export default {
+    name: 'Navbar',
+    components: {
+      ChevronDownIcon,
+      FacebookIcon,
+      InstagramIcon,
+      MailIcon,
+      YoutubeIcon,
+      HomeIcon,
+      CompassIcon,
+      SlidersIcon,
+      LogOutIcon,
+      ActivityIcon,
+      FileTextIcon,
+      WindIcon,
+      BoxIcon,
+      MusicIcon,
+      TrelloIcon,
+      MailIcon,
+      UsersIcon
+    },
+    data() {
+      return {
+        store,
+        g_visible: false
+      }
     }
   }
-}
 </script>
 
 <style lang="sass" scoped>
+  @import ../../sass/colors
+
+  #sidebar
+    display: flex
+    flex-wrap: wrap
+    flex-direction: column
+    overflow: hidden
+  
+  .navOpts, .sessionOpts
+    width: 100%
+
   ul.components
     width: 100%
+    margin: 0
     padding: 0
-    .sessionOpts,
-    .navOpts
-      width: 100%
+    position: relative
+    margin-bottom: 15px
+    &::after
+      content: ''
+      position: absolute
+      bottom: -15px
+      height: 3px
+      width: 70%
+      border-radius: 3px
+      margin-left: 15%
+      background-color: white
     li
       list-style: none
-      a
-        padding: 13px 20px 13px 20px
-        display: block
-        color: #444
-        font-size: 1.1em
-        &:hover
-          background-color: #fff
+      display: block
+      margin: 0
+      padding: 0
+      width: 100% !important
+      border-bottom: none
+      &.gestio
+        background-color: $atomic-orange
+        margin-bottom: 10px
+        padding-bottom: 10px
+        &.collapsed
+          padding-bottom: 0
+    
+  a
+    padding: 13px 20px 13px 20px
+    display: block
+    color: #444
+    font-size: 1.1em
+    line-height: 1.1em
+    span
+      margin-left: 15px
+    &:hover
+      background-color: #fff
+    &.logout
+      margin-top: auto
+      margin-bottom: 30px
+      &:hover
+        background-color: $brick-red
 
   .menuDesplegable
+    width: 100%
     display: flex
     justify-content: space-between
     align-items: center
@@ -149,15 +245,11 @@ export default {
     &:hover
       background-color: #333
     svg
-      fill: #eee
-      transform: rotate(0deg)
-      transition: all .4s linear
+      // fill: #eee
+      transform: rotate(-90deg)
+      transition: all .3s linear
     svg.girar
-      transform: rotate(180deg)
-
-  .bg-blue li
-    background-color: lightblue
-    color: #fff !important
+      transform: rotate(0deg)
 
   .social
     margin-top: 5px

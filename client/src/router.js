@@ -99,7 +99,7 @@ const routes = [
     component: Gestio,
     beforeEnter(to, from, next) {
       if(to.meta.requiresAuth) {
-        if(store.state.logged && (store.state.junta || store.state.admin)) {
+        if (store.getters.isLogged && (store.getters.esJunta || store.getters.esAdmin)) {
           next();
         } else {
           next('/principal');
