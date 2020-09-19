@@ -204,7 +204,7 @@
       width: 70%
       border-radius: 3px
       margin-left: 15%
-      background-color: white
+      background-color: #444
     li
       list-style: none
       display: block
@@ -217,6 +217,7 @@
         margin-bottom: 10px
         padding-bottom: 10px
         &.collapsed
+          margin-bottom: 0
           padding-bottom: 0
     
   a
