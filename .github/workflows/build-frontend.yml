@@ -22,7 +22,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Run a multi-line script
-        run: |
-          cd ./client,
-          npm run build
+      - name: build public folder
+        working-directory: ./client 
+        run: npm run build
