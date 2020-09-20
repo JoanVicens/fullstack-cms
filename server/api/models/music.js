@@ -24,7 +24,8 @@ const musicSchema = new Schema({
         return /^[a-zA-Z0-9.!#$%&\'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(correu);
       },
       message: "Introdueix un correu vàlid"
-    }
+    },
+    required: true
   },
   telefon: { type: 'string' },
   corda: { type: 'string', required: true },

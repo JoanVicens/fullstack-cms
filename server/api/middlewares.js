@@ -28,7 +28,7 @@ function musicAutoritzat(req, res, next) {
 
 function respondError422(res, next) {
   res.status(422);
-  const error = new Error('Unable to login.');
+  const error = new Error('Credencials incorrectes');
   next(error);
 }
 

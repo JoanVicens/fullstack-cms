@@ -1,13 +1,8 @@
 <template lang="html">
   <section class="container mt-4">
 
-    <!-- <div style="height: 48px">
-      <b-button variant="info" class="btn-lg mb-2 float-right" @click="$router.push('/')">Atras</b-button>
-    </div> -->
+    <NotificacioFixa />
 
-    <div v-if="error" class="alert alert-danger" role="alert">
-      {{error}}
-    </div>
     <form class="mt-4" @submit.prevent="validator">
 
       <small class="text-muted float-right">Els camps amb * són obligatoris</small>
@@ -34,7 +29,6 @@
           <input class="form-control" type="text " name="dni" v-model="music.dni">
         </div>
       </div>
-
 
       <div class="form-group">
         <label for="instrument">Intrument *</label>
@@ -139,6 +133,8 @@
 </template>
 
 <script>
+  import NotificacioFixa from './notificacions/NotificacioFixa.vue'
+
   // Comporova que la contrasenya tingui com a mínim una lletra minúscula, una majuscula, un número i un caracter espcial
   const lletra_numero_caracter = new RegExp(/^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/);
 
@@ -148,11 +144,10 @@
   export default {
     name: 'signin',
     components: {
-
+      NotificacioFixa
     },
     data () {
       return {
-        error: '',
         cordes: [
           {text: 'Clarinet', value: 'Clarinets'},
           {text: 'Flauta', value: 'Flautes'},
@@ -239,19 +234,7 @@
           })
       },
       validator() {
-        console.log('validator');
-        if(this.music.password != this.music.confirm_password) {
-          this.error = 'Les constrasenyes no coincideixen';
-          return false;
-        } else if(this.music.password.trim().lenght < 8) {
-          this.error = 'La contrasenya ha de tindre un mínim de 8 caracters';
-          return false;
-        } else if(! lletra_numero_caracter.test(this.music.password)) {
-          this.error = 'Comporova que la contrasenya tingui com a mínim una lletra minúscula, una majuscula i un número o caracter espcial';
-          return false;
-        } else {
-          this.submit();
-        }
+        this.submit();
       }
     }
   }

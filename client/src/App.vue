@@ -23,7 +23,7 @@
       <SideNavbar ref="sidebar" v-on:close-clicked="toggleSidebar" />
       <router-view></router-view>
     </div>
-    <NotificacioFlotant />
+    <NotificacioFlotant style="display: none" />
     <div class="overlay" v-on:click="toggleSidebar" ref="overlay"></div>
   </div>
 </template>

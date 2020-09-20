@@ -41,12 +41,19 @@ const store = new Vuex.Store({
     notifications: {
       state: {
         message: null,
-        class: ''
+        class: '',
+        action: ''
       },
       mutations: {
         saveMessage(state, obj) {
           state.message = obj.message
           state.class = obj.class
+        },
+        setAction(state, action) {
+          state.action = action
+        },
+        unsetAction(state) {
+          state.action = null
         },
         dismissMessage(state) {
           state.message = null
@@ -54,7 +61,8 @@ const store = new Vuex.Store({
       },
       getters: {
         message: state => { return state.message },
-        class: state => { return state.class }
+        class: state => { return state.class },
+        action: state => { return state.action }
       }
     }
   }

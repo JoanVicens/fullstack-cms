@@ -1,12 +1,10 @@
 <template lang="html">
 
-  <section class="container mt-4">
-    <!-- <b-breadcrumb :items="breadcrumb" class="mb-4"></b-breadcrumb> -->
+  <section class="mt-4">
 
-    <div v-if="error" class="alert alert-danger" role="alert">
-      {{error}}
-    </div>
-    <form class="" @submit.prevent="validator">
+    <NotficacioFixa />
+
+    <form class="container" @submit.prevent="validator">
 
       <div class="form-group">
         <label for="email">Email</label>
@@ -17,7 +15,7 @@
 
       <div class="form-group">
         <label for="password">Contrasenya</label>
-        <input class="form-control" type="password" name="password" v-model="music.password" v-on:focusout="validarContrasenya" required>
+        <input class="form-control" type="password" name="password" v-model="music.password" required>
       </div>
 
       <div class="pt-3">
@@ -45,6 +43,8 @@
 
   import Vue from 'vue';
 
+  import NotficacioFixa from './notificacions/NotificacioFixa.vue'
+
   const lletra_numero_caracter = new RegExp('^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$');
   //https://gist.github.com/ravibharathii/3975295
 
@@ -59,11 +59,10 @@
   export default {
     name: 'login',
     components: {
-
+      NotficacioFixa
     },
     data () {
       return {
-        error: '',
         loggingIn: false,
         music: {
           email: '',
@@ -80,23 +79,9 @@
           document.querySelectorAll('input[type=password]').forEach(input => input.classList.remove('is-invalid'))
         },
         deep: true,
-      },
-    },
-    created() {
-      this.API_URL = `/auth/autenticacio`
+      }
     },
     methods: {
-      validarContrasenya(e) {
-        // const input = e.target;
-        // const contrasenya = input.value;
-        // if(contrasenya.trim().length < 8) {
-        //   this.error = 'La contrasenya ha de tindre un mínim de 8 caracters';
-        //   input.classList.add('is-invalid');
-        // } else if(! lletra_numero_caracter.test(contrasenya)) {
-        //   this.error = 'Comporova que la contrasenya tingui com a mínim una lletra minúscula, una majuscula, un número i un caracter espcial';
-        //   input.classList.add('is-invalid');
-        // }
-      },
       submit () {
         this.error = '';
         this.loggingIn = true;
@@ -107,7 +92,7 @@
         };
 
         axios
-          .post(this.API_URL, credencials)
+          .post('/auth/autenticacio', credencials)
           .then(response => { // Responsa del servidor
             if (response.status === 200 && 'token' in response.data) {
               // this.$session.start()
@@ -116,8 +101,7 @@
 
               store.commit('loggedMusic')
 
-              this.$router.push('/compte/principal');
-
+              this.$router.push({name: 'principal'});
             }
           })
           .catch(err => {

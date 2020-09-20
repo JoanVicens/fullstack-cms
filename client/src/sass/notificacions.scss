@@ -18,3 +18,9 @@
     &::before { content: '😨' }
     background-color: $brick-red;
 }
+
+.succes {
+    &::before { content: '💪' }
+    background-color: $verdet;
+    color: $coffe
+}

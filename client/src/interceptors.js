@@ -5,18 +5,44 @@ import store from './store'
 export default axios.interceptors.response.use(function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
+
+    let message = response.message || response.data.message
+    let action = response.action || response.data.action
     
-    store.commit('saveMessage', {
-        message: response.config.url,
-        class: 'error'
-    })
+    switch(action) {
+        case 'LOGIN':
+            store.commit('setAction', '/entrar');
+            break;
+        default:
+            store.commit('setAction', action)
+    }
+
+    if (message) {    
+        switch(response.status) {
+            case 500:
+                store.commit('saveMessage', {
+                    message: message,
+                    class: 'error',
+                    action
+                })
+                break;
+            default:
+                store.commit('saveMessage', {
+                    message: message,
+                    class: 'succes',
+                    action
+                })
+        }
+    }
 
     return response;
 }, function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
+
+    console.log(error.response.data);
     if (error.response.status == 401) {
-        console.log('sessió caducada redirigint a /');
+        console.error('sessió caducada redirigint');
 
         localStorage.removeItem('musics')
         localStorage.removeItem('cursos')
@@ -24,8 +50,16 @@ export default axios.interceptors.response.use(function (response) {
         localStorage.removeItem('idCursActiu')
 
         router.push({ name: 'error', params: { msgError: 'Sessió Caducada' } })
-    } else if (response.hasOwnProperty('msgError')) {
-        store.commit('saveMessage', response.msgError)
+    } else if (error.response.data.message) { // El error te un missatge
+        store.commit('saveMessage', {
+            message: error.response.data.message,
+            class: 'error'
+        })
+    } else {
+        store.commit('saveMessage', { // El Error no te cap missatge
+            message: 'oupsi, algo ha anat malament',
+            class: 'error'
+        })
     }
 
     return Promise.reject(error);

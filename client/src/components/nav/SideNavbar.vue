@@ -10,10 +10,16 @@
 
         <div v-if="!store.getters.isLogged" class="sessionOpts">
           <li v-on:click="$emit('close-clicked')" >
-            <router-link :to="{ path: '/comptes/entrar', name:'login', params: {} }">Entrar</router-link>
+            <router-link :to="{ path: '/comptes/entrar', name:'login', params: {} }">
+              <LogInIcon size="1x" />
+              <span>Entrar</span>
+            </router-link>
           </li>
           <li v-on:click="$emit('close-clicked')">
-            <router-link :to="{ path: '/comptes/crear', name:'crearCompte', params: {} }">Crear compte</router-link>
+            <router-link :to="{ path: '/comptes/crear', name:'crearCompte', params: {} }">
+              <PlusSquareIcon size="1x" />
+              <span>Crear compte</span>
+            </router-link>
           </li>
         </div>
 
@@ -138,6 +144,9 @@
 
 <script>
   import store from "../../store.js";
+  // User options
+  import { LogInIcon, PlusSquareIcon } from 'vue-feather-icons'
+
   // Main optionss
   import { HomeIcon, CompassIcon, SlidersIcon, LogOutIcon } from 'vue-feather-icons'
   
@@ -152,13 +161,16 @@
     name: 'Navbar',
     components: {
       ChevronDownIcon,
+      // =================
       FacebookIcon,
       InstagramIcon,
       MailIcon,
       YoutubeIcon,
+      // =================
       HomeIcon,
       CompassIcon,
       SlidersIcon,
+      // =================
       LogOutIcon,
       ActivityIcon,
       FileTextIcon,
@@ -167,7 +179,10 @@
       MusicIcon,
       TrelloIcon,
       MailIcon,
-      UsersIcon
+      UsersIcon,
+      // =================
+      LogInIcon,
+      PlusSquareIcon
     },
     data() {
       return {

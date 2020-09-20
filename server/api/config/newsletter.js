@@ -1,18 +1,19 @@
 const mailjet = require ('node-mailjet')
 	.connect(process.env.MJ_APIKEY_PUBLIC, process.env.MJ_APIKEY_PRIVATE)
 
-exports.afegirContacte = (music) => {
+exports.afegirContacte = async (music) => {
 
 	const emailContacte = music.email || music.al + '@uji.es'
 
-	return mailjet
-		.post("contact", {'version': 'v3'})
+	const mailjetResponse = await mailjet
+		.post("contact", { 'version': 'v3' })
 		.request({
-				"IsExcludedFromCampaigns":"false",
-				"Name": music.nom,
-				"Email": emailContacte
-			})
+			"IsExcludedFromCampaigns": "false",
+			"Name": music.nom,
+			"Email": emailContacte
+		})
 
+	return mailjetResponse.body.Data[0].ID
 }
 
 exports.afegirALaLlista = (music) => {
