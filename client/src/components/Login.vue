@@ -100,6 +100,8 @@
               Vue.http.headers.common['Authorization'] = 'Bearer ' + response.data.token
 
               store.commit('loggedMusic')
+              store.commit('dismissMessage')
+              store.commit('setName', response.data.name)
 
               this.$router.push({name: 'principal'});
             }

@@ -10,7 +10,8 @@ const store = new Vuex.Store({
         music: null,
         logged: false,
         admin: false,
-        junta: false
+        junta: false,
+        name: ''
       },
       mutations: {
         loggedMusic(state) {
@@ -24,6 +25,12 @@ const store = new Vuex.Store({
         },
         esAdmin(state) {
           state.admin = true
+        },
+        setName(state, name) {
+          state.name = name
+        },
+        unsetName(state) {
+          state.name = ''
         }
       },
       getters: {
@@ -35,6 +42,9 @@ const store = new Vuex.Store({
         },
         esAdmin: state => {
           return state.admin
+        },
+        getName: state => {
+          return state.name
         }
       }
     },
@@ -57,6 +67,7 @@ const store = new Vuex.Store({
         },
         dismissMessage(state) {
           state.message = null
+          state.action = null
         }
       },
       getters: {

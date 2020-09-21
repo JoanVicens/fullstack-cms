@@ -69,16 +69,6 @@
     .container.hide {
         display: none;
     }
-    .notificacio {
-        display: flex;
-        font-size: 20px;
-        border-radius: 5px;
-        margin: 10px auto;
-        padding: 5px 15px;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;   
-    }
     .close {
         margin-left: auto;
     }

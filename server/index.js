@@ -48,6 +48,11 @@ if(process.env.NODE_ENV === 'production') {
   // DEV
   console.log('* DEVELOPER MODE * ');
   app.use(morgan('dev'));
+  app.get('/activacio/:token', (req, res) => {
+    console.log('Redireccionant al servidor del client', process.env.CLIENT_URL);
+    const token = req.params.token;
+    res.redirect(`${process.env.CLIENT_URL}/activacio/${token}`)
+  })
 }
 
 const middlewares = require('./api/middlewares.js');

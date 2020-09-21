@@ -11,6 +11,7 @@ import Principal from './components/Principal.vue'
 import Signin from './components/Signin.vue'
 import Login from './components/Login.vue'
 import Logout from './components/Logout.vue'
+import ActivacioCompte from './components/ActivacioCompte.vue'
 
 // Musics
 import Compte from './components/Compte.vue'
@@ -262,6 +263,16 @@ const routes = [
       titol: '',
       requiresAuth: false
     },
+  },
+
+  {
+    path: '/activacio/:token',
+    name: 'activacio',
+    component: ActivacioCompte,
+    meta: {
+      titol: 'Activar compte',
+      requiresAuth: false
+    }
   }
 ]
 

@@ -7,11 +7,8 @@
             <router-link :to="{ path: '/', params: {} }">
               <img src="./assets/logo.png" id="logo" alt="logo banda uji">
             </router-link>
-            <div class="titols">
-              <h2>Associació Cultural Banda UJI</h2>
-              <h5>{{$route.name}}</h5>
-            </div>
           </div>
+          <TextHeader />
           
           <BotonsHeader v-on:hamburger-clicked="toggleSidebar" />
         </div>
@@ -31,7 +28,8 @@
 <script>
   import NotificacioFlotant from './components/notificacions/NotificacioFlotant.vue'
   import SideNavbar from './components/nav/SideNavbar.vue'
-  import BotonsHeader from './components/BotonsHeader.vue'
+  import TextHeader from './components/header/TextHeader.vue'
+  import BotonsHeader from './components/header/BotonsHeader.vue'
 
   import store from './store.js'
 
@@ -42,6 +40,7 @@
     components: {
       NotificacioFlotant,
       SideNavbar,
+      TextHeader,
       BotonsHeader
     },
     data() {
@@ -114,6 +113,11 @@
 
   .titols
     display: block !important
+
+  .overlay
+    background-image: url('./assets/overlay.svg')
+    background-size: cover
+    opacity: .8 !important
 
   @media (max-width: 1175px)
     .subheader-nav

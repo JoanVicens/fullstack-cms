@@ -4,6 +4,14 @@
     color: white;
     font-weight: 500;
     font-size: 1.2em;
+    border-radius: 5px;
+    display: flex;
+    font-size: 20px;
+    margin: 10px auto;
+    padding: 5px 15px;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center; 
     .dismiss-notification {
         float: right;
         margin-right: 15px;

@@ -50,20 +50,18 @@ router.post('/registrar', async (req, res, next) => {
 });
 
 // Activació del copmte
-router.get('/activate/:secret_token', (req, res, next) => {
+router.get('/activate/:secret_token', async (req, res, next) => {
 
   if(req.params.secret_token) {
     const token = req.params.secret_token;
 
-    musicController.activateUser(token)
-    .then(response => {
-      res.status(201).json(response)
-    })
-    .catch( () => {
-      next();
-    })
-  } else {
-    res.redirect(406, '/signin');
+    const musicActivat =  await musicController.activateUser(token)
+
+    if (musicActivat) {
+      res.status(201).json({ message: 'compte activat correctament' })
+    } else {
+      res.status(500).json({ message: "No s'ha pogut activar el compte" })
+    }
   }
 
 });
@@ -75,14 +73,15 @@ router.post('/autenticacio', async (req, res, next) => {
     password: req.body.password
   }
 
-  const sessionId = await musicController.autenticar(credencials)
+  const session = await musicController.autenticar(credencials)
 
-  if(sessionId instanceof Error) {
-    console.log(sessionId);
-    res.status(500).json(sessionId.Error)
+  if(session instanceof Error) {
+    console.log(session);
+    res.status(500).json(session.Error)
   } else {
-    req.session.session_id = sessionId
-    res.status(200).send({ token: sessionId })
+    req.session.session_id = session.token
+    console.log(session);
+    res.status(200).send(session)
   }
 });
 
@@ -147,7 +146,7 @@ router.post('/recuperar', async (req, res) => {
 
     Music.findOneAndUpdate(
       { secret_token: token },
-      { password: passEncriptda }
+      { password: passEncriptda, secret_token: '' }
     )
     .then((result) => {
       res.status(200).json({message: 'Contrasenya canviada correctament'})
@@ -155,7 +154,6 @@ router.post('/recuperar', async (req, res) => {
     .catch(err => {
       res.status(500).json(err)
     })
-
 
   }
   res.status(400).sent()

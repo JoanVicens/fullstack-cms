@@ -58,7 +58,7 @@ exports.enviarCertificat = (music, opcions) => {
 exports.enviarCorreuConfirmacio = (recipient, token) => {
 
   const opt  = emailsTemplates.confirmacio;
-  const direccio =  `${process.env.SERVER_URL}/auth/activate/${token}`;
+  const direccio = `${process.env.SERVER_URL}/activacio/${token}`;
 
   var mailOptions = {
     from: opt.from,

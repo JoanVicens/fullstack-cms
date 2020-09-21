@@ -23,6 +23,7 @@
       axios.get(this.API_URL, {withCredentials: true})
         .then(response => {
           store.commit('logoutMusic');
+          store.commit('unsetName')
           localStorage.removeItem('musics')
           localStorage.removeItem('cursos')
           localStorage.removeItem('cursIdSeleccionat')

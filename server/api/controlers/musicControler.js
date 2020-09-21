@@ -15,13 +15,14 @@ exports.autenticar = async (credencials) => {
           { compte_verificat: true }
         ]
       },
-      { password: 1 }
+      { password: 1, nom: 1 }
     )
 
     if (music) { // S'ha trobat el music
       const correctPasword = await bcrypt.compare(credencials.password, music.password)
       if(correctPasword) {
-        return await setSessionId(music._id)
+        const token = await setSessionId(music._id)
+        return {token, name: music.nom }
       } else {
         const invalidCredentials = new Error('Credencials errònies')
         invalidCredentials.message = 'Credencials errònies'
@@ -75,7 +76,7 @@ exports.activateUser = (token) => {
           { _id: decoded.id, data_registre: decoded.data_registre },
           { secret_token: '', compte_verificat: true })
           .then(result => {
-            return { activat: result.nModified === 1 }
+            return result.nModified === 1
           })
       }
     })
@@ -90,8 +91,6 @@ exports.registerUser = async (music) => {
     if(mailjetID) {
       music.mailjet_id = mailjetID
       const newMusic = await music.save()
-
-
 
       if(newMusic instanceof Error) {
         newsletter.eliminarContacte(mailjetID)

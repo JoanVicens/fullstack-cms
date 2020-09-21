@@ -22,7 +22,7 @@
 </template>
 
 <script>
-    import store from '../store.js';
+    import store from '../../store.js';
 
     import { MenuIcon, LogOutIcon } from 'vue-feather-icons'
 
