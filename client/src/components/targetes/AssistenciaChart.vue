@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="targeta">
-    <div class="header-targeta">
-      <h2>Assistència</h2>
+    <div class="header">
+      Assistència
     </div>
     <div class="grafic-wrapper">
       <div class="c100 orange grafic" >
@@ -13,16 +13,14 @@
       </div>
     </div>
     <div class="contingut">
-      <div class="info text-center" style="margin: 0 auto">
-        <span>Número d'assaijos</span>
-        {{info.semestres[numeroSemetre].assajosAssistits}} de {{info.semestres[numeroSemetre].assajosSemestre}}
+      <div class="info">
+        <p class="font-weight-bold">Número d'assajos</p>
+        <p class="ml-1">
+          {{info.semestres[numeroSemetre].assajosAssistits}} de {{info.semestres[numeroSemetre].assajosSemestre}}
+        </p>
       </div>
-      <!-- <div class="info">
-        <span>Tant per cent</span>
-        {{info.semestres[numeroSemetre].percentatge.toFixed(0)}}%
-      </div> -->
 
-      <div class="alerta" v-if="percentatge < 80">
+      <div class="reminder" v-if="percentatge < 80">
         Per a poder demanar els 1.5 crèdits del semestre has de tindre com a mínim un 80% d’assistència
       </div>
 
@@ -67,12 +65,32 @@
   }
 </script>
 
-<style lang="sass" scoped>
-  @import ../../sass/circle.scss
+<style lang="scss" scoped>
+  @import '../../sass/circle.scss';
+  @import '../../sass/colors';
 
-  .grafic-wrapper
-    margin: 16px auto
-    width: 120px
-    height: 120px
+  .info {
+    width: 100%;
+    text-align: right;
+    padding: 5px 16px;
+    p {
+      margin: 0;
+      
+    }
+  }
+
+  .reminder {
+    padding: 10px 16px;
+    padding-left: 8px;
+    margin: 5px 16px 16px 16px;
+    border-left: 4px solid $atomic-orange;
+    background-color: $gris-clar;
+  }
+
+  .grafic-wrapper {
+    margin: 16px auto;
+    width: 120px;
+    height: 120px;
+  }
 
 </style>

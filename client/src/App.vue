@@ -88,19 +88,18 @@
 <style lang="sass">
   @import ./sass/colors
   @import ./sass/fonts
-  @import ./sass/master
   @import ./sass/header
   @import ./sass/helper
   @import ./sass/sidebar
   @import ./sass/animacions
   @import ./sass/botons
   @import ./sass/notificacions
+  @import ./sass/master
 
 
   @import '../node_modules/bootstrap/scss/bootstrap'
 
   #app
-    font-family: Avenir, Helvetica, Arial, sans-serif
     -webkit-font-smoothing: antialiased
     -moz-osx-font-smoothing: grayscale
     color: #2c3e50

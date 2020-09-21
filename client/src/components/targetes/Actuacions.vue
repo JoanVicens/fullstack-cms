@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="targeta">
-    <div class="header-targeta">
-      <h2>Actuacions</h2>
+    <div class="header">
+      Actuacions
     </div>
     <div class="contingut">
       <table class="table table-borderless" v-if="actuacions.length > 0">
@@ -31,8 +31,8 @@
         </tbody>
       </table>
 
-      <div v-else>
-        <h5>Encara no hi han actuacions programades &#128531;</h5>
+      <div class="padding-targeta mb-2" v-else>
+        Encara no hi han actuacions programades &#128531;
       </div>
     </div>
   </div>
@@ -43,7 +43,7 @@
   import { CheckIcon, XIcon } from 'vue-feather-icons'
 
   export default {
-    name: 'concerts',
+    name: 'Actuacions',
     components: {
       CheckIcon,
       XIcon
@@ -84,8 +84,14 @@
 </script>
 
 <style lang="sass" scoped>
+  @import ../../sass/targetes/targeta
+
+  .padding-targeta
+    font-size: 1.25rem
+  
   td
     padding: 12 20px
+  
 
   .boto-actuacio
     height: 30px

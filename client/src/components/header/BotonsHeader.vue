@@ -13,7 +13,7 @@
             <!-- LOGGED -->
             <div v-else>
                 <router-link :to="{ path: '/compte/logout', name: 'logout', params: {} }" class="btn float-right">
-                    <log-out-icon size="1.2x" class=""></log-out-icon>
+                    <log-out-icon size="1.5x" class=""></log-out-icon>
                 </router-link>
             </div>
         </span>
@@ -25,7 +25,6 @@
     import store from '../../store.js';
 
     import { MenuIcon, LogOutIcon } from 'vue-feather-icons'
-
 
     export default {
         name: 'BotonsHeader',
@@ -47,3 +46,9 @@
         }
     }
 </script>
+
+<style lang="scss">
+    .btn-outline-light {
+        color: #f8f9fa !important;
+    }
+</style>

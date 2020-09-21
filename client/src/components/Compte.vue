@@ -31,6 +31,9 @@
 <style lang="sass">
   @import ../sass/subheader-nav
 
+  #compte
+    height: 100% 
+
   #dropdown
     a
       color: #444 !important

@@ -1,10 +1,10 @@
 <template>
-    <div class="titols" v-bind:class="{ pushright: name != null }">
-        <span v-if="!isLogged">
+    <div class="" v-bind:class="{ pushright: name != null }">
+        <span v-if="!isLogged" class="titols">
             <h2>Associació Cultural Banda UJI</h2>
             <h5>{{$route.name}}</h5>
         </span>
-        <span v-else>
+        <span v-else class="salute">
             <h3 class="mb-0">Hola, {{ name }}</h3>
         </span>
     </div>
@@ -42,6 +42,10 @@
 <style lang="scss" scoped>
     .titols {
         display: block;
+        font-family: Avenir !important;
+    }
+    .salute {
+        font-family: 'Quicksand';
     }
     .pushright {
         margin-left: auto;
@@ -50,3 +54,4 @@
         line-height: 60px;
     }
 </style>
+

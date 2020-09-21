@@ -1,20 +1,12 @@
 <template>
-  <main>
-    <div class="container">
-      <b-alert v-model="errors.noCursActiu" dismissible variant="warning">
-        <strong>No hi ha cap curs actiu.</strong>
-      </b-alert>
-    </div>
-
-    <div class="container">
-      <div class="card-columns" v-if="infoCargada">
-        <infomarcio-personal class="card" :music="music"/>
-        <assistenciaChart class="card" :info="infomarcio"/>
-        <DetallAssistenciaSemestres class="card" :info="infomarcio" />
-        <concerts class="card" :info="curs.semestres" :id="music._id" />
-        <ultimCorreu class="card"/>
-        <estatCompte class="card border-0" :compteActiu="music.compte_actiu"/>
-      </div>
+  <main class="container">
+    <div class="card-columns" v-if="infoCargada">
+      <InfomarcioPersonal class="card" :music="music"/>
+      <DetallAssistenciaSemestres class="card" :info="infomarcio" />
+      <AssistenciaChart class="card" :info="infomarcio"/>
+      <Actuacions class="card" :info="curs.semestres" :id="music._id" />
+      <Newsletters class="card"/>
+      <EstatCompte class="card border-0" :compteActiu="music.compte_actiu"/>
     </div>
   </main>
 </template>
@@ -24,22 +16,22 @@
 
   import store from '../store.js'
 
-  import infomarcioPersonal from './targetes/InformacioPersonal.vue'
-  import assistenciaChart from './targetes/AssistenciaChart.vue'
+  import InfomarcioPersonal from './targetes/InformacioPersonal.vue'
+  import AssistenciaChart from './targetes/AssistenciaChart.vue'
   import DetallAssistenciaSemestres from './targetes/Semestres.vue'
-  import concerts from './targetes/Concerts.vue'
-  import ultimCorreu from './targetes/UltimCorreu.vue'
-  import estatCompte from './targetes/EstatCompte.vue'
+  import Actuacions from './targetes/Actuacions.vue'
+  import Newsletters from './targetes/Newsletters.vue'
+  import EstatCompte from './targetes/EstatCompte.vue'
 
   export default {
     name: 'Principal',
     components: {
-      infomarcioPersonal,
-      assistenciaChart,
+      InfomarcioPersonal,
+      AssistenciaChart,
       DetallAssistenciaSemestres,
-      concerts,
-      ultimCorreu,
-      estatCompte
+      Actuacions,
+      Newsletters,
+      EstatCompte
     },
     data() {
       return {
@@ -148,6 +140,4 @@
       column-count: 3;
     }
   }
-
-
 </style>
