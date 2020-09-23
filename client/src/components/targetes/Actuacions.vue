@@ -85,6 +85,10 @@
 
 <style lang="sass" scoped>
   @import ../../sass/targetes/targeta
+  @import ../../sass/colors
+
+  .header
+    border-top: 5px solid $coffe !important
 
   .padding-targeta
     font-size: 1.25rem

@@ -40,9 +40,18 @@
   }
 </script>
 
-<style lang="sass" scoped>
-  td
-    padding: 12 20px
-  .assistits-total
-    text-align: center
+<style lang="scss" scoped>
+  @import '../../sass/colors';
+
+  .header {
+    border-top: 5px solid $medium-green !important;
+  }
+
+  td {
+    padding: 12 20px;
+  }
+  
+  .assistits-total {
+    text-align: center;
+  }
 </style>

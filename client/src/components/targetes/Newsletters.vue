@@ -55,12 +55,17 @@
   }
 </script>
 
-<style lang="sass" scoped>
-  @import ../../sass/colors.scss
+<style lang="scss" scoped>
+  @import '../../sass/colors.scss';
+  
+  .header {
+    border-top: 5px solid $accent-yellow !important;
+  }
 
-  .nav-item
-    padding-top: 0 !important
-    padding-bottom: 0 !important
-    margin: 0 0 -4px 0 !important
+  .nav-item {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin: 0 0 -4px 0 !important;
+  }
 
 </style>

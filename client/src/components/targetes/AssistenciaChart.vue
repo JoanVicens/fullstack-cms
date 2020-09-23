@@ -69,13 +69,19 @@
   @import '../../sass/circle.scss';
   @import '../../sass/colors';
 
+  .header {
+    border-top: 5px solid $atomic-orange !important;
+  }
+
   .info {
     width: 100%;
     text-align: right;
     padding: 5px 16px;
     p {
-      margin: 0;
-      
+      margin: 0;  
+      &:first-child {
+        font-family: 'Roboto';
+      }
     }
   }
 

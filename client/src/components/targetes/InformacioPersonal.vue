@@ -74,6 +74,10 @@
   @import '../../sass/targetes/targeta';
   @import '../../sass/colors';
 
+  .informacio-personal .header {
+    border-top: 5px solid $tufts-blue !important;
+  }
+
   .informacio-personal {  
     th {
       text-align: right;
