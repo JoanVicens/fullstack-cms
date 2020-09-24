@@ -24,14 +24,13 @@
             }
         },
         mounted() {
-            this.name = this.store.getters.getName
+            this.name = localStorage.getItem('name')
             this.isLogged = this.store.getters.isLogged
 
             this.store.subscribe( (mutation, state) => {
                 if (mutation.type === 'loggedMusic' || mutation.type === 'logoutMusic') {
-                    this.isLogged = state.session.logged
-                } else if(mutation.type === 'setName') {
-                    this.name = state.session.name
+                    this.isLogged = state.session.logged;
+                    this.name = localStorage.getItem('name')
                 }
             })
         }

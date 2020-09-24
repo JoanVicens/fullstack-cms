@@ -27,8 +27,11 @@
 
 <style lang="scss">
   #compte {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+    padding-bottom: 64px;
+    main {
+      position: relative;
+      z-index: 99;
+    }  
   }
+
 </style>

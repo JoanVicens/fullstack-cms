@@ -22,13 +22,10 @@
     mounted() {
       axios.get(this.API_URL, {withCredentials: true})
         .then(response => {
+          localStorage.removeItem('name')
           store.commit('logoutMusic');
           store.commit('unsetName')
-          localStorage.removeItem('musics')
-          localStorage.removeItem('cursos')
-          localStorage.removeItem('cursIdSeleccionat')
-          localStorage.removeItem('idCursActiu')
-          localStorage.removeItem('id')
+
           this.$session.clear('token')
           this.$router.push('/');
         })

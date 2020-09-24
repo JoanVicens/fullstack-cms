@@ -66,6 +66,7 @@
     padding: 0 !important;
     margin: 0 0 -4px 0 !important;
     a {
+      color: $coffe;
       padding: .5rem .8rem;
     }
   }

@@ -85,6 +85,14 @@
       }
     },
     methods: {
+      login(response) {
+        this.$session.set('token', response.data.token)
+        Vue.http.headers.common['Authorization'] = 'Bearer ' + response.data.token
+
+        localStorage.name = response.data.name;
+        store.commit('loggedMusic')
+        store.commit('dismissMessage')
+      },
       submit () {
         this.error = '';
         this.loggingIn = true;
@@ -98,14 +106,7 @@
           .post('/auth/autenticacio', credencials)
           .then(response => { // Responsa del servidor
             if (response.status === 200 && 'token' in response.data) {
-              // this.$session.start()
-              this.$session.set('token', response.data.token)
-              Vue.http.headers.common['Authorization'] = 'Bearer ' + response.data.token
-
-              store.commit('loggedMusic')
-              store.commit('dismissMessage')
-              store.commit('setName', response.data.name)
-
+              this.login(response)
               this.$router.push({name: 'principal'});
             }
           })

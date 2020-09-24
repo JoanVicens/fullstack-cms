@@ -8,8 +8,12 @@
     @import '../sass/colors.scss';
 
     .copyright {
-        padding: .5rem 3rem;
-        // background-color: $coffe;
+        padding: 1rem 3rem;
         margin-top: auto;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        z-index: 0;
+
     }
 </style>
