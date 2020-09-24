@@ -32,7 +32,7 @@ router.post('/registrar', async (req, res, next) => {
       llista_correu: req.body.llista_correu
     });
   
-    const newMusic = await musicController.registerUser(music);
+    const newMusic = await musicController.register(music);
 
     if(newMusic instanceof Error) {
       res.status(500).json({ name: newMusic.name, message: newMusic.message });
@@ -55,7 +55,7 @@ router.get('/activate/:secret_token', async (req, res, next) => {
   if(req.params.secret_token) {
     const token = req.params.secret_token;
 
-    const musicActivat =  await musicController.activateUser(token)
+    const musicActivat = await musicController.activate(token)
 
     if (musicActivat) {
       res.status(201).json({ message: 'compte activat correctament' })
@@ -76,11 +76,9 @@ router.post('/autenticacio', async (req, res, next) => {
   const session = await musicController.autenticar(credencials)
 
   if(session instanceof Error) {
-    console.log(session);
     res.status(500).json(session.Error)
   } else {
     req.session.session_id = session.token
-    console.log(session);
     res.status(200).send(session)
   }
 });
@@ -116,10 +114,8 @@ router.post('/token_recuperacio', (req, res) => {
   Music.findOne({'email': email})
   .then(async music => {
     if(music) {
-      const buf = crypto.randomBytes(128);
-      const token = buf.toString('hex')
       
-      music.secret_token = await bcrypt.hash(token, 8);
+      music.secret_token = await middlewares.generateBycryptToken()
       music.save()
       .then(() => {
         mailer.enviarRecuperacio(email, music.secret_token)
@@ -141,7 +137,6 @@ router.post('/recuperar', async (req, res) => {
     const pass = req.body.password
     const token = req.body.token
 
-    console.log(pass);
     const passEncriptda = await bcrypt.hash(pass.trim(), 8);
 
     Music.findOneAndUpdate(

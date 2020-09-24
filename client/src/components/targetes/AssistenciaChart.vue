@@ -75,7 +75,9 @@
     padding: 5px 16px;
     p {
       margin: 0;
-      
+      &:first-child {
+        font-family: 'Roboto';
+      }
     }
   }
 

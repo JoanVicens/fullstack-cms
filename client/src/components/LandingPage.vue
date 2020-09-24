@@ -1,10 +1,6 @@
 <template lang="html">
   <main style="background-color: #fff; max-width: 100%">
-    <!-- <div class="container">
-      <b-alert variant="success" :show="alertSucces">{{msg}}</b-alert>
-      <b-alert variant="warning" :show="$route.params.msgError">{{$route.params.msgError}}</b-alert>
 
-    </div> -->
     <div class="">
       <div id="headerL">
         <a href="#cartells" class="quadrat familia">
@@ -295,11 +291,4 @@
         margin: 0 15px
         a:hover
           color: #fff
-    .copyright
-      line-height: 1.5em
-      text-align: center
-
-
-
-
 </style>

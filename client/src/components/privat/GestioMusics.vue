@@ -39,7 +39,7 @@
               <b-dropdown-item @click="canviTipus(row.item._id, row.item.tipo_compte, 3)">admin</b-dropdown-item>
             </b-dropdown-group>
           </b-dropdown>
-         </template>
+        </template>
 
       </b-table>
 

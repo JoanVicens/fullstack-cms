@@ -31,7 +31,6 @@
                 if (mutation.type === 'loggedMusic' || mutation.type === 'logoutMusic') {
                     this.isLogged = state.session.logged
                 } else if(mutation.type === 'setName') {
-                    console.log(state.session.name);
                     this.name = state.session.name
                 }
             })

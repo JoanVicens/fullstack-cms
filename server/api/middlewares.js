@@ -1,12 +1,18 @@
 const jsonwebtoken = require('jsonwebtoken');
-const session = require('express-session');
+const bcrypt = require('bcryptjs');
 
-function crearJsonWebToken(payload, opt) {
+exports.crearJsonWebToken = function(payload, opt) {
   const token = jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, opt)
   return token;
 }
 
-function musicAutoritzat(req, res, next) {
+exports.generateBycryptToken = async function() {
+  const buf = crypto.randomBytes(128);
+  const token = buf.toString('hex')
+  return await bcrypt.hash(token, 8);
+}
+
+exports.musicAutoritzat = function(req, res, next) {
 
   if(req.session && req.session.cookie) {
     const cookie = req.session.cookie;
@@ -26,10 +32,10 @@ function musicAutoritzat(req, res, next) {
   }
 }
 
-function respondError422(res, next) {
+exports.respondError422 = function(res, next) {
   res.status(422);
   const error = new Error('Credencials incorrectes');
   next(error);
 }
 
-module.exports = {crearJsonWebToken, respondError422, musicAutoritzat}
+// module.exports = {crearJsonWebToken, respondError422, musicAutoritzat}

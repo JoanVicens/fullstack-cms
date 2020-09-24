@@ -55,12 +55,19 @@
   }
 </script>
 
-<style lang="sass" scoped>
-  @import ../../sass/colors.scss
+<style lang="scss" scoped>
+  @import '../../sass/colors.scss';
 
-  .nav-item
-    padding-top: 0 !important
-    padding-bottom: 0 !important
-    margin: 0 0 -4px 0 !important
+  .nav-tabs {
+    padding-left: .5rem;
+  }
+
+  .nav-item {
+    padding: 0 !important;
+    margin: 0 0 -4px 0 !important;
+    a {
+      padding: .5rem .8rem;
+    }
+  }
 
 </style>

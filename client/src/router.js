@@ -218,6 +218,13 @@ const routes = [
     path: '/entrar',
     name: 'login',
     component: Login,
+    beforeEnter(to, from, next) {
+      if(!store.getters.isLogged) {
+        next();
+      } else {
+        next(from);
+      }
+    },
     meta: {
       titol: 'Associació Cultural Banda UJI',
       requiresAuth: false
@@ -228,6 +235,13 @@ const routes = [
     path: '/recuperacio/',
     name: 'recuperacio',
     component: Recuperacio,
+    beforeEnter(to, from, next) {
+      if (!store.getters.isLogged) {
+        next();
+      } else {
+        next(from);
+      }
+    },
     meta: {
       titol: 'Recuperació del compte',
       requiresAuth: false
@@ -238,6 +252,13 @@ const routes = [
     path: '/actualitzar/',
     name: 'actualitzar',
     component: CanviContrassenya,
+    beforeEnter(to, from, next) {
+      if (!store.getters.isLogged) {
+        next();
+      } else {
+        next(from);
+      }
+    },
     meta: {
       titol: 'Recuperació del compte',
       requiresAuth: false
@@ -269,6 +290,13 @@ const routes = [
     path: '/activacio/:token',
     name: 'activacio',
     component: ActivacioCompte,
+    beforeEnter(to, from, next) {
+      if (!store.getters.isLogged) {
+        next();
+      } else {
+        next(from);
+      }
+    },
     meta: {
       titol: 'Activar compte',
       requiresAuth: false
@@ -284,6 +312,10 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+
+  store.commit('dismissMessage')
+
+
   if(to.meta.requiresAuth) {
     if(store.getters.isLogged) {
       next();

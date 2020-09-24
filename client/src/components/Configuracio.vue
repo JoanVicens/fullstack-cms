@@ -1,12 +1,26 @@
 <template lang="html">
-  <main class="pb-5">
-    <div class="mt-3 container-sm">
-      <!--" @reset="onReset" -->
-      <b-overlay :show="!music.compte_actiu" rounded="sm">
+  <main class="">
+    <div class="container-sm configuracio">
+      <div class="text-right mb-2 mt-1">
+        <small class="mr-1">
+          Tipus de compte
+          <span class="badge badge-primary" v-if="music.tipo_compte === 0">normal</span>
+          <span class="badge badge-info" v-if="music.tipo_compte === 1">junta</span>
+          <span class="badge badge-danger" v-if="music.tipo_compte === 2">president</span>
+          <span class="badge badge-dark" v-if="music.tipo_compte === 3">admin</span>
+          , 
+        </small>
+        <small>
+          registrat {{ registratFa }}
+        </small>
 
+      </div>
+
+      <b-overlay :show="!music.compte_actiu" rounded="sm">
         <template v-slot:overlay v-if="!music.compte_actiu">
           <h2>El compte no està actiu</h2>
         </template>
+
 
         <b-form @submit="onSubmit" class="mb-3">
           <b-card class="mb-3 transparent" border-variant="info">
@@ -34,12 +48,7 @@
               ></b-form-input>
             </b-form-group>
 
-            <b-form-group
-              label="instrument"
-              label-for="input-x"
-            >
-              <b-form-select v-model="music.corda" :options="cordes" required></b-form-select>
-            </b-form-group>
+            <SelectInstrument v-bind:corda.sync="music.corda" />
 
             <b-form-group
               label="DNI"
@@ -108,30 +117,6 @@
             ></b-form-input>
           </b-form-group>
 
-          <b-form-group
-            label="Tipus de compte"
-            label-for="input-x"
-          >
-            <b-form-input
-              id="input-x"
-              v-model="music.tipo_compte"
-              type="text"
-              disabled
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group
-            label="Registrat"
-            label-for="input-x"
-          >
-            <b-form-input
-              id="input-x"
-              v-model="music.registratFa"
-              type="text"
-              disabled
-            ></b-form-input>
-          </b-form-group>
-
           <b-form-group>
             <b-form-checkbox
               v-model="music.llista_correu"
@@ -145,39 +130,42 @@
         </b-form>
       </b-overlay>
 
+      <div class="mt-4">
+        <!-- DESCATIVAR -->
+        <b-card class="mt-3 mb-2 transparent desactivar" border-variant="warning" v-if="music.compte_actiu">
+          <b-card-text class="flex-text">
+            <div class="">
+              <h5 class="m-0">Desactivar el compte de forma temporal</h5>
+              <small class="">
+                No sortiràs a llista d'assistència
+              </small>
+            </div>
+            <b-button @click="demanarAutenticacio(desactivarUsuari)" variant="warning" class="dreta">Desactivar ususari</b-button>
+          </b-card-text>
+        </b-card>
 
-      <!-- DESCATIVAR -->
-      <b-card class="mt-5 mb-2 transparent" border-variant="warning" v-if="music.compte_actiu">
-         <b-card-text class="flex-text">
-           <div class="">
-             <h5 class="m-0">Desactivar el compte de forma temporal</h5>
-             <small class="">
-               No sortiràs a llista d'assistència
-             </small>
-           </div>
-           <b-button @click="demanarAutenticacio(desactivarUsuari)" variant="warning" class="dreta">Desactivar ususari</b-button>
-         </b-card-text>
-      </b-card>
+        <!-- ACTIVAR -->
+        <b-card class="mt-3 mb-2 transparent" border-variant="success" v-else>
+          <b-card-text class="flex-text">
+            <div class="">
+              <h5 class="m-0">Activar el compte</h5>
+            </div>
+            <b-button @click="demanarAutenticacio(activarUsuari)" variant="success" class="dreta">Activar ususari</b-button>
+          </b-card-text>
+        </b-card>
 
-      <!-- ACTIVAR -->
-      <b-card class="mt-5 mb-2 transparent" border-variant="success" v-else>
-         <b-card-text class="flex-text">
-           <div class="">
-             <h5 class="m-0">Activar el compte</h5>
-           </div>
-           <b-button @click="demanarAutenticacio(activarUsuari)" variant="success" class="dreta">Activar ususari</b-button>
-         </b-card-text>
-      </b-card>
+        <!-- BORRAR -->
+        <b-card class="mt-3 mb-2 transparent borrar">
+          <b-card-text class="flex-text">
+            <h5 class="m-0">Borrar el compte de forma permanent</h5>
+            <b-button @click="demanarAutenticacio(borrarUsuari)">Borrar ususari</b-button>
+          </b-card-text>
+        </b-card>
+      </div>
 
-      <!-- BORRAR -->
-      <b-card class="mt-3 mb-2 transparent " border-variant="danger">
-         <b-card-text class="flex-text">
-           <h5 class="m-0">Borrar de forma permanent el compte</h5>
-           <b-button @click="demanarAutenticacio(borrarUsuari)" variant="danger">Borrar ususari</b-button>
-         </b-card-text>
-      </b-card>
 
-      <Confirmacio @autenticat="accio" :email="music.email" />
+
+      <ConfirmacioPassword @autenticat="accio" :email="music.email" />
     </div>
   </main>
 </template>
@@ -186,30 +174,24 @@
   import axios from 'axios'
   import moment from 'moment'
 
-  import Confirmacio from './formularis/ConfirmacioEliminacio.vue'
+  import SelectInstrument from './formularis/SelectInstrument.vue'
+  import ConfirmacioPassword from './formularis/ConfirmacioPassword.vue'
 
   export default {
     name: 'Configuracio',
     components: {
-      Confirmacio
+      SelectInstrument,
+      ConfirmacioPassword
     },
     data() {
       return {
         music: {},
         accio: 'null',
-        cordes: [
-          {text: 'Clarinet', value: 'Clarinets'},
-          {text: 'Flauta', value: 'Flautes'},
-          {text: 'Oboes', value: 'Oboes'},
-          {text: 'Saxo', value: 'Saxos'},
-          {text: 'Tuba', value: 'Tubes'},
-          {text: 'Trombo', value: 'Trombons'},
-          {text: 'Trompeta', value: 'Trompetes'},
-          {text: 'Pecusió', value: 'Percusionistes'},
-          {text: 'Trompa', value: 'Trompes'},
-          {text: 'Fagot', value: 'Fagotos'},
-          {text: 'Bombardí', value: 'Bombardins'}
-        ],
+      }
+    },
+    computed: {
+      registratFa: function() {
+        return moment(this.music.data_registre, "YYYY-MM-DD").fromNow();
       }
     },
     methods: {
@@ -272,11 +254,35 @@
   }
 </script>
 
-<style lang="sass" scoped>
-  .flex-text
-    display: flex
-    align-content: space-between
-    justify-content: space-between
-    align-items: center
-    flex-direction: row
+<style lang="scss" scoped>
+  @import '../sass/colors';
+
+  .flex-text {
+    display: flex;
+    align-content: space-between;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+  }
+  .configuracio {
+    background-color: white;
+    padding: 1.5rem;
+    padding-top: .5rem;
+  }
+  .desactivar {
+    background: linear-gradient(-230deg, #ffc107 60%, white);
+    button {
+      border: 1px solid  #ffc107;
+      background-color:  #ffc107;
+      color: white;
+    }
+  }
+  .borrar {
+    background: linear-gradient(-230deg, $brick-red 60%, white);
+    border: 1px solid $brick-red;
+    button {
+      border: 1px solid $brick-red;
+      background-color: $brick-red;
+    }
+  }
 </style>

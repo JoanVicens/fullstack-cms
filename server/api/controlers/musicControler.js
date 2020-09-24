@@ -60,7 +60,7 @@ exports.getMusicBySession = (sessionId) => {
     })
 }
 
-exports.activateUser = (token) => {
+exports.activate = (token) => {
   const now = Date.now().valueOf() / 1000;
   const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
 
@@ -83,7 +83,7 @@ exports.activateUser = (token) => {
     .catch(error => { return error })
 }
 
-exports.registerUser = async (music) => {
+exports.register = async (music) => {
 
   try {
     const mailjetID = await newsletter.afegirContacte(music)

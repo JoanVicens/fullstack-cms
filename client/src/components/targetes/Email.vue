@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <div v-if="email.adjunts.length > 0" class="adjunts-email padding-targeta">
+        <div v-if="email.adjunts && email.adjunts.length > 0" class="adjunts-email padding-targeta">
             <small>Adjunts</small>
             <ul>
                 <li v-for="(adjunt, index) in email.adjunts" :key="index">

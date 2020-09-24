@@ -1,40 +1,42 @@
 <template lang="html">
+  <div class="full-page">
+    <section id="login" class="mt-4">
 
-  <section class="mt-4">
+      <NotficacioFixa />
 
-    <NotficacioFixa />
+      <form class="container mt-4" @submit.prevent="validator">
 
-    <form class="container" @submit.prevent="validator">
-
-      <div class="form-group">
-        <label for="email">Email</label>
-        <div class="input-group">
-          <input class="form-control" type="text " name="email" v-model="music.email">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <div class="input-group">
+            <input class="form-control" type="text " name="email" v-model="music.email">
+          </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="password">Contrasenya</label>
-        <input class="form-control" type="password" name="password" v-model="music.password" required>
-      </div>
-
-      <div class="pt-3">
-        <strong>
-          Has oblidat la contrasenya?
-          <router-link :to="{ path: '/recuperacio', params: {} }">clicka aquí!</router-link>
-        </strong>
-      </div>
-
-      <div class="row mt-5">
-        <div class="col-sm-3 d-none d-sm-block">
-          <b-button variant="info" class="btn-lg btn-block mb-2" @click="$router.push('/')">Atras</b-button>
+        <div class="form-group">
+          <label for="password">Contrasenya</label>
+          <input class="form-control" type="password" name="password" v-model="music.password" required>
         </div>
-        <div class="col-sm-9">
-          <button type="submit" class="btn btn-primary btn-lg btn-block" name="button">Entrar</button>
+
+        <div class="pt-3 password-recovery">
+          <strong>
+            Has oblidat la contrasenya?
+            <router-link class="ml-1" :to="{ path: '/recuperacio', params: {} }">clicka aquí!</router-link>
+          </strong>
         </div>
-      </div>
-    </form>
-  </section>
+
+        <div class="row mt-5">
+          <div class="col-sm-3 d-none d-sm-block">
+            <b-button variant="info" class="btn-lg btn-block mb-2" @click="$router.push('/')">Atras</b-button>
+          </div>
+          <div class="col-sm-9">
+            <button type="submit" class="btn btn-primary btn-lg btn-block" name="button">Entrar</button>
+          </div>
+        </div>
+      </form>
+    </section>
+    <Copyright />
+  </div>
 </template>
 
 <script>
@@ -44,6 +46,7 @@
   import Vue from 'vue';
 
   import NotficacioFixa from './notificacions/NotificacioFixa.vue'
+  import Copyright from './Copyright'
 
   const lletra_numero_caracter = new RegExp('^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$');
   //https://gist.github.com/ravibharathii/3975295
@@ -59,7 +62,8 @@
   export default {
     name: 'login',
     components: {
-      NotficacioFixa
+      NotficacioFixa,
+      Copyright
     },
     data () {
       return {
@@ -69,7 +73,6 @@
           password: ''
         },
         store,
-        API_URL: '',
       }
     },
     watch: {
@@ -132,6 +135,26 @@
   }
 </script>
 
-<style lang="sass" scoped>
+<style lang="scss" scoped>
+  @import '../sass/colors';
 
+  #login {
+    width: 100%;
+    max-width: 790px;
+    color: white;
+    margin: 0 auto;
+  }
+
+  .full-page {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .password-recovery {
+    color: white;
+    a {
+      color: $link !important;
+    }
+  }
 </style>

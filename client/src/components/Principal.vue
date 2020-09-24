@@ -1,5 +1,5 @@
 <template>
-  <main class="container">
+  <main class="container pt-4">
     <div class="card-columns" v-if="infoCargada">
       <InfomarcioPersonal class="card" :music="music"/>
       <DetallAssistenciaSemestres class="card" :info="infomarcio" />
@@ -127,6 +127,8 @@
   @import '../../node_modules/bootstrap/scss/bootstrap';
 
   .card-columns {
+    column-gap: .75rem !important;
+
     @include media-breakpoint-only(sm) {
       column-count: 1;
     }
