@@ -4,7 +4,7 @@
       <InfomarcioPersonal class="card" :music="music"/>
       <DetallAssistenciaSemestres class="card" :info="infomarcio" />
       <AssistenciaChart class="card" :info="infomarcio"/>
-      <Actuacions class="card" :info="curs.semestres" :id="music._id" />
+      <Actuacions class="card" :semestres="curs.semestres" :id="music._id" />
       <Newsletters class="card"/>
       <EstatCompte class="card border-0" :compteActiu="music.compte_actiu"/>
     </div>
@@ -91,9 +91,7 @@
     mounted() {
       Promise.all([this.carregarInfoMusic(), this.carregarInfoCursActiu()])
       .then(() => {
-
         localStorage.id = this.music._id
-        // localStorage.idCursActiu = this.curs._id
 
         // Guarda en local el tipus de compte
         if(this.music.tipo_compte == 2) {

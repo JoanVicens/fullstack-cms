@@ -1,36 +1,29 @@
 <template lang="html">
   <div class="targeta">
+    <LoadingBar v-if="loading"/>
     <div class="header">
       Actuacions
     </div>
-    <div class="contingut">
-      <table class="table table-borderless" v-if="actuacions.length > 0">
-        <tbody>
-          <tr v-for="(actuacio, index) in actuacions" v-bind:key="index">
-            <th class="check" scope="row">{{actuacio.titol}}</th>
-            <td :class="{rojet: !estara(index), verdet: estara(index)}">
-              <span class="boto-actuacio transition">
-                <span class="icono icono-rojet">
-                  <x-icon size="1x" class=""></x-icon>
-                </span>
-                <span class="accio accio-rojet"></span>
-                <span class="accio accio-verdet"></span>
-                <span class="icono icono-verdet">
-                  <check-icon size="1x" class="icono icono-verdet"></check-icon>
-                </span>
-              </span>
-            </td>
-          </tr>
-
-          <tr>
-            <td colspan="2">
-              Pots anara a la secció d'actuacions per a canviar la teva assistència
-            </td>
-          </tr>
-
-        </tbody>
-      </table>
-
+    <div class="contingut padding-targeta" ref="llistat">
+      <div v-if="actuacions.length > 0">
+        <div v-for="(actuacio, index) in actuacions" v-bind:key="index" class="actuacio">
+          <div class="titol-actuacio">
+            {{ actuacio.titol }}
+          </div>
+          {{ attendanceOf(index) }}
+          <ToggleButton :value="attendanceOf(index)"
+            @change="attendanceChanged"
+            :color="{
+              checked: '#c0caad',
+              unchecked: '#C33C54',
+              disabled: '#CCCCCC'
+            }"
+            :tag="actuacio._id"
+            :width="100"
+            :height="30"
+            :labels="{checked: 'Assistiré', unchecked: 'No assistiré'}"/>
+        </div>
+      </div>
       <div class="padding-targeta mb-2" v-else>
         Encara no hi han actuacions programades &#128531;
       </div>
@@ -40,25 +33,38 @@
 </template>
 
 <script>
-  import { CheckIcon, XIcon } from 'vue-feather-icons'
+  import Axios from 'axios'
+  import LoadingBar from '../LoadingBar.vue'
+  import { ToggleButton } from 'vue-js-toggle-button'
 
   export default {
     name: 'Actuacions',
     components: {
-      CheckIcon,
-      XIcon
+      LoadingBar,
+      ToggleButton
     },
     props: {
-      info: Array,
+      semestres: Array,
       id: String
     },
     data() {
       return {
-        actuacions: []
+        actuacions: [],
+        loading: false
       }
     },
     methods: {
-      estara(index) {
+      attendanceChanged(event) {
+
+        if(event.value != undefined && event.tag) {
+          this.loading = true
+
+          const action = event.value ? 'afegir' : 'llevar';
+          Axios.put(`/info/actuacio/${action}/assistent/${event.tag}`)
+          .then(() => { this.loading = false})
+        }
+      },
+      attendanceOf(index) {
         let assistents = this.actuacions[index].assistents
         assistents.forEach(assistent => {
           if(assistent._id === this.id)
@@ -71,7 +77,7 @@
     mounted() {
       let avui = new Date();
 
-      this.info.forEach(semestre => {
+      this.semestres.forEach(semestre => {
         semestre.actuacions.forEach(actuacio => {
           let data = Date.parse( actuacio.data)
           if(data > avui) {
@@ -83,98 +89,20 @@
   }
 </script>
 
-<style lang="sass" scoped>
-  @import ../../sass/targetes/targeta
+<style lang="scss" scoped>
+  @import '../../sass/targetes/targeta';
 
-  .padding-targeta
-    font-size: 1.25rem
-  
-  td
-    padding: 12 20px
-  
-
-  .boto-actuacio
-    height: 30px
-    display: flex
-    align-items: center
-    border-radius: .25rem
-    min-width: 140px
-
-  .transition
-    .accio
-      will-change: width, padding
-      transition: max-width 1s linear 0s, padding .5s linear 0s, border
-      &::after
-        opacity: 1
-        transition: opacity .2s linear .5s
-
-  .icono
-    align-items: center
-    flex: 1
-    text-align: center
-    max-width: 30px
-    height: 30px
-    svg
-      stroke: #fff
-      stroke-width: 6
-
-  .accio
-    border: 1px solid
-    height: 30px
-    flex: 3
-    text-align: center
-    &:hover
-      background-color: #efefef
-
-  .verdet
-    .icono-verdet
-      background-color: #C5F694
-      border-top-right-radius: .25rem
-      border-bottom-right-radius: .25rem
-    .accio-verdet
-      max-width: 140px
-      padding: 0 15px
-      border: 1px solid
-      border-top-left-radius: .25rem
-      border-bottom-left-radius: .25rem
-      border-color: #C5F694
-      &::after
-        content: 'estaré'
-    .icono-rojet
-      opacity: 0
-      width: 0 !important
-      height: 0
-      overflow: hidden
-    .accio-rojet
-      max-width: 0px !important
-      padding: 0 !important
-      border: none
-      &::after
-        content: ''
-        opacity: 0
-
-  .rojet
-    .icono-rojet
-      background-color: #FE6E6E
-      border-top-left-radius: .25rem
-      border-bottom-left-radius: .25rem
-    .icono-verdet
-      opacity: .3
-    .accio-verdet
-      max-width: 0px !important
-      padding: 0 !important
-      border: none
-      &::after
-        content: ''
-        opacity: 0
-    .accio-rojet
-      max-width: 140px
-      padding: 0 15px
-      border: 1px solid
-      border-top-right-radius: .25rem
-      border-bottom-right-radius: .25rem
-      border-color: #FE6E6E
-      &::after
-        content: 'no estaré'
+  .padding-targeta {
+    font-size: 1.25rem;
+  }
+  .actuacio {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .titol-actuacio {
+      font-family: 'Roboto';
+      text-transform: capitalize;
+    }
+  }
 
 </style>

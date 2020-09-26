@@ -128,5 +128,9 @@
     span.si
       background-color: $verdet
 
+  .card
+    background: white url('../assets/pattern.png')
+    background-repeat: repeat
+    background-size: cover
 
 </style>
