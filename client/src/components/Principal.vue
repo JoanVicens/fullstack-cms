@@ -1,12 +1,12 @@
 <template>
   <main class="container pt-4">
-    <div class="card-columns" v-if="infoCargada">
-      <InfomarcioPersonal class="card" :music="music"/>
-      <DetallAssistenciaSemestres class="card" :info="infomarcio" />
+    <div class="card-columns" v-if="!loading">
+      <InfomarcioPersonal class="card" :music="info.user"/>
+      <!-- <DetallAssistenciaSemestres class="card" :info="info.attendance" />
       <AssistenciaChart class="card" :info="infomarcio"/>
       <Actuacions class="card" :semestres="curs.semestres" :id="music._id" />
       <Newsletters class="card"/>
-      <EstatCompte class="card border-0" :compteActiu="music.compte_actiu"/>
+      <EstatCompte class="card border-0" :compteActiu="music.compte_actiu"/> -->
     </div>
   </main>
 </template>
@@ -17,51 +17,31 @@
   import store from '../store.js'
 
   import InfomarcioPersonal from './targetes/InformacioPersonal.vue'
-  import AssistenciaChart from './targetes/AssistenciaChart.vue'
+/*   import AssistenciaChart from './targetes/AssistenciaChart.vue'
   import DetallAssistenciaSemestres from './targetes/Semestres.vue'
   import Actuacions from './targetes/Actuacions.vue'
   import Newsletters from './targetes/Newsletters.vue'
-  import EstatCompte from './targetes/EstatCompte.vue'
+  import EstatCompte from './targetes/EstatCompte.vue' */
 
   export default {
     name: 'Principal',
     components: {
       InfomarcioPersonal,
-      AssistenciaChart,
+/*       AssistenciaChart,
       DetallAssistenciaSemestres,
       Actuacions,
       Newsletters,
-      EstatCompte
+      EstatCompte */
     },
     data() {
       return {
-        music: {},
-        curs: {},
-        errors: {
-          noCursActiu: false
-        },
-        infomarcio: {},
-        infoCargada: false,
-        store
+        store,
+        loading: true,
+        info: null
       }
     },
     methods: {
-      carregarInfoMusic() {
-        return axios.get('/auth/info')
-        .then(response => {
-          this.music = response.data.music
-        })
-      },
-      carregarInfoCursActiu() {
-        return axios.get('/info/curs/actiu')
-        .then(response => {
-          if(response.data.curs === null) {
-            this.errors.noCursActiu = true
-          } else {
-            this.curs = response.data.curs
-          }
-        })
-      },
+      
       calcularAssistencia() {
 
         if(this.errors.noCursActiu) return
@@ -89,6 +69,18 @@
       }
     },
     mounted() {
+      axios.get('/info/me')
+      .then(response => {
+        this.info = response.data;
+      })
+      .catch(err => {
+        console.error(err)
+      })
+      .finally(() => {
+        this.loading = false
+      })
+
+      /*
       Promise.all([this.carregarInfoMusic(), this.carregarInfoCursActiu()])
       .then(() => {
         localStorage.id = this.music._id
@@ -109,6 +101,7 @@
         console.log(err);
         this.$router.push('/')
       })
+      */
     }
   }
 </script>

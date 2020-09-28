@@ -60,6 +60,29 @@ exports.getMusicBySession = (sessionId) => {
     })
 }
 
+exports.deletePrivateInfo = (music) => {
+
+  const music_data = {
+    _id: music._id,
+    nom: music.nom,
+    cognoms: music.cognoms,
+    dni: music.dni,
+    al: music.al,
+    email: music.email,
+    telefon: music.telefon,
+    corda: music.corda,
+    data_naixement: music.data_naixement,
+    data_registre: music.data_registre,
+    sexe: music.sexe,
+    pais: music.pais,
+    tipo_compte: music.tipo_compte,
+    llista_correu: music.llista_correu,
+  }
+
+  return music_data
+
+}
+
 exports.activate = (token) => {
   const now = Date.now().valueOf() / 1000;
   const decoded = jwt.verify(token, process.env.TOKEN_SECRET);

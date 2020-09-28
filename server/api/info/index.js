@@ -14,6 +14,10 @@ const Music = require('../models/music');
 
 const actiuaciomiddleware = require('./actuacions.js');
 
+//========================
+
+const musicController = require('../controllers/musicController');
+const cursController = require('../controllers/cursController');
 
 router.use((req, res, next) => {
   if(req.session.session_id) {
@@ -28,6 +32,30 @@ router.use((req, res, next) => {
     res.status(401).json({message: 'notAuthorized'})
   }
 })
+
+
+router.get('/me', async (req, res) => {
+  /*   
+  Returns the next user information:
+    * Personal information
+    * Attendance information
+  */
+  try {
+    const music = await musicController.getMusicBySession(req.session.session_id)
+    const result = await cursController.getAttendaceInformationFromMusicId(music._id)
+
+    res.status(200)
+    .json({
+      user: musicController.deletePrivateInfo(music),
+      attendance: result
+    })
+    
+  } catch (err) {
+    res.status(500)
+  }
+
+})
+
 
 // CURS
 
