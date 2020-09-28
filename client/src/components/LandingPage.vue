@@ -54,7 +54,7 @@
         <p>A la banda de la UJI sempre intentem dur a terme concerts innovadors i realitzar projectes més enllà del habitual en una banda</p>
 
         <vue-plyr>
-          <video poster="../assets/banda.jpg" src="../assets/doblatge_banda_uji.mp4">
+          <video poster="../assets/banda.jpg" src="https://www.youtube.com/watch?v=RwsnrDpfFn44">
             <div data-plyr-provider="youtube" data-plyr-embed-id="RwsnrDpfFn44"></div>
             <!-- <source src="https://www.youtube.com/watch?v=RwsnrDpfFn44" type="video/mp4" size="1440"> -->
           </video>
