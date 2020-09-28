@@ -61,7 +61,8 @@
 
           const action = event.value ? 'afegir' : 'llevar';
           Axios.put(`/info/actuacio/${action}/assistent/${event.tag}`)
-          .then(() => { this.loading = false})
+          .then(() => { this.loading = false })
+          .catch(() => { this.loading = false })
         }
       },
       attendanceOf(index) {

@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 
 const Music = require('../models/music');
-const musicController = require('../controlers/musicControler');
+const musicController = require('../controllers/musicController');
 const mailer = require('../mailing/index.js');
 
 const router = express.Router();

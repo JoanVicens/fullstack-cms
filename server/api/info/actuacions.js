@@ -8,6 +8,9 @@ const calendari = require("./calendari");
 const Actuacio = require('../models/actuacio');
 const Curs = require('../models/curs');
 
+const musicController = require('../controllers/musicController.js');
+const actuacioController = require('../controllers/actuacioController.js');
+
 function guardarNovaActuacio(actuacio, semestreId) {
 
   actuacio.calendar_event = actuacio.data !== undefined
@@ -169,61 +172,28 @@ router.put('/assistents', (req, res) => {
   })
 })
 
-router.put('/afegir/assistent', (req, res) => {
-  const body = req.body;
-  const idActuacio = mongoose.Types.ObjectId(body.idActuacio);
-  //
-  // console.log(actuacioId);
+router.put('/:action/assistent/:id_actuacio', async (req, res) => {
 
-  console.log(body.idActuacio);
+  const session_id = req.session.session_id
+  const music = await musicController.getMusicBySession(session_id);
+  const id_actuacio = req.params.id_actuacio
+  let action
 
-  Actuacio.findById(idActuacio)
-  .then(response => {
-    console.log(response);
+
+  if (req.params.action == 'afegir') {
+    action = actuacioController.addAttendant
+  } else if (req.params.action == 'llevar') {
+    action = actuacioController.removeAttendant
+  }
+
+  action(id_actuacio, music._id)
+  .then(() => {
+    res.sendStatus(201)
   })
-  .catch(err => {
-    console.log(err);
+  .catch(() => {
+    res.sendStatus(500).json({ message: result.message })
   })
 
-  Actuacio.findOneAndUpdate(
-    {'_id': idActuacio},
-    {
-      $push: {
-        "assistents": body.idAssistent
-      }
-    }
-  )
-  .then(result => {
-    res.status(200).json(result)
-  })
-  .catch(err => {
-    console.log(err);
-  })
-})
-
-router.put('/llevar/assistent', (req, res) => {
-  const body = req.body;
-  const idActuacio = mongoose.Types.ObjectId(body.idActuacio);
-  const idAssistent = mongoose.Types.ObjectId(body.idAssistent);
-
-  Actuacio.findOne(
-    { '_id': idActuacio }
-  )
-  .then(actuacio => {
-    console.log(actuacio);
-    let index = actuacio.assistents.indexOf(body.idActuacio)
-    actuacio.assistents.splice(index, 1)
-
-    actuacio.save()
-    .then(result => {
-      console.log("S'ha actualitzat la assistencia de %s", actuacio.titol);
-      res.status(200).json({message: "S'ha actualitzat correctament"})
-    })
-    .catch(err => console.log(err))
-  })
-  .catch(err => {
-    console.log(err);
-  })
 })
 
 router.get('/actiu', (req, res) => {
