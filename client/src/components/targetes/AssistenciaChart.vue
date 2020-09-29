@@ -5,7 +5,7 @@
     </div>
     <div class="grafic-wrapper">
       <div class="c100 orange grafic" >
-          <span class="tantpercent">{{ percentatge }}%</span>
+          <span class="tantpercent">{{ percentage }}%</span>
           <div class="slice">
               <div class="bar"></div>
               <div class="fill"></div>
@@ -16,11 +16,11 @@
       <div class="info">
         <p class="font-weight-bold">Número d'assajos</p>
         <p class="ml-1">
-          {{info.semestres[numeroSemetre].assajosAssistits}} de {{info.semestres[numeroSemetre].assajosSemestre}}
+          {{ attended }} de {{ total }}
         </p>
       </div>
 
-      <div class="reminder" v-if="percentatge < 80">
+      <div class="reminder" v-if="percentage < 80">
         Per a poder demanar els 1.5 crèdits del semestre has de tindre com a mínim un 80% d’assistència
       </div>
 
@@ -29,8 +29,6 @@
 </template>
 
 <script>
-  import { calcularPercentatge } from '../../mixins/helpers'
-
   export default {
     name: 'AssistenciaChart',
     props: {
@@ -38,29 +36,32 @@
     },
     data() {
       return {
-        numeroSemetre: 0,
-        //percentatge: ''
+        semester: 0,
+        attended: null,
+        total: null,
+        percentage: null
       }
     },
     computed: {
       percentatge_class: function () {
-        let percentatge = this.info.semestres[this.numeroSemetre].percentatge.toFixed(0)
-        return percentatge != NaN ? 'p ' : `p${percentatge}`
-      },
-      percentatge: function () {
-        let percentatge = this.info.semestres[this.numeroSemetre].percentatge.toFixed(0)
-        return (!isNaN(percentatge)) ? percentatge : ''
-      },
-      pg: function() {
+        return this.percentage != NaN ? 'p ' : `p${this.percentage}`
+      }
+    },
+    methods: {
+      calculatePercentage() {
+        this.attended = this.info[this.semester].rehersals.attended;
+        this.total = this.info[this.semester].rehersals.total;
 
-        return this.info.semestres[this.numeroSemetre].percentatge.toFixed(0)
+        return ((this.attended * 100) / this.total).toFixed(0)
+      },
+      getCurrentSemester() {
+        let data = new Date();
+        return (data.getMonth() > 0 && data.getMonth() < 7) ? 1 : 0;
       }
     },
     mounted() {
-      // Calcula a quin semestre ens trobem
-      let data = new Date();
-      this.numeroSemetre = (data.getMonth() > 0 && data.getMonth() < 7) ? 1 : 0;
-
+      this.semester = this.getCurrentSemester();
+      this.percentage = this.calculatePercentage();
     }
   }
 </script>

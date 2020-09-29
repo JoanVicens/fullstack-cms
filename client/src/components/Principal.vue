@@ -2,11 +2,11 @@
   <main class="container pt-4">
     <div class="card-columns" v-if="!loading">
       <InfomarcioPersonal class="card" :music="info.user"/>
-      <!-- <DetallAssistenciaSemestres class="card" :info="info.attendance" />
-      <AssistenciaChart class="card" :info="infomarcio"/>
-      <Actuacions class="card" :semestres="curs.semestres" :id="music._id" />
+      <DetallAssistenciaSemestres class="card" :info="info.attendance" />
+      <AssistenciaChart class="card" :info="info.attendance"/>
+      <Actuacions class="card" />
       <Newsletters class="card"/>
-      <EstatCompte class="card border-0" :compteActiu="music.compte_actiu"/> -->
+      <EstatCompte class="card border-0" :compteActiu="info.user.compte_actiu"/>
     </div>
   </main>
 </template>
@@ -17,21 +17,21 @@
   import store from '../store.js'
 
   import InfomarcioPersonal from './targetes/InformacioPersonal.vue'
-/*   import AssistenciaChart from './targetes/AssistenciaChart.vue'
+  import AssistenciaChart from './targetes/AssistenciaChart.vue'
   import DetallAssistenciaSemestres from './targetes/Semestres.vue'
   import Actuacions from './targetes/Actuacions.vue'
   import Newsletters from './targetes/Newsletters.vue'
-  import EstatCompte from './targetes/EstatCompte.vue' */
+  import EstatCompte from './targetes/EstatCompte.vue'
 
   export default {
     name: 'Principal',
     components: {
       InfomarcioPersonal,
-/*       AssistenciaChart,
+      AssistenciaChart,
       DetallAssistenciaSemestres,
       Actuacions,
       Newsletters,
-      EstatCompte */
+      EstatCompte
     },
     data() {
       return {
@@ -40,68 +40,24 @@
         info: null
       }
     },
-    methods: {
-      
-      calcularAssistencia() {
-
-        if(this.errors.noCursActiu) return
-
-        this.infomarcio.semestres = []
-
-        this.curs.semestres.forEach((semestre, index) => {
-            let assajosAssistits = 0;
-
-            semestre.assajos.forEach(assaig => {
-              if(assaig.assistents.includes(this.music._id))
-                assajosAssistits++
-            });
-
-            let assajosSemestre = semestre.assajos.length
-
-            let percentatge = (assajosAssistits * 100) / assajosSemestre
-
-            this.infomarcio.semestres.push({
-              assajosAssistits,
-              assajosSemestre,
-              percentatge
-            })
-        });
-      }
-    },
     mounted() {
       axios.get('/info/me')
       .then(response => {
         this.info = response.data;
+
+        if(this.info.user.tipo_compte == 2) {
+          this.store.commit('esJunta');
+        } else if(this.info.user.tipo_compte == 3) {
+          this.store.commit('esAdmin');
+        }
       })
       .catch(err => {
         console.error(err)
+        this.$router.push('/')
       })
       .finally(() => {
         this.loading = false
       })
-
-      /*
-      Promise.all([this.carregarInfoMusic(), this.carregarInfoCursActiu()])
-      .then(() => {
-        localStorage.id = this.music._id
-
-        // Guarda en local el tipus de compte
-        if(this.music.tipo_compte == 2) {
-          this.store.commit('esJunta');
-        } else if (this.music.tipo_compte == 3) {
-          this.store.commit('esAdmin');
-        }
-
-        this.infomarcio.curs = this.curs.curs
-        this.calcularAssistencia();
-
-        this.infoCargada = true
-      })
-      .catch(err => {
-        console.log(err);
-        this.$router.push('/')
-      })
-      */
     }
   }
 </script>

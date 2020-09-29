@@ -77,6 +77,7 @@ exports.deletePrivateInfo = (music) => {
     pais: music.pais,
     tipo_compte: music.tipo_compte,
     llista_correu: music.llista_correu,
+    compte_actiu: music.compte_actiu
   }
 
   return music_data

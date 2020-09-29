@@ -7,10 +7,14 @@
     <div class="contingut padding-targeta" ref="llistat">
       <div v-if="actuacions.length > 0">
         <div v-for="(actuacio, index) in actuacions" v-bind:key="index" class="actuacio">
-          <div class="titol-actuacio">
-            {{ actuacio.titol }}
+          <div class="titol-actuacio" v-bind:class="{disabled: loading}">
+            <div>
+              {{ actuacio.titol }}
+            </div>
+            <small class="data-concert">
+              {{ actuacio.data | moment("DD MMMM YYYY") }}
+            </small>
           </div>
-          {{ attendanceOf(index) }}
           <ToggleButton :value="attendanceOf(index)"
             @change="attendanceChanged"
             :color="{
@@ -21,7 +25,9 @@
             :tag="actuacio._id"
             :width="100"
             :height="30"
-            :labels="{checked: 'Assistiré', unchecked: 'No assistiré'}"/>
+            :labels="{checked: 'Assistiré', unchecked: 'No assistiré'}"
+            :disabled="loading"
+          />
         </div>
       </div>
       <div class="padding-targeta mb-2" v-else>
@@ -43,10 +49,6 @@
       LoadingBar,
       ToggleButton
     },
-    props: {
-      semestres: Array,
-      id: String
-    },
     data() {
       return {
         actuacions: [],
@@ -54,6 +56,10 @@
       }
     },
     methods: {
+      getCurrentSemester() {
+        let data = new Date();
+        return (data.getMonth() > 0 && data.getMonth() < 7) ? 1 : 0;
+      },
       attendanceChanged(event) {
 
         if(event.value != undefined && event.tag) {
@@ -77,15 +83,21 @@
     },
     mounted() {
       let avui = new Date();
+      let currentSemester = this.getCurrentSemester();
 
-      this.semestres.forEach(semestre => {
-        semestre.actuacions.forEach(actuacio => {
-          let data = Date.parse( actuacio.data)
-          if(data > avui) {
-            this.actuacions.push(actuacio)
-          }
+      Axios.get('/info/actuacio/actiu')
+      .then(response => {
+        let semestres = response.data.curs.semestres;
+
+        semestres.forEach(semestre => {
+          semestre.actuacions.forEach(actuacio => {
+            let data = Date.parse( actuacio.data)
+            if(data > avui) {
+              this.actuacions.push(actuacio)
+            }
+          });
         });
-      });
+      })
     }
   }
 </script>
@@ -100,9 +112,23 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    padding: 5px 0px;
+    &:nth(2n+3) {
+      border-top: 1px solid lightgray;
+      border-radius: 25%;
+    }
     .titol-actuacio {
       font-family: 'Roboto';
       text-transform: capitalize;
+      &.disabled {
+        color: lightgray;
+      }
+    }
+    .data-concert {
+      font-size: .8rem;
+      line-height: .8rem;
+      text-transform: lowercase;
+      
     }
   }
 

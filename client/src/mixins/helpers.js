@@ -17,6 +17,6 @@ export const helpers = {
       let percentatge = (assajosAssistits * 100) / numeroAssajos
 
       return isFinite(percentatge) ? percentatge + '%' : '~'
-    },
+    }
   }
 }
