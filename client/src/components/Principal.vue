@@ -64,7 +64,7 @@
 
 <style lang="sass" scoped>
   main
-    color: #444
+    // color: #444
     padding-top: 0
   td
     background-color: #fff

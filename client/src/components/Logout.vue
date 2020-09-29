@@ -22,7 +22,7 @@
     mounted() {
       axios.get(this.API_URL, {withCredentials: true})
         .then(response => {
-          localStorage.removeItem('name')
+          localStorage.clear()
           store.commit('logoutMusic');
           store.commit('unsetName')
 

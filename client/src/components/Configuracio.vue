@@ -145,7 +145,7 @@
         </b-card>
 
         <!-- ACTIVAR -->
-        <b-card class="mt-3 mb-2 transparent" border-variant="success" v-else>
+        <b-card class="mt-3 mb-2 transparent activar" border-variant="success" v-else>
           <b-card-text class="flex-text">
             <div class="">
               <h5 class="m-0">Activar el compte</h5>
@@ -274,6 +274,14 @@
     button {
       border: 1px solid  #ffc107;
       background-color:  #ffc107;
+      color: white;
+    }
+  }
+  .activar {
+    background: linear-gradient(-230deg, #218838 60%, white);
+    button {
+      border: 1px solid  #218838;
+      background-color:  #218838;
       color: white;
     }
   }

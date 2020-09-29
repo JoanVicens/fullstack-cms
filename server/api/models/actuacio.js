@@ -16,6 +16,7 @@ const actuacioSchema = new Schema({
   hora_inici: {type: 'string'},
   hora_fi: {type: 'string'},
   lloc: {type: 'string'},
+  lloc_plus: {type: 'string'},
   repertori: [String],
   descripcio: {type: 'string'},
   assistents: [{

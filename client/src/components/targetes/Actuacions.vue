@@ -7,15 +7,15 @@
     <div class="contingut padding-targeta" ref="llistat">
       <div v-if="actuacions.length > 0">
         <div v-for="(actuacio, index) in actuacions" v-bind:key="index" class="actuacio">
-          <div class="titol-actuacio" v-bind:class="{disabled: loading}">
-            <div>
+          <div v-bind:class="{disabled: loading}">
+            <div class="titol-actuacio">
               {{ actuacio.titol }}
             </div>
-            <small class="data-concert">
+            <div class="data-concert">
               {{ actuacio.data | moment("DD MMMM YYYY") }}
-            </small>
+            </div>
           </div>
-          <ToggleButton :value="attendanceOf(index)"
+          <ToggleButton :value="attendanceOf(actuacio, index)"
             @change="attendanceChanged"
             :color="{
               checked: '#c0caad',
@@ -40,7 +40,7 @@
 
 <script>
   import Axios from 'axios'
-  import LoadingBar from '../LoadingBar.vue'
+  import LoadingBar from '../ui/LoadingBar.vue'
   import { ToggleButton } from 'vue-js-toggle-button'
 
   export default {
@@ -71,19 +71,17 @@
           .catch(() => { this.loading = false })
         }
       },
-      attendanceOf(index) {
-        let assistents = this.actuacions[index].assistents
-        assistents.forEach(assistent => {
-          if(assistent._id === this.id)
-            return true
-        });
-
-        return false
+      attendanceOf(actuacio, index) {
+        let assistents = actuacio.assistents
+        console.log(assistents);
+        return assistents.includes(this.id)
       },
     },
     mounted() {
       let avui = new Date();
       let currentSemester = this.getCurrentSemester();
+
+      this.id = localStorage.getItem('id')
 
       Axios.get('/info/actuacio/actiu')
       .then(response => {
@@ -112,6 +110,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     padding: 5px 0px;
     &:nth(2n+3) {
       border-top: 1px solid lightgray;
@@ -126,9 +125,10 @@
     }
     .data-concert {
       font-size: .8rem;
-      line-height: .8rem;
-      text-transform: lowercase;
-      
+      line-height: .8rem;      
+    }
+    label {
+      margin-bottom: 0;
     }
   }
 

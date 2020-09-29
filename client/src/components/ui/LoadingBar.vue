@@ -13,7 +13,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '../sass/colors';
+    @import '../../sass/colors';
 
     @keyframes loading {
         0% {
@@ -24,7 +24,9 @@
         }
     }
     .loading-bar {
-        position: relative;
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
         background-color: white;
     }

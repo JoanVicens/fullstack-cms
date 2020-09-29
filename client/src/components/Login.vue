@@ -90,6 +90,8 @@
         Vue.http.headers.common['Authorization'] = 'Bearer ' + response.data.token
 
         localStorage.name = response.data.name;
+        localStorage.id = response.data._id;
+        
         store.commit('loggedMusic')
         store.commit('dismissMessage')
       },

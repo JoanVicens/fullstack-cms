@@ -22,7 +22,7 @@ exports.autenticar = async (credencials) => {
       const correctPasword = await bcrypt.compare(credencials.password, music.password)
       if(correctPasword) {
         const token = await setSessionId(music._id)
-        return {token, name: music.nom }
+        return {token, name: music.nom , _id: music._id}
       } else {
         const invalidCredentials = new Error('Credencials errònies')
         invalidCredentials.message = 'Credencials errònies'
