@@ -1,5 +1,5 @@
 <template lang="html">
-  <div id="gestio">
+  <div>
     <aside class="subheader-nav">
       <ul>
         <li><router-link :to="{ path: '/gestio/dashboard', params: {} }">Dashboard</router-link></li>
@@ -13,28 +13,47 @@
         <li style="color: #fff"><router-link :to="{ path: '/compte/principal', params: {} }">Tornar</router-link></li>
       </ul>
     </aside>
-    <NotifiacioFixa />
-    <router-view class="mt-3"></router-view>
+    <div id="gestio" class="container">
+      <NotifiacioFixa />
+      <router-view></router-view>
+    </div>
+
+    <Copyright class="pt-4" />
   </div>
 </template>
 
 <script>
   import NotifiacioFixa from './notificacions/NotificacioFixa'
+  import Copyright from './Copyright';
 
   export default {
     name: 'Gestio',
-    components: { NotifiacioFixa }
+    components: { NotifiacioFixa, Copyright }
   }
 </script>
 
-<style lang="sass" scoped>
-  @import ../sass/colors
-  @import ../sass/subheader-nav
+<style lang="scss" scoped>
+  @import '../sass/colors';
+  @import '../sass/subheader-nav';
 
-  .subheader-nav
-    background-color: $atomic-orange
-    a
-      color: white
-      &:hover
-        color: #444
+  .subheader-nav {
+    background-color: $atomic-orange;
+    a {
+      color: white;
+      &:hover {
+        color: #444;
+      }
+    } 
+  }
+
+  #gestio {
+    // padding-bottom: 64px;
+    background-color: white;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    main {
+      position: relative;
+      z-index: 99;
+    }  
+  }
 </style>

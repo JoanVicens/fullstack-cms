@@ -32,6 +32,7 @@ exports.musicAutoritzat = function(req, res, next) {
   }
 }
 
+
 exports.respondError422 = function(res, next) {
   res.status(422);
   const error = new Error('Credencials incorrectes');

@@ -55,7 +55,7 @@ exports.enviarCertificat = (music, opcions) => {
 
 }
 
-exports.enviarCorreuConfirmacio = (recipient, token) => {
+exports.enviarCorreuConfirmacio = async (recipient, token) => {
 
   const opt  = emailsTemplates.confirmacio;
   const direccio = `${process.env.SERVER_URL}/activacio/${token}`;
@@ -68,13 +68,12 @@ exports.enviarCorreuConfirmacio = (recipient, token) => {
     html: `<strong>Clica al link per a confirmar el teu correu: </strong><a href="${direccio}">Confirmar correu!!</a>`
   };
 
-  transporter.sendMail(mailOptions, (err, res) => {
-    if (err) {
-        console.log(err);
-    } else {
-        console.log(JSON.stringify(res));
-    }
-  });
+  try {
+    return await transporter.sendMail(mailOptions);
+  } catch(err) {
+    return new Error(err)
+  }
+
 }
 
 exports.enviarCorreu = (music, correu, adjunts) => {

@@ -1,5 +1,5 @@
 <template lang="html">
-  <main >
+  <main>
     <h3 class="ml-3">Llistat complet dels músics</h3>
 
     <b-form inline class="m-4">
@@ -8,44 +8,7 @@
       <b-button variant="info" @click="demanarDia">Baixar llista assaig</b-button>
     </b-form>
 
-    <div style="background-color: #fff">
-      <b-table striped hover borderless responsive :items="llistat" :fields="fields">
-        <template v-slot:cell(tipo_compte)="data">
-          <span class="badge badge-primary" v-if="data.value === 0">normal</span>
-          <span class="badge badge-info" v-if="data.value === 1">junta</span>
-          <span class="badge badge-danger" v-if="data.value === 2">president</span>
-          <span class="badge badge-dark" v-if="data.value === 3">admin</span>
-         </template>
-        <template v-slot:cell(compte_actiu)="data">
-          <span class="badge badge-success" v-if="data.value">actiu</span>
-          <span class="badge badge-warning" v-else>no actiu</span>
-         </template>
-
-        <template v-slot:cell(llista_correu)="data">
-          <span class="badge badge-success" v-if="data.value">si</span>
-          <span class="badge badge-warning" v-else>no</span>
-         </template>
-
-        <template v-slot:cell(accions)="row">
-          <b-dropdown text="accions"  class="m-md-2">
-            <b-dropdown-item v-if="!row.item.compte_verificat">Reenviar correu verificació</b-dropdown-item>
-            <b-dropdown-item v-if="row.item.compte_actiu" @click="desactivar(row.item._id)">Desactivar compte</b-dropdown-item>
-            <b-dropdown-item v-else @click="activar(row.item._id)">Activar compte</b-dropdown-item>
-            <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-group header="Canviar tipus">
-              <b-dropdown-item @click="canviTipus(row.item._id, row.item.tipo_compte, 0)">normal</b-dropdown-item>
-              <b-dropdown-item @click="canviTipus(row.item._id, row.item.tipo_compte, 1)">junta</b-dropdown-item>
-              <b-dropdown-item @click="canviTipus(row.item._id, row.item.tipo_compte, 2)">president</b-dropdown-item>
-              <b-dropdown-item @click="canviTipus(row.item._id, row.item.tipo_compte, 3)">admin</b-dropdown-item>
-            </b-dropdown-group>
-          </b-dropdown>
-        </template>
-
-      </b-table>
-
-
-
-    </div>
+    <TaulaMusics :llistat="llistat" @require-reload="reloadMusicList" />
 
     <DiaLlistatAssaig @diaSeleccionat="descargarPDF($event)"/>
   </main>
@@ -58,46 +21,13 @@
   import moment from 'moment'
 
   import DiaLlistatAssaig from './formularis/DiaLlistatAssaig'
+  import TaulaMusics from './TaulaMusics'
 
   export default {
     name: 'GestioMusics',
-    components: { DiaLlistatAssaig },
+    components: { DiaLlistatAssaig, TaulaMusics },
     data() {
       return {
-        fields: [
-          {
-            key: 'nom',
-            sortable: true
-          },
-          {
-            key: 'cognoms',
-            sortable: true
-          },
-          {
-            key: 'corda',
-            sortable: true
-          },
-          {
-            label: 'Tipus de compte',
-            key: 'tipo_compte',
-            sortable: true
-          },
-          {
-            label: 'Compte actiu',
-            key: 'compte_actiu',
-            sortable: true
-          },
-          {
-            label: 'Subscrit al newsletter',
-            key: 'llista_correu',
-            sortable: true
-          },
-          {
-            label: 'accions',
-            key: 'accions',
-            sortable: false
-          }
-        ],
         llistat: []
       }
     },
@@ -142,19 +72,19 @@
       },
       descargar() {
         let csvContent = 'data:text/csv;charset=utf-8,'
-        if(data.length > 0) {
-          let d = data.split('-')
-          var data = `${d[2]}/${d[1]}/${d[0]}`
-          csvContent += data + '\n'
-        }
+        // if(data.length > 0) {
+        //   let d = data.split('-')
+        //   var data = `${d[2]}/${d[1]}/${d[0]}`
+        //   csvContent += data + '\n'
+        // }
         csvContent += 'Cognom, Nom, \n'
 
-        let llistaOrdenada = [...this.llistat]
-        llistaOrdenada = llistaOrdenada.sort( ( a, b ) => {
-          if ( a.cognoms < b.cognoms ){
+        let llista = [...this.llistat]
+        let llistaOrdenada = llista.sort( ( a, b ) => {
+          if ( a.cognoms < b.cognoms ) {
             return -1;
           }
-          if ( a.cognoms > b.cognoms ){
+          if ( a.cognoms > b.cognoms ) {
             return 1;
           }
             return 0;
@@ -172,20 +102,20 @@
         var encodedUri = encodeURI(csvContent);
         var link = document.createElement("a");
         link.setAttribute("href", encodedUri);
-        if(data.length > 0) {
-          link.setAttribute("download", `Assistència assaig ${data}.csv`);
-        } else {
-          link.setAttribute("download", `Llista músics.csv`);
-        }
+        link.setAttribute("download", `Llista músics.csv`);
+
         document.body.appendChild(link); // Required for FF
 
         link.click(); // This will download the data file
       },
-      carregarInfo() {
-        axios.get('/info/musics')
+      reloadMusicList() {
+        axios({
+          method: 'GET',
+          headers: { 'Cache-Control': 'no-cache' },
+          url: '/info/music/llistat'
+        })
         .then(response => {
-          console.log(response);
-          this.llistat = response.data.musics
+          this.llistat = response.data.list
         })
         .catch(console.error)
       },
@@ -202,20 +132,13 @@
           this.carregarInfo()
         })
         .catch(console.error)
-      },
-      canviTipus(id, tipusAnterior, tipus) {
-        axios.put('/info/music/tipo', {tipus, tipusAnterior, id})
-        .then(response => {
-          this.carregarInfo()
-        })
-        .catch(console.error)
       }
     },
     mounted() {
-      this.carregarInfo()
+      this.reloadMusicList()
     }
   }
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
 </style>

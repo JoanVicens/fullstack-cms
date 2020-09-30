@@ -66,6 +66,10 @@
 </script>
 
 <style lang="scss" scoped>
+    .notificacio {
+        margin: 0;
+        margin-bottom: 1rem;
+    }
     .container.hide {
         display: none;
     }

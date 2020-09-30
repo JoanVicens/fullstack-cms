@@ -198,7 +198,6 @@
       activarUsuari() {
         axios.put(`/info/music/activar/${this.music._id}`, {withCredentials: true})
         .then(response => {
-          console.log(response);
           this.music = response.data
           this.modificacionsInfo()
         })
@@ -207,7 +206,6 @@
       desactivarUsuari() {
         axios.put(`/info/music/desactivar/${this.music._id}`, {withCredentials: true})
         .then(response => {
-          console.log(response);
           this.music = response.data
           this.modificacionsInfo()
         })
