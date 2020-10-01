@@ -27,8 +27,6 @@
                 :fields="fields"
                 :filter="filter"
                 @row-clicked="filaSeleccionada"
-                thClass="cell"
-                tdClass="cell"
                 ref="taula">
                 <template v-slot:cell(tipo_compte)="data">
                     <div>
@@ -74,7 +72,7 @@
 
 <script>
     import Axios from 'axios'
-    import AccionsMusic from './formularis/AccionsMusic'
+    import AccionsMusic from '../formularis/AccionsMusic'
 
     export default {
         name: 'TaulaMusics',
@@ -171,21 +169,7 @@
 </script>
 
 <style lang="scss">
-    @import '../../sass/colors';
-
-    .td-music-table {
-        padding: 1px !important;
-        &:hover {
-            cursor: pointer;
-        }
-    }
-    .th-music-table {
-        font-family: 'Roboto';
-        border-bottom: 1px solid $coffe !important;
-        padding: 0 !important;
-        padding-left: .2rem !important;
-    }
-
+    @import '../../../sass/colors';
 
     .taula-wrapper {
         background-color: white;

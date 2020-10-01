@@ -55,3 +55,38 @@ exports.getAttendaceInformationFromMusicId =  async (musicId) => {
         return attendance
     }
 }
+
+exports.getCurrentAcademicYearAssistance = async () => {
+    return await await Curs.findOne({ curs_actiu: true })
+        .populate({
+            path: 'semestres.assajos',
+            populate: {
+                path: 'assistents',
+                select: 'nom cognoms corda'
+            }
+        })
+}
+
+exports.addRehersalReference = async (rehersal) => {
+
+    const curs = await Curs.findOneAndUpdate(
+        { 'semestres.semestreId': rehersal.semestre},
+        {
+            $push: {
+                "semestres.$.assajos": rehersal._id
+            }
+        }
+        )
+    
+    return curs;
+}
+
+exports.removeRehersalReference = async (rehersalId) => {
+    await Curs.findOneAndUpdate(
+        { 'semestres.assajos': rehersalId},
+        { 
+            $pull: {
+                'semestres.$.assajos': rehersalId
+            }
+        })    
+}

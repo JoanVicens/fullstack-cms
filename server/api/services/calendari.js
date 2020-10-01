@@ -15,22 +15,22 @@ exports.guardarEvent = (actuacio, id) => {
 
   if(actuacio.data && actuacio.hora_inici && actuacio.hora_fi) {
     event.start = {
-      dateTime: actuacio.data.split('T')[0] + 'T' + actuacio.hora_inici,
+      dateTime: (actuacio.data.toString()).split('T')[0] + 'T' + actuacio.hora_inici,
       timeZone: 'Europe/Madrid'
     }
 
     event.end = {
-      dateTime: actuacio.data.split('T')[0] + 'T' + actuacio.hora_fi,
+      dateTime: (actuacio.data.toString()).split('T')[0] + 'T' + actuacio.hora_fi,
       timeZone: 'Europe/Madrid'
     }
   } else if (actuacio.data) {
     event.start = {
-      date: actuacio.data.split('T')[0],
+      date: (actuacio.data.toString()).split('T')[0],
       timeZone: 'Europe/Madrid'
     }
 
     event.end = {
-      date: actuacio.data.split('T')[0],
+      date: (actuacio.data.toString()).split('T')[0],
       timeZone: 'Europe/Madrid'
     }
   }

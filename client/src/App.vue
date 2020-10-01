@@ -79,6 +79,7 @@
 	@import ./sass/animacions
 	@import ./sass/botons
 	@import ./sass/notificacions
+	@import ./sass/taules
 	@import ./sass/master
 
 	#app

@@ -1,6 +1,8 @@
 const jsonwebtoken = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
+const musicController = require('./controllers/musicController')
+
 exports.crearJsonWebToken = function(payload, opt) {
   const token = jsonwebtoken.sign(payload, process.env.TOKEN_SECRET, opt)
   return token;
@@ -12,7 +14,7 @@ exports.generateBycryptToken = async function() {
   return await bcrypt.hash(token, 8);
 }
 
-exports.musicAutoritzat = function(req, res, next) {
+exports.musicAutenticat = function(req, res, next) {
 
   if(req.session && req.session.cookie) {
     const cookie = req.session.cookie;
@@ -29,6 +31,16 @@ exports.musicAutoritzat = function(req, res, next) {
   } else {
     const err = new Error('Necessites identificar-te')
     next(err);
+  }
+}
+
+exports.musicAutoritzat =  async (req, res, next) => {
+  const requester = await musicController.getMusicBySession(req.session.session_id)
+
+  if(requester.tipo_compte > 0) {
+    next();
+  } else {
+    next(new Error('No tens autorització'))
   }
 }
 

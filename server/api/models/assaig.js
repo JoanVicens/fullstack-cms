@@ -12,7 +12,6 @@ const assaigSchema = new Schema({
   hora_inici: {type: 'string'},
   hora_fi: {type: 'string'},
   assistents: [mongoose.Schema.Types.ObjectId],
-  assistencia: {type: 'number', default: 0},
   lloc: {type: 'string'},
   anotacio: {type: 'string'},
   calendar_event: {type: 'boolean'},

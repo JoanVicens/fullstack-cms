@@ -2,7 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
 
-const calendari = require("./calendari");
+
 const newsletter = require('../config/newsletter');
 // const people = require("./people");
 
@@ -12,15 +12,16 @@ const Curs = require('../models/curs');
 const Assaig = require('../models/assaig');
 const Music = require('../models/music');
 
-const actiuaciomiddleware = require('./actuacions.js');
-const infoMusics = require('./music.js')
+const actiuaciomiddleware = require('./actuacio.js');
+const musicMiddleware = require('./music.js')
+const assaigMiddleware = require('./assaig')
 
 //========================
 
 const musicController = require('../controllers/musicController');
 const cursController = require('../controllers/cursController');
 
-router.use((req, res, next) => {
+router.use((req, res, next) => { // User has to be logged
   if(req.session.session_id) {
     Music.findOne({'session_id': req.session.session_id})
     .then(() => {
@@ -182,230 +183,15 @@ router.delete('/curs/:id', (req, res) => {
   .catch(error => console.log(error));
 })
 
-
 // ASSAJOS
-
-function guardarNouAssaig(assaig, semestreId) {
-  assaig.calendar_event = assaig.data !== undefined
-
-  const nouAssaig = new Assaig({
-    _id: new mongoose.Types.ObjectId(),
-    data: assaig.data,
-    hora_inici: assaig.hora_inici,
-    hora_fi: assaig.hora_fi,
-    assistents: assaig.assistents,
-    lloc: assaig.lloc,
-    anotacio: assaig.anotacio,
-    calendar_event: assaig.calendar_event
-  })
-
-  return nouAssaig.save()
-  .then(result => {
-    if(nouAssaig.data) {
-      assaig.titol = 'Assaig Banda UJI'
-      calendari.guardarEvent(assaig, result._id)
-    }
-
-    Curs.findOneAndUpdate(
-      {'semestres.semestreId': semestreId},
-      {
-        $push: {
-          "semestres.$.assajos": result._id
-        }
-      }
-    )
-    .then(result => {
-      return result
-    })
-    .catch(err => {
-      console.log(err);
-    })
-
-  })
-  .catch(err => {
-    console.log(err);
-  });
-
-}
-
-function actualitzarAssaig(assaig) {
-  return Assaig.findOneAndUpdate(
-    {'_id': assaig._id},
-    {
-      data: assaig.data,
-      hora_inici: assaig.hora_inici,
-      hora_fi: assaig.hora_fi,
-      assistents: assaig.assistents,
-      lloc: assaig.lloc,
-      anotacio: assaig.anotacio,
-      descripcio: assaig.descripcio,
-    },
-    {new: true}
-  )
-  .then(result => {
-    if(!assaig.calendar_event) {
-      assaig.titol = 'Assaig Banda UJI'
-      calendari.guardarEvent(assaig, result._id)
-    } else {
-      assaig.titol = 'Assaig Banda UJI'
-      calendari.modificarEvent(assaig)
-    }
-
-    return result
-  })
-  .catch(err => {
-    return err
-  })
-}
-
-router.put('/assaig', (req, res) => {
-  // Crear i modificar assajos
-
-  if(!req.body.assaig || !req.body.semestreId) {
-    res.status(400)
-  }
-
-  const assaig = req.body.assaig
-  const semestreId = req.body.semestreId
-
-  assaig.semestre = semestreId
-
-  if(!assaig._id) {
-    let promise = guardarNouAssaig(assaig, semestreId)
-
-    promise.then(result => {
-      res.status(200).json(result)
-    })
-    .catch(err => {
-      res.status(500).json(err)
-    })
-  } else {
-    let promise = actualitzarAssaig(assaig)
-
-    promise.then(result => {
-      res.status(200).json(result)
-    })
-    .catch(err => {
-      res.status(500).json(err)
-    })
-  }
-
-})
-
-router.put('/assajos', (req, res) => {
-  // Crear varios assajos
-
-  if(!req.body.assajos || !req.body.semestreId) {
-    res.status(400)
-  }
-
-  const assajos = req.body.assajos
-  const semestreId = req.body.semestreId
-
-  const promeses = []
-
-  assajos.forEach(assaig => {
-    promeses.push(guardarNouAssaig(assaig, semestreId))
-  });
-
-  Promise.all(promeses).then(result => {
-    res.status(200).json(result)
-  })
-  .catch(err => {
-    res.status(500).json(err)
-  })
-
-
-})
-
-router.delete('/assaig/:id', (req, res) => {
-  // Borrar un assaig
-
-  const assaigId = mongoose.Types.ObjectId(req.params.id);
-
-  Assaig.deleteOne(
-    {"_id": assaigId}
-  ).then(async curs => {
-    calendari.eliminarEvent(req.params.id)
-
-    // Actualitza Curs
-    await Curs.findOne(
-      {'semestres.assajos': assaigId}
-    )
-    .then(curs => {
-      curs.semestres.forEach(semestre => {
-        let index = semestre.assajos.indexOf(req.params.id)
-        semestre.assajos.splice(index, 1)
-      });
-
-      if(curs.curs_actiu)
-        curs.curs_actiu = true
-
-      curs.save()
-      .then(result => {
-        console.log('curs: %s actualizat', curs.curs_actiu);
-      })
-      .catch(err => console.log(err))
-    })
-    .catch(err => {
-      console.log(err);
-    })
-
-    res.status(200).json(curs)
-  })
-  .catch(err => {
-    res.status(500).json(err)
-  })
-})
-
-router.put('/assaig/assistencia', (req, res) => {
-  // Actualizar la assistencia d'un assaig
-
-  const assaig = req.body.assaig;
-
-  assaig.assistencia = assaig.assistents.length
-
-  Assaig.updateOne(
-    {'_id': assaig._id},
-    {
-      $set: {
-        "assistents": assaig.assistents
-      },
-      assistencia : assaig.assistencia,
-      ultima_modificacio: new Date()
-    },
-    {returnOriginal: false}
-  )
-  .then(response => {
-    res.status(200).json(response)
-  })
-  .catch(err => {
-    console.log(err);
-    res.status(500).json(err)
-  })
-})
-
-router.get('assajos/:semestreId', (req, res) => {
-
-  const semestreId = req.params.semestreId
-
-  Assaig.find({'semestre': semestreId})
-  .populate('assistents')
-  .then(assajos => {
-    res.status(200).json({ assajos })
-  })
-  .catch(err => {
-    res.status(500).json(err)
-  })
-
-})
+router.use('/assaig', assaigMiddleware);
 
 
 // ACTUACIONS
 router.use('/actuacio', actiuaciomiddleware);
 
 // MUSICS
-router.use('/music', infoMusics);
+router.use('/music', musicMiddleware);
 
 
 module.exports = router;

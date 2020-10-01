@@ -1,3 +1,7 @@
+<template>
+  <p>dñlfkajdsñlk</p>
+</template>
+
 <script>
   import { Line, mixins } from "vue-chartjs";
 

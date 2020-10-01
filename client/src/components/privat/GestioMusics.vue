@@ -21,7 +21,7 @@
   import moment from 'moment'
 
   import DiaLlistatAssaig from './formularis/DiaLlistatAssaig'
-  import TaulaMusics from './TaulaMusics'
+  import TaulaMusics from './tables/TaulaMusics'
 
   export default {
     name: 'GestioMusics',

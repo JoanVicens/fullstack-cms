@@ -83,7 +83,7 @@ router.post('/autenticacio', async (req, res, next) => {
   }
 });
 
-router.get('/info', middlewares.musicAutoritzat, (req, res, next) => {
+router.get('/info', middlewares.musicAutenticat, (req, res, next) => {
   
   musicController.getMusicBySession(req.session.session_id)
   .then(music => {

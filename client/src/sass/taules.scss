@@ -1,0 +1,12 @@
+.td-music-table {
+    padding: 1px !important;
+    &:hover {
+        cursor: pointer;
+    }
+}
+.th-music-table {
+    font-family: 'Roboto';
+    border-bottom: 1px solid $coffe !important;
+    padding: 0 !important;
+    padding-left: .2rem !important;
+}

@@ -39,22 +39,25 @@ export default axios.interceptors.response.use(function (response) {
 }, function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
+    if(error.response) {
 
-    console.log(error.response.data);
-    if (error.response.status == 401) {
-        console.error('sessió caducada redirigint');
-
-        localStorage.removeItem('musics')
-        localStorage.removeItem('cursos')
-        localStorage.removeItem('cursIdSeleccionat')
-        localStorage.removeItem('idCursActiu')
-
-        router.push({ name: 'error', params: { msgError: 'Sessió Caducada' } })
-    } else if (error.response.data.message) { // El error te un missatge
-        store.commit('saveMessage', {
-            message: error.response.data.message,
-            class: 'error'
-        })
+        if (error.response.status == 401) {
+            console.error('sessió caducada. Redirigint....');
+    
+            localStorage.clear()
+    
+            store.commit('saveMessage', {
+                message: 'Sessió caducada',
+                class: 'error'
+            })
+    
+            router.push({ path: '/' })
+        } else if(error.response.data.message) { // El error te un missatge
+            store.commit('saveMessage', {
+                message: error.response.data.message,
+                class: 'error'
+            })
+        } 
     } else {
         store.commit('saveMessage', { // El Error no te cap missatge
             message: 'oupsi, algo ha anat malament',

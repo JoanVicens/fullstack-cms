@@ -5,7 +5,7 @@ const router = express.Router();
 const musicController = require('../controllers/musicController');
 const mailer = require('../mailing')
 
-router.put('/:id', async (req, res) => { // Changest to a music document done by an administrator
+router.put('/:id', async (req, res) => { // Changes to a music document done by an administrator
     const requester = await musicController.getMusicBySession(req.session.session_id);
     const music = await musicController.getMusicById(req.params.id);
 
@@ -37,7 +37,7 @@ router.put('/:id', async (req, res) => { // Changest to a music document done by
     }
 })
 
-router.get('/resendemail/:id', async (req, res) => {
+router.get('/resendemail/:id', async (req, res) => { // Resend confirmation email to a user
     const requester = await musicController.getMusicBySession(req.session.session_id);
 
     if (!musicController.userHasPermision(requester)) {
@@ -130,7 +130,7 @@ router.put('/music/tipo', (req, res) => {
         })
 })
 
-router.put('/music', async (req, res) => {
+router.put('/music', async (req, res) => { // Creates a new musician
     const music = req.body
 
     if (music.llista_correu) {

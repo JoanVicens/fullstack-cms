@@ -39,7 +39,7 @@ exports.listAllMusicians = async (filter) => {
     llista_correu: true
   }
 
-  return await Music.find({}, filter | defaultFilter)
+  return await Music.find({}, defaultFilter)
 }
 
 exports.getMusicBySession = (sessionId) => {

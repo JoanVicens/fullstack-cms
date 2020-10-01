@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const router = express.Router();
 
-const calendari = require("./calendari");
+const calendari = require("../services/calendari");
 
 const Actuacio = require('../models/actuacio');
 const Curs = require('../models/curs');

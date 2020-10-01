@@ -16,56 +16,29 @@
         </select>
       </div>
 
-      <div class="taula-wrapper">
-        <b-table
-          hover
-          small
-          fixed
-          response
-          selectable
-          head-variant="dark"
-          responsive="sm"
-          :items="llistatComplet"
-          :fields="fields"
-          ref="taula"
-          v-show="Object.keys(assaig).length !== 0"
-          @row-clicked="filaSeleccionada"
-          >
-          <template v-slot:table-colgroup="scope">
-            <col
-              v-for="field in scope.fields"
-              :key="field.key"
-              :style="{ width: field.key === 'selected' ? '35px' : '' }"
-            >
-          </template>
-
-          <template v-slot:cell(selected)="row">
-            <b-form-group>
-              <b-form-checkbox
-                 v-model="row.rowSelected"
-                 :id="'checkbox' + row.item._id"
-               ></b-form-checkbox>
-            </b-form-group>
-          </template>
-
-          </b-table>
+      <div>
+        <TaulaAssistenciaAssaig v-if="musiciansList && assaig" :llistaMusics.sync="llistaAssaig" >
+          <b-button variant="info" @click="actualizarAssistencia(llistaAssaig)">Actualitzar</b-button>
+        </TaulaAssistenciaAssaig>
       </div>
-
-      <b-button variant="info" @click="actualizarAssistencia(assaig)">Actualitzar</b-button>
 
     </div>
   </main>
 </template>
 
 <script>
-  import axios from 'axios';
+  import Axios from 'axios';
 
   import Selector from './Selector.vue'
+  import TaulaAssistenciaAssaig from './tables/TaulaAssistenciaAssaig';
+import LogoutVue from '../Logout.vue';
+
 
   export default {
     name: 'ControlAssistencia',
     components: {
-      Selector
+      Selector,
+      TaulaAssistenciaAssaig
     },
     data() {
       return {
@@ -73,27 +46,7 @@
         assaigId: 0,
         assajos: [],
         assaig: {},
-        formulari: {},
-        fields: [
-          {
-            key: "selected",
-            label: "",
-            tdClass: 'sense-marge'
-          },
-          {
-            key: 'nom',
-            sortable: false
-          },
-          {
-            key: 'cognoms',
-            sortable: false
-          },
-          {
-            key: 'corda',
-            sortable: false
-          }
-        ],
-        llistatComplet: []
+        musiciansList: null
       }
     },
     watch: {
@@ -102,49 +55,54 @@
           this.assaig = this.assajos.find(assaig => assaig._id == this.assaigId)
         }
       },
-      assaig: {
-        handler() {
-          console.log('assaig actu');
-          this.llistatComplet.forEach((music, index) => {
-            console.log(this.assaig.assistents.includes(music._id));
-            if(this.assaig.assistents.includes(music._id)) {
-              this.$refs.taula.selectRow(index)
-            } else {
-              this.$refs.taula.unselectRow(index)
-            }
+      assajos: function(assajos) {
+        if(!assajos) return
+
+        const avui = new Date();
+
+        const beforeRehersals = assajos.filter(function(assaig) {
+            return new Date(assaig.data) - avui < 0;
+        })
+
+        if(beforeRehersals.length > 0) {
+
+          const sortedBeforeRehersalsassajos = beforeRehersals.sort(function(a, b) {
+              var distancea = Math.abs(diffdate - a);
+              var distanceb = Math.abs(diffdate - b);
+              return distancea - distanceb; // sort a before b when the distance is smaller
+          });
+  
+          this.assaigId = sortedBeforeRehersalsassajos[0]._id;
+        } else {
+          console.log("No hi ha assajos passats");
+        }
+
+      }
+    },
+    computed: {
+      llistaAssaig() {
+        const llista = [...this.musiciansList]
+
+        if(this.assaig.assistents) {
+          llista.forEach(music => {
+              music['selected'] = this.assaig.assistents.includes(music._id)
           })
         }
+        
+        return llista
       }
     },
     methods: {
-      carregarInfo() {
-        const promise = axios.get('/info/musics', {withCredentials: true})
-
-        return promise.then(response => {
-          let llistat = Array.from(response.data.musics)
-
-          llistat.map(element => element.selected = false)
-
-          return llistat || [];
+      loadMusicins() {
+        Axios.get('/info/music/llistat')
+        .then(response => {
+          this.musiciansList =  response.data.list
         })
-        .catch(err => {
-          console.log(err);
-        })
-
       },
-      filaSeleccionada(music, index) {
+      actualizarAssistencia(llista) {
+        const llistaIds = llista.map(el => {return el._id})
 
-        if(!this.assaig.assistents.includes(music._id)) {
-          this.assaig.assistents.push(music._id)
-          this.llistatComplet[index].selected = true
-        } else {
-          console.log('unselect', index);
-          this.assaig.assistents.splice(index, 1);
-          this.llistatComplet[index].selected = false
-        }
-      },
-      actualizarAssistencia(assaig) {
-        axios.put('/info/assaig/assistencia',  {assaig})
+        Axios.put(`/info/assaig/${this.assaig._id}/assistencia`, { assistents: llistaIds })
         .then(response => {
           console.log(response);
         })
@@ -154,31 +112,11 @@
       }
     },
     mounted() {
-      this.carregarInfo()
-      .then(llistat => {
-        console.log(llistat);
-        this.llistatComplet = llistat
-      })
-      .catch(err => {
-        console.log(err);
-      })
+      this.loadMusicins()
 
     }
   }
 </script>
 
-<style lang="css" scoped>
-  .padding-modal-body {
-    margin: -16px
-  }
-  .taula-wrapper {
-    background-color: #fff
-  }
-  .sense-marge {
-    width: 20px
-  }
-  .sense-marge .form-group {
-    margin: 0;
-    padding-left: 5px;
-  }
+<style lang="scss" scoped>
 </style>
