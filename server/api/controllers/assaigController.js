@@ -3,14 +3,20 @@ const Assaig = require('../models/assaig');
 const mongoose = require('mongoose')
 
 exports.updateRehersalAttendans = async (rehersalId, updatedAttendants) => {
-    const rehersal = await Assaig.findById(rehersalId);
-
-    if(rehersal) {
-        rehersal.assistents = updatedAttendants
-        rehersal.ultima_modificacio = new Date();
-        return await rehersal.save()
-    } else {
-        return new Error("No s'ha trobat el assaig")
+    
+    try {
+        const rehersal = await Assaig.findById(rehersalId);
+        console.log(updatedAttendants)
+    
+        if(rehersal) {
+            rehersal.assistents = updatedAttendants
+            rehersal.ultima_modificacio = new Date();
+            return await rehersal.save()
+        } else {
+            return new Error("No s'ha trobat el assaig")
+        }
+    } catch(err) {
+        return err;
     }
 }
 

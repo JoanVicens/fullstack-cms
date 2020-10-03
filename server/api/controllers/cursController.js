@@ -5,8 +5,9 @@ function countAttended(musicId, list) {
 
     if(list.length > 0) {
         list.forEach(element => {
+            
             element.assistents.find(music => {
-                return music._id == musicId
+                return music._id.equals(musicId)
             }) ? counter++
             : ''
         });
@@ -40,7 +41,6 @@ exports.getAttendaceInformationFromMusicId =  async (musicId) => {
 
         for (let i = 0; i < curs.semestres.length; i++) {
             let semestre = curs.semestres[i];
-
             attendance[i] = {
                 rehersals: {
                     total: semestre.assajos.length,

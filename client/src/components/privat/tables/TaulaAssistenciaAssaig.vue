@@ -12,7 +12,7 @@
             @row-clicked="attendanceToggled"
             >
 
-            <template v-slot:cell(selected)="row">
+            <!-- <template v-slot:cell(selected)="row">
                 <b-form-group>
                 <b-form-checkbox
                     v-model="row.item.selected"
@@ -20,7 +20,7 @@
                     style="margin-left: 10px"
                 ></b-form-checkbox>
                 </b-form-group>
-            </template>
+            </template> -->
 
         </b-table>
         <slot></slot>
@@ -34,12 +34,12 @@
         data() {
             return {
                 fields: [
-                    {
-                        key: "selected",
-                        label: "Assistència",
-                        tdClass: 'td-music-table',
-                        thClass: 'th-music-table'
-                    },
+                    // {
+                    //     key: "has_attended",
+                    //     label: "Assistència",
+                    //     tdClass: 'td-music-table',
+                    //     thClass: 'th-music-table'
+                    // },
                     {
                         key: 'nom',
                         sortable: false,
@@ -63,7 +63,7 @@
         },
         methods: {
             attendanceToggled(music) {
-                music.selected = !music.selected
+                music.has_attended = !music.has_attended
             },
             updateSelectedRows(llista) {
                 if(llista === null) return

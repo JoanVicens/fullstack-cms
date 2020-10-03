@@ -85,7 +85,7 @@ import LogoutVue from '../Logout.vue';
 
         if(this.assaig.assistents) {
           llista.forEach(music => {
-              music['selected'] = this.assaig.assistents.includes(music._id)
+              music['has_attended'] = this.assaig.assistents.includes(music._id)
           })
         }
         
@@ -100,7 +100,7 @@ import LogoutVue from '../Logout.vue';
         })
       },
       actualizarAssistencia(llista) {
-        const llistaIds = llista.map(el => {return el._id})
+        const llistaIds = llista.filter(el => { return el.has_attended }).map(el => {return el._id})
 
         Axios.put(`/info/assaig/${this.assaig._id}/assistencia`, { assistents: llistaIds })
         .then(response => {

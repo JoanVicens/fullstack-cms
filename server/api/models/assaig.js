@@ -11,7 +11,10 @@ const assaigSchema = new Schema({
   data: {type: 'date', required: true},
   hora_inici: {type: 'string'},
   hora_fi: {type: 'string'},
-  assistents: [mongoose.Schema.Types.ObjectId],
+  assistents: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'musics'
+  }],
   lloc: {type: 'string'},
   anotacio: {type: 'string'},
   calendar_event: {type: 'boolean'},
