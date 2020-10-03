@@ -9,6 +9,7 @@
             :items="llistaMusics"
             :fields="fields"
             ref="taula"
+            :busy="busy"
             @row-clicked="attendanceToggled"
             >
 
@@ -30,7 +31,7 @@
 <script>
     export default {
         name: 'TaulaAssistenciaAssaig',
-        props: ['llistaMusics'],
+        props: ['llistaMusics', 'busy'],
         data() {
             return {
                 fields: [
@@ -62,15 +63,18 @@
             }
         },
         methods: {
+            shouldBeBusy() {
+                return this.assaigId == 0
+                console.log('aslñdkfj');
+            },
             attendanceToggled(music) {
                 music.has_attended = !music.has_attended
             },
-            updateSelectedRows(llista) {
-                if(llista === null) return
+            updateSelectedRows() {
 
 
-                llista.forEach((element, index) => {
-                    if(element.selected) {
+                this.llistaMusics.forEach((element, index) => {
+                    if(element.has_attended) {
                         this.$refs.taula.selectRow(index)
                     } else {
                         this.$refs.taula.unselectRow(index)
@@ -79,13 +83,10 @@
             }
         },
         watch: {
-            llistaMusics: function (llista) {
-                this.updateSelectedRows(llista);
+            llistaMusics: function () {
+                this.updateSelectedRows();
             }
-        },
-        mounted() {
-            // this.updateSelectedRows(this.llistaMusics);
-        },
+        }
     }
 </script>
 

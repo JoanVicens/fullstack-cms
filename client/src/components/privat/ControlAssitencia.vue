@@ -12,12 +12,14 @@
       <span style="font-size: 1.5rem">Assajos</span>
       <div class="mt-1 mb-3">
         <select v-model="assaigId"  class="custom-select">
-          <option v-for="assaig in assajos" :key="assaig._id" :value="assaig._id">{{assaig.data | moment("DD MMMM YYYY")}}</option>
+          <option v-for="assaig in assajos" :key="assaig._id" :value="assaig._id">
+            {{assaig.data | moment("DD MMMM YYYY")}}
+          </option>
         </select>
       </div>
 
       <div>
-        <TaulaAssistenciaAssaig v-if="musiciansList && assaig" :llistaMusics.sync="llistaAssaig" >
+        <TaulaAssistenciaAssaig v-if="musiciansList && assaig" :llistaMusics.sync="llistaAssaig" :busy="assaigId == 0" >
           <b-button variant="info" @click="actualizarAssistencia(llistaAssaig)">Actualitzar</b-button>
         </TaulaAssistenciaAssaig>
       </div>
@@ -31,7 +33,7 @@
 
   import Selector from './Selector.vue'
   import TaulaAssistenciaAssaig from './tables/TaulaAssistenciaAssaig';
-import LogoutVue from '../Logout.vue';
+  import LogoutVue from '../Logout.vue';
 
 
   export default {
@@ -67,14 +69,13 @@ import LogoutVue from '../Logout.vue';
         if(beforeRehersals.length > 0) {
 
           const sortedBeforeRehersalsassajos = beforeRehersals.sort(function(a, b) {
-              var distancea = Math.abs(diffdate - a);
-              var distanceb = Math.abs(diffdate - b);
+              let distancea = Math.abs(diffdate - a);
+              let distanceb = Math.abs(diffdate - b);
               return distancea - distanceb; // sort a before b when the distance is smaller
           });
-  
+
+          this.assaig = sortedBeforeRehersalsassajos[0]
           this.assaigId = sortedBeforeRehersalsassajos[0]._id;
-        } else {
-          console.log("No hi ha assajos passats");
         }
 
       }
